@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('transfer_money列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>：</label>
+                                <input type="text" class="time-input" placeholder="请选择" name="appointmentTime"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="fromAccount"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="toAccount"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="amount"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" class="time-input" placeholder="请选择" name="transferDate"/>
+                            </li>
+                            <li>
+                                <label>：</label>
+                                <input type="text" name="description"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="transfer_money:money:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="transfer_money:money:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="transfer_money:money:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="transfer_money:money:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('transfer_money:money:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('transfer_money:money:remove')}]];
+        var prefix = ctx + "transfer_money/money";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "transfer_money",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'appointmentTime',
+                    title: ''
+                },
+                {
+                    field: 'transferId',
+                    title: '',
+                    visible: false
+                },
+                {
+                    field: 'fromAccount',
+                    title: ''
+                },
+                {
+                    field: 'toAccount',
+                    title: ''
+                },
+                {
+                    field: 'amount',
+                    title: ''
+                },
+                {
+                    field: 'transferDate',
+                    title: ''
+                },
+                {
+                    field: 'description',
+                    title: ''
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.transferId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.transferId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>
