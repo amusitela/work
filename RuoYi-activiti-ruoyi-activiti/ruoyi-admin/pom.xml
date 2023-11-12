@@ -67,6 +67,13 @@
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
 
+        <!--银行模块-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>bankapp</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-spring-boot-starter-basic</artifactId>
