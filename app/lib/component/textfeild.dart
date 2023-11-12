@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MyTextField extends StatefulWidget {
-  const MyTextField({Key? key,required this.showText}) : super(key: key);
+  const MyTextField({Key? key, required this.showText}) : super(key: key);
   final bool showText;
   @override
   _MyTextFieldState createState() => _MyTextFieldState();
 }
 
 class _MyTextFieldState extends State<MyTextField> {
-
   late TextEditingController _controller;
 
   @override
@@ -23,14 +22,14 @@ class _MyTextFieldState extends State<MyTextField> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Error'),
+          title: const Text('Error'),
           content: Text(errorMessage),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -41,27 +40,22 @@ class _MyTextFieldState extends State<MyTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: _controller,
-      obscureText: !widget.showText,
-      
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
+        controller: _controller,
+        obscureText: !widget.showText,
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
+          ),
+          hintText: widget.showText ? "请输入用户名" : "请输入密码",
         ),
-        hintText: widget.showText?"请输入用户名":"请输入密码",
-      ),
-      inputFormatters: [
-        FilteringTextInputFormatter.allow(
-          RegExp(widget.showText ? r'[0-9]' : r'[0-9a-zA-Z!@#$%^&*(),.?":{}|<>]'),
-        ),
-        TextInputFormatter.withFunction((oldValue, newValue) {
+        onEditingComplete: () {
           // 正则校验失败时弹出提示框
-          if (oldValue.text != newValue.text) {
+          if (!RegExp(widget.showText
+                  ? r'[0-9]'
+                  : r'[0-9a-zA-Z!@#$%^&*(),.?":{}|<>]')
+              .hasMatch(_controller.text)) {
             _showErrorDialog('Invalid input. Please check your input.');
           }
-          return newValue;
-        }),
-      ],
-    );
+        });
   }
 }

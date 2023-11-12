@@ -1,8 +1,15 @@
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
         android:label="app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- <uses-permission android:name="android.permission.CAMERA" />
+        <uses-feature android:name="android.hardware.camera" />
+        <uses-feature android:name="android.hardware.camera.autofocus" /> -->
+
+        <!-- Add this line to request camera permission -->
+        <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
         <activity
             android:name=".MainActivity"
             android:exported="true"

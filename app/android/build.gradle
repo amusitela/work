@@ -13,6 +13,8 @@ buildscript {
 
 allprojects {
     repositories {
+    
+        maven { url 'https://developer.huawei.com/repo/' }
         google()
         mavenCentral()
     }

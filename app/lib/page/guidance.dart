@@ -1,3 +1,4 @@
+import 'package:app/theme/colorplatte.dart';
 import 'package:flutter/material.dart';
 
 class Guidance extends StatefulWidget {
@@ -62,8 +63,8 @@ class _MyGuidance extends State<Guidance> {
         height: 4,
         decoration: BoxDecoration(
           color: (widget.order == 1)
-              ? const Color(0xFFE33C64)
-              : const Color(0xFFF0F4F4),
+              ? ColorPlatte.barColor
+              : ColorPlatte.defaultColor,
           borderRadius: const BorderRadius.all(
             Radius.circular(2),
           ),
@@ -74,8 +75,8 @@ class _MyGuidance extends State<Guidance> {
         height: 4,
         decoration: BoxDecoration(
           color: (widget.order == 2)
-              ? const Color(0xFFE33C64)
-              : const Color(0xFFF0F4F4),
+              ? ColorPlatte.barColor
+              : ColorPlatte.defaultColor,
           borderRadius: const BorderRadius.all(
             Radius.circular(2),
           ),
@@ -87,8 +88,8 @@ class _MyGuidance extends State<Guidance> {
         margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: (widget.order == 3)
-              ? const Color(0xFFE33C64)
-              : const Color(0xFFF0F4F4),
+              ? ColorPlatte.barColor
+              : ColorPlatte.defaultColor,
           borderRadius: const BorderRadius.all(
             Radius.circular(2),
           ),
@@ -103,6 +104,7 @@ class _MyGuidance extends State<Guidance> {
           TextButton(
               onPressed: () {
                 print("跳过");
+                Navigator.pushNamed(context, '/login');
               },
               child: const Text(
                 "跳过",
@@ -118,12 +120,15 @@ class _MyGuidance extends State<Guidance> {
               if (widget.order == 2) {
                 Navigator.pushNamed(context, '/g2');
               }
+              if (widget.order == 3) {
+                Navigator.pushNamed(context, '/login');
+              }
             },
             child: Container(
               width: 112,
               height: 44,
               decoration: const BoxDecoration(
-                  color: Color(0xFFE33C64),
+                  color: ColorPlatte.barColor,
                   borderRadius: BorderRadius.all(Radius.circular(12))),
               child: const Align(
                 alignment: Alignment.center, // 文本在容器中心对齐
