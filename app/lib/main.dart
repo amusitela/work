@@ -34,6 +34,7 @@ void main() {
 //       onGenerateRoute: MyRouter.generateRoute,
 //       home: TradeDetailPage(
 //         money: "11111",
+<<<<<<< HEAD
 //         cardList: [{
 //         "number":"1234567890",
 //         "money":"123",
@@ -48,5 +49,7 @@ void main() {
 //         "money":"123",
 //         'type':"借记卡"
 //         }],
+=======
+>>>>>>> d38cb765bf60d884eab7ff9fbe6e482d5a9aed4a
 //       )));
 // }
