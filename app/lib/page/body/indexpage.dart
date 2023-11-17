@@ -15,7 +15,7 @@ class FirstPage extends StatelessWidget {
         MyIcon(text: '扫一扫', icon: Icon(Icons.qr_code),onPressed: (){Navigator.pushNamed(context, '/qrcode');},),
         MyIcon(text: '首页', icon: Icon(Icons.home),onPressed: (){debugPrint('1');},),
         MyIcon(text: '首页', icon: Icon(Icons.home),onPressed: (){debugPrint('1');},),
-        MyIcon(text: '首页', icon: Icon(Icons.home),onPressed: (){debugPrint('1');},),
+        MyIcon(text: '账户', icon: Icon(Icons.account_box),onPressed: (){Navigator.pushNamed(context, "/account");},),
         ],
         )
         

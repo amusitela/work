@@ -1,3 +1,4 @@
+import 'package:app/page/addCardPage.dart';
 import 'package:app/page/guidance.dart';
 import 'package:app/page/index.dart';
 import 'package:app/page/login.dart';
@@ -6,13 +7,13 @@ import 'package:app/page/payment_csdn.dart';
 import 'package:app/page/payresult.dart';
 import 'package:app/page/register.dart';
 import 'package:app/page/scanpage.dart';
+import 'package:app/page/tradedetail.dart';
 import 'package:flutter/material.dart';
 
 class MyRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-
-    case '/g':
+      case '/g':
         return MaterialPageRoute(
           builder: (context) => const Guidance(
             imagePath: "images/Business_Statistics.png",
@@ -72,33 +73,51 @@ class MyRouter {
         return MaterialPageRoute(
           builder: (context) => const IndexPage(),
         );
-        case '/login':
+      case '/login':
         return MaterialPageRoute(
           builder: (context) => const LoginPage(),
         );
-        case '/register':
+      case '/register':
         return MaterialPageRoute(
           builder: (context) => const RegisterPage(),
         );
-        case '/pay':
+      case '/pay':
         return MaterialPageRoute(
           builder: (context) => const main_keyboard(),
         );
-        case '/pay/success':
+      case '/pay/success':
         return MaterialPageRoute(
-          builder: (context) =>  PaymentResultPage(success: true,),
+          builder: (context) => PaymentResultPage(
+            success: true,
+          ),
         );
-        case '/pay/fail':
+      case '/account':
         return MaterialPageRoute(
-          builder: (context) =>  PaymentResultPage(success: false,),
+            builder: (context) => const TradeDetailPage(
+                  money: "11111",
+                  cardList: [
+                    {"number": "1234567890", "money": "123", 'type': "借记卡"},
+                    {"number": "1234567890", "money": "123", 'type': "借记卡"},
+                    {"number": "1234567890", "money": "123", 'type': "借记卡"}
+                  ],
+                ));
+      case '/pay/fail':
+        return MaterialPageRoute(
+          builder: (context) => PaymentResultPage(
+            success: false,
+          ),
         );
-        case '/pay/user':
-      // 从 settings 中获取参数
-      final String userId = settings.arguments as String;
-      print('------------------------------$userId-------------');
-      return MaterialPageRoute(
-        builder: (context) => PaymentPage(userId: userId)
-      );  
+        case '/add/card':
+        return MaterialPageRoute(
+          builder: (context) => AddCardPage(
+          ),
+        );
+      case '/pay/user':
+        // 从 settings 中获取参数
+        final String userId = settings.arguments as String;
+        print('------------------------------$userId-------------');
+        return MaterialPageRoute(
+            builder: (context) => PaymentPage(userId: userId));
       default:
         return MaterialPageRoute(
           builder: (context) => const IndexPage(),

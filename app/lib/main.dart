@@ -20,19 +20,33 @@ import 'package:flutter/material.dart';
 //     home: const IndexPage()
 //   ));
 // }
-// void main() {
-//   runApp(MaterialApp(
-//     // home: const HomePage(imageUrl: "images/1.jpg", userName: 'userName', money: '100.0')
-//     onGenerateRoute: MyRouter.generateRoute,
-//     home: IndexPage()
-//   ));
-// }
-
 void main() {
-  runApp(const MaterialApp(
-      // home: const HomePage(imageUrl: "images/1.jpg", userName: 'userName', money: '100.0')
-      onGenerateRoute: MyRouter.generateRoute,
-      home: TradeDetailPage(
-        money: "11111",
-      )));
+  runApp(MaterialApp(
+    // home: const HomePage(imageUrl: "images/1.jpg", userName: 'userName', money: '100.0')
+    onGenerateRoute: MyRouter.generateRoute,
+    home: IndexPage()
+  ));
 }
+
+// void main() {
+//   runApp(const MaterialApp(
+//       // home: const HomePage(imageUrl: "images/1.jpg", userName: 'userName', money: '100.0')
+//       onGenerateRoute: MyRouter.generateRoute,
+//       home: TradeDetailPage(
+//         money: "11111",
+//         cardList: [{
+//         "number":"1234567890",
+//         "money":"123",
+//         'type':"借记卡"
+//         },
+//         {
+//         "number":"1234567890",
+//         "money":"123",
+//         'type':"借记卡"
+//         },{
+//         "number":"1234567890",
+//         "money":"123",
+//         'type':"借记卡"
+//         }],
+//       )));
+// }
