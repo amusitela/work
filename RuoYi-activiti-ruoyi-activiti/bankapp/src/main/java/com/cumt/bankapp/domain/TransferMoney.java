@@ -24,15 +24,15 @@ public class TransferMoney extends BaseEntity
     private Date appointmentTime;
 
     /**  */
-    private Integer transferId;
+    private String transferId;
 
     /**  */
     @Excel(name = "")
-    private Integer fromAccount;
+    private String fromAccount;
 
     /**  */
     @Excel(name = "")
-    private Integer toAccount;
+    private String toAccount;
 
     /**  */
     @Excel(name = "")
@@ -47,6 +47,34 @@ public class TransferMoney extends BaseEntity
     @Excel(name = "")
     private String description;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getTransferId() {
+        return transferId;
+    }
+
+    public void setTransferId(String transferId) {
+        this.transferId = transferId;
+    }
+
+    public String getFromAccount() {
+        return fromAccount;
+    }
+
+    public void setFromAccount(String fromAccount) {
+        this.fromAccount = fromAccount;
+    }
+
+    public String getToAccount() {
+        return toAccount;
+    }
+
+    public void setToAccount(String toAccount) {
+        this.toAccount = toAccount;
+    }
+
     public void setAppointmentTime(Date appointmentTime) 
     {
         this.appointmentTime = appointmentTime;
@@ -56,33 +84,7 @@ public class TransferMoney extends BaseEntity
     {
         return appointmentTime;
     }
-    public void setTransferId(Integer transferId) 
-    {
-        this.transferId = transferId;
-    }
 
-    public Integer getTransferId() 
-    {
-        return transferId;
-    }
-    public void setFromAccount(Integer fromAccount) 
-    {
-        this.fromAccount = fromAccount;
-    }
-
-    public Integer getFromAccount() 
-    {
-        return fromAccount;
-    }
-    public void setToAccount(Integer toAccount) 
-    {
-        this.toAccount = toAccount;
-    }
-
-    public Integer getToAccount() 
-    {
-        return toAccount;
-    }
     public void setAmount(BigDecimal amount) 
     {
         this.amount = amount;

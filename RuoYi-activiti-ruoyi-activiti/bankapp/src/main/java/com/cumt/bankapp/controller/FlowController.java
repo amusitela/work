@@ -1,7 +1,6 @@
 package com.cumt.bankapp.controller;
 
 import java.util.List;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,7 +33,6 @@ public class FlowController extends BaseController
     @Autowired
     private IFlowService flowService;
 
-    @RequiresPermissions("flow:flow:view")
     @GetMapping()
     public String flow()
     {
@@ -44,7 +42,6 @@ public class FlowController extends BaseController
     /**
      * 查询flow列表
      */
-    @RequiresPermissions("flow:flow:list")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(Flow flow)
@@ -57,7 +54,7 @@ public class FlowController extends BaseController
     /**
      * 导出flow列表
      */
-    @RequiresPermissions("flow:flow:export")
+
     @Log(title = "flow", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
@@ -80,7 +77,7 @@ public class FlowController extends BaseController
     /**
      * 新增保存flow
      */
-    @RequiresPermissions("flow:flow:add")
+
     @Log(title = "flow", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
@@ -92,9 +89,9 @@ public class FlowController extends BaseController
     /**
      * 修改flow
      */
-    @RequiresPermissions("flow:flow:edit")
+
     @GetMapping("/edit/{transactionId}")
-    public String edit(@PathVariable("transactionId") Integer transactionId, ModelMap mmap)
+    public String edit(@PathVariable("transactionId") String transactionId, ModelMap mmap)
     {
         Flow flow = flowService.selectFlowByTransactionId(transactionId);
         mmap.put("flow", flow);
@@ -104,7 +101,7 @@ public class FlowController extends BaseController
     /**
      * 修改保存flow
      */
-    @RequiresPermissions("flow:flow:edit")
+
     @Log(title = "flow", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
@@ -116,7 +113,7 @@ public class FlowController extends BaseController
     /**
      * 删除flow
      */
-    @RequiresPermissions("flow:flow:remove")
+
     @Log(title = "flow", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody

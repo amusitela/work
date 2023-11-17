@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectFlowByTransactionId" parameterType="Integer" resultMap="FlowResult">
+    <select id="selectFlowByTransactionId" parameterType="String" resultMap="FlowResult">
         <include refid="selectFlowVo"/>
         where transaction_id = #{transactionId}
     </select>
@@ -65,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where transaction_id = #{transactionId}
     </update>
 
-    <delete id="deleteFlowByTransactionId" parameterType="Integer">
+    <delete id="deleteFlowByTransactionId" parameterType="String">
         delete from flow where transaction_id = #{transactionId}
     </delete>
 

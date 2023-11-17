@@ -19,11 +19,11 @@ public class Flow extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /**  */
-    private Integer transactionId;
+    private String transactionId;
 
     /**  */
     @Excel(name = "")
-    private Integer account1Id;
+    private String account1Id;
 
     /**  */
     @Excel(name = "")
@@ -42,24 +42,27 @@ public class Flow extends BaseEntity
     @Excel(name = "")
     private String description;
 
-    public void setTransactionId(Integer transactionId) 
-    {
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
     }
 
-    public Integer getTransactionId() 
-    {
-        return transactionId;
+    public String getAccount1Id() {
+        return account1Id;
     }
-    public void setAccount1Id(Integer account1Id) 
-    {
+
+    public void setAccount1Id(String account1Id) {
         this.account1Id = account1Id;
     }
 
-    public Integer getAccount1Id() 
-    {
-        return account1Id;
-    }
+
     public void setTransactionType(String transactionType) 
     {
         this.transactionType = transactionType;

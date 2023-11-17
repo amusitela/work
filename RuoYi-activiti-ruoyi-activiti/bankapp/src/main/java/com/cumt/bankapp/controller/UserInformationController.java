@@ -1,15 +1,10 @@
 package com.cumt.bankapp.controller;
 
 import java.util.List;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.enums.BusinessType;
 import com.cumt.bankapp.domain.UserInformation;
@@ -25,7 +20,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @author lyw
  * @date 2023-11-10
  */
-@Controller
+@RestController
 @RequestMapping("/user_information/information")
 public class UserInformationController extends BaseController
 {
@@ -34,17 +29,32 @@ public class UserInformationController extends BaseController
     @Autowired
     private IUserInformationService userInformationService;
 
-    @RequiresPermissions("user_information:information:view")
+
     @GetMapping()
     public String information()
     {
         return prefix + "/information";
     }
 
+    @PostMapping("/updateUserCard")
+    @ResponseBody
+    public AjaxResult updateUserCard(UserInformation userInformation){
+
+        return AjaxResult.success(userInformationService.updateUserCard(userInformation));
+    }
+
+    @GetMapping ("/selectUserCard/{idCard}")
+    public AjaxResult showUserCard(@PathVariable("idCard") String idCard){
+        System.out.println(userInformationService.displayCard(idCard).toString());
+        return AjaxResult.success();
+    }
+
+
+
     /**
      * 查询user_information列表
      */
-    @RequiresPermissions("user_information:information:list")
+
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(UserInformation userInformation)
@@ -57,7 +67,7 @@ public class UserInformationController extends BaseController
     /**
      * 导出user_information列表
      */
-    @RequiresPermissions("user_information:information:export")
+
     @Log(title = "user_information", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
@@ -80,7 +90,6 @@ public class UserInformationController extends BaseController
     /**
      * 新增保存user_information
      */
-    @RequiresPermissions("user_information:information:add")
     @Log(title = "user_information", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
@@ -92,7 +101,7 @@ public class UserInformationController extends BaseController
     /**
      * 修改user_information
      */
-    @RequiresPermissions("user_information:information:edit")
+
     @GetMapping("/edit/{idCard}")
     public String edit(@PathVariable("idCard") String idCard, ModelMap mmap)
     {
@@ -104,7 +113,7 @@ public class UserInformationController extends BaseController
     /**
      * 修改保存user_information
      */
-    @RequiresPermissions("user_information:information:edit")
+
     @Log(title = "user_information", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
@@ -116,7 +125,6 @@ public class UserInformationController extends BaseController
     /**
      * 删除user_information
      */
-    @RequiresPermissions("user_information:information:remove")
     @Log(title = "user_information", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody

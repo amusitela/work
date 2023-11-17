@@ -30,7 +30,7 @@ public class UserInformation extends BaseEntity
 
     /**  */
     @Excel(name = "")
-    private Integer phone;
+    private String phone;
 
     /**  */
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -68,12 +68,12 @@ public class UserInformation extends BaseEntity
     {
         return idCard;
     }
-    public void setPhone(Integer phone) 
+    public void setPhone(String phone)
     {
         this.phone = phone;
     }
 
-    public Integer getPhone() 
+    public String getPhone()
     {
         return phone;
     }

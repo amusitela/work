@@ -1,6 +1,8 @@
 package com.cumt.bankapp.service;
 
 import java.util.List;
+
+import com.cumt.bankapp.domain.IndividualAccount;
 import com.cumt.bankapp.domain.UserInformation;
 
 /**
@@ -58,4 +60,20 @@ public interface IUserInformationService
      * @return 结果
      */
     public int deleteUserInformationByIdCard(String idCard);
+
+    /**
+     * 修改用户银行卡信息
+     *
+     * @param userInformation
+     * @return 结果
+     */
+    public int updateUserCard(UserInformation userInformation);
+
+    /**
+     * 查询用户银行卡信息
+     *
+     * @param idCard
+     * @return 结果
+     */
+    public List<IndividualAccount> displayCard(String idCard);
 }

@@ -17,7 +17,7 @@ public interface IIndividualAccountService
      * @param accountId individual_account主键
      * @return individual_account
      */
-    public IndividualAccount selectIndividualAccountByAccountId(Integer accountId);
+    public IndividualAccount selectIndividualAccountByAccountId(String accountId);
 
     /**
      * 查询individual_account列表
@@ -57,5 +57,5 @@ public interface IIndividualAccountService
      * @param accountId individual_account主键
      * @return 结果
      */
-    public int deleteIndividualAccountByAccountId(Integer accountId);
+    public int deleteIndividualAccountByAccountId(String accountId);
 }

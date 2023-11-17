@@ -17,7 +17,7 @@ public interface FlowMapper
      * @param transactionId flow主键
      * @return flow
      */
-    public Flow selectFlowByTransactionId(Integer transactionId);
+    public Flow selectFlowByTransactionId(String transactionId);
 
     /**
      * 查询flow列表
@@ -49,7 +49,7 @@ public interface FlowMapper
      * @param transactionId flow主键
      * @return 结果
      */
-    public int deleteFlowByTransactionId(Integer transactionId);
+    public int deleteFlowByTransactionId(String transactionId);
 
     /**
      * 批量删除flow

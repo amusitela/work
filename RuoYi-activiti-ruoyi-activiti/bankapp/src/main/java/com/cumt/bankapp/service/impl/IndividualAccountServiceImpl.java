@@ -27,7 +27,7 @@ public class IndividualAccountServiceImpl implements IIndividualAccountService
      * @return individual_account
      */
     @Override
-    public IndividualAccount selectIndividualAccountByAccountId(Integer accountId)
+    public IndividualAccount selectIndividualAccountByAccountId(String accountId)
     {
         return individualAccountMapper.selectIndividualAccountByAccountId(accountId);
     }
@@ -87,7 +87,7 @@ public class IndividualAccountServiceImpl implements IIndividualAccountService
      * @return 结果
      */
     @Override
-    public int deleteIndividualAccountByAccountId(Integer accountId)
+    public int deleteIndividualAccountByAccountId(String accountId)
     {
         return individualAccountMapper.deleteIndividualAccountByAccountId(accountId);
     }

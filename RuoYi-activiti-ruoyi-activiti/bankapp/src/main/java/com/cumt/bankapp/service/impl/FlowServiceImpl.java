@@ -27,7 +27,7 @@ public class FlowServiceImpl implements IFlowService
      * @return flow
      */
     @Override
-    public Flow selectFlowByTransactionId(Integer transactionId)
+    public Flow selectFlowByTransactionId(String transactionId)
     {
         return flowMapper.selectFlowByTransactionId(transactionId);
     }
@@ -87,7 +87,7 @@ public class FlowServiceImpl implements IFlowService
      * @return 结果
      */
     @Override
-    public int deleteFlowByTransactionId(Integer transactionId)
+    public int deleteFlowByTransactionId(String transactionId)
     {
         return flowMapper.deleteFlowByTransactionId(transactionId);
     }

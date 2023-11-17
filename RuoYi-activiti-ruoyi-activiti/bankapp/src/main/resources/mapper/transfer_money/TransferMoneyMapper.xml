@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectTransferMoneyByTransferId" parameterType="Integer" resultMap="TransferMoneyResult">
+    <select id="selectTransferMoneyByTransferId" parameterType="String" resultMap="TransferMoneyResult">
         <include refid="selectTransferMoneyVo"/>
         where transfer_id = #{transferId}
     </select>
@@ -70,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where transfer_id = #{transferId}
     </update>
 
-    <delete id="deleteTransferMoneyByTransferId" parameterType="Integer">
+    <delete id="deleteTransferMoneyByTransferId" parameterType="String">
         delete from transfer_money where transfer_id = #{transferId}
     </delete>
 

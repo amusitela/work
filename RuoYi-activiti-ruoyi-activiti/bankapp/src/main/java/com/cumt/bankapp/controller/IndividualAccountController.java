@@ -1,7 +1,6 @@
 package com.cumt.bankapp.controller;
 
 import java.util.List;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -34,7 +33,7 @@ public class IndividualAccountController extends BaseController
     @Autowired
     private IIndividualAccountService individualAccountService;
 
-    @RequiresPermissions("individual_account:Iaccount:view")
+
     @GetMapping()
     public String Iaccount()
     {
@@ -44,7 +43,7 @@ public class IndividualAccountController extends BaseController
     /**
      * 查询individual_account列表
      */
-    @RequiresPermissions("individual_account:Iaccount:list")
+
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(IndividualAccount individualAccount)
@@ -57,7 +56,7 @@ public class IndividualAccountController extends BaseController
     /**
      * 导出individual_account列表
      */
-    @RequiresPermissions("individual_account:Iaccount:export")
+
     @Log(title = "individual_account", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
@@ -80,7 +79,7 @@ public class IndividualAccountController extends BaseController
     /**
      * 新增保存individual_account
      */
-    @RequiresPermissions("individual_account:Iaccount:add")
+
     @Log(title = "individual_account", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
@@ -92,9 +91,9 @@ public class IndividualAccountController extends BaseController
     /**
      * 修改individual_account
      */
-    @RequiresPermissions("individual_account:Iaccount:edit")
+
     @GetMapping("/edit/{accountId}")
-    public String edit(@PathVariable("accountId") Integer accountId, ModelMap mmap)
+    public String edit(@PathVariable("accountId") String accountId, ModelMap mmap)
     {
         IndividualAccount individualAccount = individualAccountService.selectIndividualAccountByAccountId(accountId);
         mmap.put("individualAccount", individualAccount);
@@ -104,7 +103,7 @@ public class IndividualAccountController extends BaseController
     /**
      * 修改保存individual_account
      */
-    @RequiresPermissions("individual_account:Iaccount:edit")
+
     @Log(title = "individual_account", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
@@ -116,7 +115,7 @@ public class IndividualAccountController extends BaseController
     /**
      * 删除individual_account
      */
-    @RequiresPermissions("individual_account:Iaccount:remove")
+
     @Log(title = "individual_account", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody

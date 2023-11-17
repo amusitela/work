@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectPublicAccountByAccountId" parameterType="Integer" resultMap="PublicAccountResult">
+    <select id="selectPublicAccountByAccountId" parameterType="String" resultMap="PublicAccountResult">
         <include refid="selectPublicAccountVo"/>
         where account_id = #{accountId}
     </select>
@@ -85,7 +85,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where account_id = #{accountId}
     </update>
 
-    <delete id="deletePublicAccountByAccountId" parameterType="Integer">
+    <delete id="deletePublicAccountByAccountId" parameterType="String">
         delete from public_account where account_id = #{accountId}
     </delete>
 

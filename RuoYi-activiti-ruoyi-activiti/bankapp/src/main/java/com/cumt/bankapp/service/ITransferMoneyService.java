@@ -17,7 +17,7 @@ public interface ITransferMoneyService
      * @param transferId transfer_money主键
      * @return transfer_money
      */
-    public TransferMoney selectTransferMoneyByTransferId(Integer transferId);
+    public TransferMoney selectTransferMoneyByTransferId(String transferId);
 
     /**
      * 查询transfer_money列表
@@ -57,5 +57,5 @@ public interface ITransferMoneyService
      * @param transferId transfer_money主键
      * @return 结果
      */
-    public int deleteTransferMoneyByTransferId(Integer transferId);
+    public int deleteTransferMoneyByTransferId(String transferId);
 }

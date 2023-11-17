@@ -1,6 +1,11 @@
 package com.cumt.bankapp.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.cumt.bankapp.domain.IndividualAccount;
+import com.cumt.bankapp.mapper.IndividualAccountMapper;
+import com.cumt.bankapp.service.IIndividualAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cumt.bankapp.mapper.UserInformationMapper;
@@ -19,6 +24,8 @@ public class UserInformationServiceImpl implements IUserInformationService
 {
     @Autowired
     private UserInformationMapper userInformationMapper;
+
+    private IndividualAccountMapper iam;
 
     /**
      * 查询user_information
@@ -91,4 +98,41 @@ public class UserInformationServiceImpl implements IUserInformationService
     {
         return userInformationMapper.deleteUserInformationByIdCard(idCard);
     }
+
+    @Override
+    public int updateUserCard(UserInformation userInformation) {
+
+        UserInformation userInformation1 = userInformationMapper.selectUserInformationByIdCard(userInformation.getIdCard());
+
+        String s = "2";
+        if (userInformation1.getCard() != null){
+            s = userInformation1.getCard() + "," + userInformation.getCard();
+        }else{
+            s=userInformation.getCard();
+        }
+
+        userInformation.setCard(s);
+
+        return userInformationMapper.updateUserInformation(userInformation);
+    }
+
+    @Override
+    public List<IndividualAccount> displayCard(String idCard) {
+
+        List<IndividualAccount> individualAccounts = new ArrayList<>();
+        //查询用户的银行卡信息
+        UserInformation userInformation = userInformationMapper.selectUserInformationByIdCard(idCard);
+
+        String card = userInformation.getCard();
+
+        String[] split = card.split(",");
+
+        for (String i:split
+             ) {
+            IndividualAccount individualAccount = iam.selectIndividualAccountByAccountId(i);
+            individualAccounts.add(individualAccount);
+        }
+        return individualAccounts;
+    }
+
 }

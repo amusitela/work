@@ -19,7 +19,7 @@ public class IndividualAccount extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /**  */
-    private Integer accountId;
+    private String accountId;
 
     /**  */
     @Excel(name = "")
@@ -59,12 +59,12 @@ public class IndividualAccount extends BaseEntity
     @Excel(name = "", width = 30, dateFormat = "yyyy-MM-dd")
     private Date lastUpdatedAt;
 
-    public void setAccountId(Integer accountId) 
+    public void setAccountId(String accountId)
     {
         this.accountId = accountId;
     }
 
-    public Integer getAccountId() 
+    public String getAccountId()
     {
         return accountId;
     }

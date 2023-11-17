@@ -17,7 +17,7 @@ public interface IPublicAccountService
      * @param accountId public_account主键
      * @return public_account
      */
-    public PublicAccount selectPublicAccountByAccountId(Integer accountId);
+    public PublicAccount selectPublicAccountByAccountId(String accountId);
 
     /**
      * 查询public_account列表
@@ -57,5 +57,5 @@ public interface IPublicAccountService
      * @param accountId public_account主键
      * @return 结果
      */
-    public int deletePublicAccountByAccountId(Integer accountId);
+    public int deletePublicAccountByAccountId(String accountId);
 }

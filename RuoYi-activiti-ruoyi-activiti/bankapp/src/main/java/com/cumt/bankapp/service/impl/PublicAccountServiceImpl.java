@@ -27,7 +27,7 @@ public class PublicAccountServiceImpl implements IPublicAccountService
      * @return public_account
      */
     @Override
-    public PublicAccount selectPublicAccountByAccountId(Integer accountId)
+    public PublicAccount selectPublicAccountByAccountId(String accountId)
     {
         return publicAccountMapper.selectPublicAccountByAccountId(accountId);
     }
@@ -87,7 +87,7 @@ public class PublicAccountServiceImpl implements IPublicAccountService
      * @return 结果
      */
     @Override
-    public int deletePublicAccountByAccountId(Integer accountId)
+    public int deletePublicAccountByAccountId(String accountId)
     {
         return publicAccountMapper.deletePublicAccountByAccountId(accountId);
     }

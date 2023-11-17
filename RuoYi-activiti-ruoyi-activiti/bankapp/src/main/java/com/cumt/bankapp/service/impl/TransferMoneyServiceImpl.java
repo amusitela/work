@@ -27,7 +27,7 @@ public class TransferMoneyServiceImpl implements ITransferMoneyService
      * @return transfer_money
      */
     @Override
-    public TransferMoney selectTransferMoneyByTransferId(Integer transferId)
+    public TransferMoney selectTransferMoneyByTransferId(String transferId)
     {
         return transferMoneyMapper.selectTransferMoneyByTransferId(transferId);
     }
@@ -87,7 +87,7 @@ public class TransferMoneyServiceImpl implements ITransferMoneyService
      * @return 结果
      */
     @Override
-    public int deleteTransferMoneyByTransferId(Integer transferId)
+    public int deleteTransferMoneyByTransferId(String transferId)
     {
         return transferMoneyMapper.deleteTransferMoneyByTransferId(transferId);
     }
