@@ -20,4 +20,11 @@ class MyTextStyle {
               letterSpacing: 0.33, // 设置字间距
               fontFamily: "Dosis",
               height: 1);
+  static const TextStyle mediumLargeBlack=TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold, // 设置字体加粗
+              letterSpacing: 0.33, // 设置字间距
+              fontFamily: "Dosis",
+              color: Colors.black,
+              height: 1);
 }

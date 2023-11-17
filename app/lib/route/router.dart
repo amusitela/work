@@ -1,6 +1,9 @@
 import 'package:app/page/guidance.dart';
 import 'package:app/page/index.dart';
 import 'package:app/page/login.dart';
+import 'package:app/page/payment.dart';
+import 'package:app/page/payment_csdn.dart';
+import 'package:app/page/payresult.dart';
 import 'package:app/page/register.dart';
 import 'package:app/page/scanpage.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +11,7 @@ import 'package:flutter/material.dart';
 class MyRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+
     case '/g':
         return MaterialPageRoute(
           builder: (context) => const Guidance(
@@ -76,6 +80,25 @@ class MyRouter {
         return MaterialPageRoute(
           builder: (context) => const RegisterPage(),
         );
+        case '/pay':
+        return MaterialPageRoute(
+          builder: (context) => const main_keyboard(),
+        );
+        case '/pay/success':
+        return MaterialPageRoute(
+          builder: (context) =>  PaymentResultPage(success: true,),
+        );
+        case '/pay/fail':
+        return MaterialPageRoute(
+          builder: (context) =>  PaymentResultPage(success: false,),
+        );
+        case '/pay/user':
+      // 从 settings 中获取参数
+      final String userId = settings.arguments as String;
+      print('------------------------------$userId-------------');
+      return MaterialPageRoute(
+        builder: (context) => PaymentPage(userId: userId)
+      );  
       default:
         return MaterialPageRoute(
           builder: (context) => const IndexPage(),

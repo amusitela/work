@@ -20,10 +20,12 @@ class _CustomViewState extends State<ScanPage> {
      debugPrint('-------------------------');
       debugPrint(
               "scanning result:value=${result.originalValue} scanType=${result.scanType}");
-
+            // Navigator.pushNamed(context, '/pay/success');
       /// Note: Here the pop operation must be delayed.
       Future(() {
         Navigator.of(context).pop(result.originalValue);
+        // Navigator.pushNamed(context, '/pay/success');
+        Navigator.pushNamed(context, '/pay/user',arguments: result.originalValue);
       });
     });
     super.initState();
