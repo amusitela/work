@@ -45,6 +45,8 @@ dependencies:
   dio: ^5.3.3
   appinio_swiper: ^2.0.3
   getwidget: ^2.0.4
+  fl_chart: ^0.64.0
+  syncfusion_flutter_charts: ^23.2.4
 
   # bubble_bottom_bar: ^2.0.0
 
