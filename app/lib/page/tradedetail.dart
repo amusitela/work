@@ -137,8 +137,8 @@ class TradeDetailPage extends StatelessWidget {
                           width: 10,
                         ),
                         Image.asset(
-                          'images/1.jpg',
-                          height: 50,
+                          'images/card.png',
+                          height: 70,
                         ),
                         const SizedBox(
                           width: 20,

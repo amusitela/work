@@ -1,6 +1,7 @@
 import 'package:app/component/myicon.dart';
 import 'package:app/page/body/homepage.dart';
 import 'package:app/page/body/indexpage.dart';
+import 'package:app/page/body/creditcard.dart';
 import 'package:app/theme/colorplatte.dart';
 import 'package:app/theme/textstyle.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
@@ -31,6 +32,13 @@ class _MyIndexState extends State<IndexPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Widget card=Align(alignment: Alignment.center,
+    
+    // child: ,
+    // )
+
+
+
     return Scaffold(
     
       appBar: AppBar(
@@ -52,9 +60,9 @@ class _MyIndexState extends State<IndexPage> {
       ),
       body: IndexedStack(
         index: currentIndex,
-        children:  const [
+        children:   [
         FirstPage(),
-        Text("信用卡"),
+        CreditCard(),
         Text("财富"),
         HomePage(imageUrl: "images/1.jpg", userName: 'userName', money: '100.0')
         ],

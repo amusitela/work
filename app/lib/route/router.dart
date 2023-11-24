@@ -1,4 +1,6 @@
 import 'package:app/page/addCardPage.dart';
+import 'package:app/page/body/creditcard.dart';
+import 'package:app/page/forex_page.dart';
 import 'package:app/page/guidance.dart';
 import 'package:app/page/index.dart';
 import 'package:app/page/login.dart';
@@ -8,6 +10,7 @@ import 'package:app/page/payresult.dart';
 import 'package:app/page/register.dart';
 import 'package:app/page/scanpage.dart';
 import 'package:app/page/tradedetail.dart';
+import 'package:app/page/transfer.dart';
 import 'package:flutter/material.dart';
 
 class MyRouter {
@@ -85,6 +88,14 @@ class MyRouter {
         return MaterialPageRoute(
           builder: (context) => const main_keyboard(),
         );
+      case '/forex':
+        return MaterialPageRoute(
+          builder: (context) => ForexPage(),
+        );
+      case '/transfer':
+        return MaterialPageRoute(
+          builder: (context) => const Transfer(),
+        );
       case '/pay/success':
         return MaterialPageRoute(
           builder: (context) => PaymentResultPage(
@@ -107,10 +118,9 @@ class MyRouter {
             success: false,
           ),
         );
-        case '/add/card':
+      case '/add/card':
         return MaterialPageRoute(
-          builder: (context) => AddCardPage(
-          ),
+          builder: (context) => AddCardPage(),
         );
       case '/pay/user':
         // 从 settings 中获取参数

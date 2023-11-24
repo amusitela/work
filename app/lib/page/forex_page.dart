@@ -1,34 +1,21 @@
+import 'package:app/theme/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // 用于更改状态栏颜色
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // 更改状态栏颜色为透明，并设置图标为深色
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-    ));
-
-    return MaterialApp(
-      title: '外汇汇率',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ForexPage(),
-    );
-  }
-}
-
 class ForexPage extends StatelessWidget {
+  ForexPage({super.key});
   final List<Map<String, dynamic>> currencyData = [
     {
       'country': '美国',
       'currency': 'USD',
+      'buyRate': '726.57',
+      'sellRate': '723.69',
+      'realRate': '723.53',
+      'flag': '🇺🇸',
+    },
+    {
+      'country': '日本',
+      'currency': 'YEN',
       'buyRate': '726.57',
       'sellRate': '723.69',
       'realRate': '723.53',
@@ -41,9 +28,21 @@ class ForexPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('外汇汇率'),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+          onPressed: () {
+            // 在这里添加返回操作
+            // Navigator.pop(context);
+            Navigator.pushNamed(context, '/');
+          },
+        ),
+        title: const Text(
+          "外汇",
+          style: MyTextStyle.mediumLargeBlack,
+        ),
         centerTitle: true,
-        elevation: 0, // 去除阴影
       ),
       body: ListView.separated(
         itemCount: currencyData.length,
@@ -53,7 +52,7 @@ class ForexPage extends StatelessWidget {
           return ListTile(
             leading: CircleAvatar(
               backgroundColor: Colors.white, // 根据需要设置旗帜背景颜色
-              child: Text(data['flag'], style: TextStyle(fontSize: 24)),
+              child: Text(data['flag'], style: const TextStyle(fontSize: 24)),
             ),
             title: Text('${data['country']}(${data['currency']})'),
             subtitle: Row(
@@ -66,8 +65,9 @@ class ForexPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                Text('实时汇率', style: TextStyle(color: Colors.grey)),
-                Text(data['realRate'], style: TextStyle(fontWeight: FontWeight.bold)),
+                const Text('实时汇率', style: TextStyle(color: Colors.grey)),
+                Text(data['realRate'],
+                    style: const TextStyle(fontWeight: FontWeight.bold)),
               ],
             ),
           );
