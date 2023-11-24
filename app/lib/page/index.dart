@@ -1,4 +1,5 @@
 import 'package:app/component/myicon.dart';
+import 'package:app/page/body/fund.dart';
 import 'package:app/page/body/homepage.dart';
 import 'package:app/page/body/indexpage.dart';
 import 'package:app/page/body/creditcard.dart';
@@ -63,7 +64,7 @@ class _MyIndexState extends State<IndexPage> {
         children:   [
         FirstPage(),
         CreditCard(),
-        Text("财富"),
+        Fund(),
         HomePage(imageUrl: "images/1.jpg", userName: 'userName', money: '100.0')
         ],
       ),
