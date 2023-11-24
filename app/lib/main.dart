@@ -8,7 +8,7 @@ import 'package:app/page/register.dart';
 import 'package:app/page/scanpage.dart';
 import 'package:app/page/tradedetail.dart';
 import 'package:app/route/router.dart';
-import 'package:app/test/test.dart';
+//import 'package:app/test/test.dart';
 import 'package:app/test/test2.dart';
 import 'package:app/test/test3.dart';
 import 'package:app/theme/mytheme.dart';

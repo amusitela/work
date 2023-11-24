@@ -3,16 +3,60 @@ import 'package:app/component/myicon.dart';
 import 'package:app/theme/colorplatte.dart';
 import 'package:app/theme/textstyle.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'monthly_budget_page.dart';
-class HomePage extends StatelessWidget {
-  const HomePage(
+import 'EditUserInfoPage.dart';
+class HomePage extends StatefulWidget {
+   HomePage(
       {super.key,
         required this.imageUrl,
         required this.userName,
         required this.money});
-  final String imageUrl;
-  final String userName;
-  final String money;
+   String imageUrl;
+  String userName;
+  String money;
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+class _HomePageState extends State<HomePage> {
+  String? _updatedImageUrl;
+  @override
+  void initState() {
+    super.initState();
+    // 初始化状态变量
+    _updatedImageUrl = widget.imageUrl;
+  }
+  Future<void> _navigateAndEditUserInfo() async {
+    // 使用 await 关键字等待 EditUserInfoPage 返回结果
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EditUserInfoPage()),
+    );
+
+    // 检查返回的结果是否是 UserInfo 类型
+    if (result is UserInfo) {
+      // 如果是，更新 HomePage 的状态
+      setState(() {
+        // 更新显示的用户信息
+        // 例如，如果您有一个用于显示用户名的变量，可以这样更新：
+         widget.userName = result.nickname;
+        // 并且类似地更新其他信息
+      });
+    }
+  }
+
+  Future<void> _pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    // 从相册中选择图片
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        // 更新imageUrl
+        _updatedImageUrl = image.path;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     Widget avatar = Row(
@@ -21,19 +65,25 @@ class HomePage extends StatelessWidget {
         const SizedBox(
           width: 20,
         ),
-        CircleAvatar(
-          radius: 30,
-          backgroundImage: AssetImage(imageUrl),
+        GestureDetector(
+          onTap: _pickImage,
+          child: CircleAvatar(
+            radius: 30,
+            backgroundImage: AssetImage(_updatedImageUrl ?? widget.imageUrl), // 确保这里引用正确
+          ),
         ),
+
         const SizedBox(
           width: 10,
         ),
-        Text(
-          userName,
+        GestureDetector(
+            onTap: _navigateAndEditUserInfo,
+        child: Text(
+          widget.userName,
           style: MyTextStyle.large,
           selectionColor: Colors.white,
         )
-      ],
+        )],
     );
     Widget buttonSection = Align(
       alignment: Alignment.center,
@@ -166,7 +216,7 @@ class HomePage extends StatelessWidget {
             height: 10,
           ),
           Text(
-            money,
+            widget.money,
             style: MyTextStyle.large,
           )
         ]),
@@ -201,3 +251,4 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
