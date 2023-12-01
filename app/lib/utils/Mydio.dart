@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiClient {
-  static String baseUrl = "http://192.168.31.34:8080";
+  static String baseUrl = "http://10.5.251.176:8080";
   static final _dio = Dio(BaseOptions(
     baseUrl: baseUrl, // 替换为实际的baseUrl
     connectTimeout: Duration(milliseconds: 5000),

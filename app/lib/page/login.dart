@@ -6,6 +6,7 @@ import 'package:app/component/text2.dart';
 import 'package:app/component/textfeild.dart';
 import 'package:app/theme/textstyle.dart';
 import 'package:app/utils/Mydio.dart';
+import 'package:app/utils/md5.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +23,8 @@ class LoginPage extends StatefulWidget {
 class _MyLoginPage extends State<LoginPage> {
   late TextEditingController _accountController;
   late TextEditingController _passwordController;
+  late String hint;
+  bool isLoggingIn = false;
   @override
   void initState() {
     super.initState();
@@ -116,25 +119,39 @@ class _MyLoginPage extends State<LoginPage> {
                 buttonWidth: 319,
                 buttonHeight: 56,
                 onPressed: () async {
+                  print("点击");
+                  if (isLoggingIn) {
+                    return;
+                  }
                   Map<String, String> data = {
-                    'password': _passwordController.text,
-                    'account': _accountController.text
+                    'password': MyMD5.generateMd5(_passwordController.text),
+                    'account': _accountController.text.toString()
                   };
                   try {
+                    isLoggingIn = true;
                     Response response = await LoginApi.loginApi(data);
-                    // debugPrint(response.data);
-                    // Dio dio=new Dio();
-                    // Response response =await dio.post("http://192.168.31.34:8080/login",data: data);
+                    debugPrint(response.toString());
+                    hint = response.data['data'].toString();
+                    debugPrint(hint);
+                    if(hint!="null"){
+                    Navigator.pushNamed(context, '/');
+                    await saveToken(hint);
+                    }
+                    else{
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text("密码错误")));
+                    }
+                    
 
-                    print(response.data);
-                    await saveToken(response.data);
+                    
                   } catch (e) {
                     debugPrint("Error: $e");
 
                     ScaffoldMessenger.of(context)
-                        .showSnackBar(const SnackBar(content: Text("登录失败")));
+                        .showSnackBar(const SnackBar(content: Text("网络错误")));
                   } finally {
-                    Navigator.pushNamed(context, '/');
+                    // 重置标志位，允许下一次登录
+                    isLoggingIn = false;
                   }
                 }),
           )

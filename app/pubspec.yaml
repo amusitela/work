@@ -48,6 +48,7 @@ dependencies:
   fl_chart: ^0.64.0
   syncfusion_flutter_charts: ^23.2.4
   shared_preferences: ^2.2.2
+  crypto: ^3.0.1
   
 
   # bubble_bottom_bar: ^2.0.0
