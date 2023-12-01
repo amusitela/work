@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cumt.bankapp.mapper.IndividualAccountMapper">
+    
+    <resultMap type="IndividualAccount" id="IndividualAccountResult">
+        <result property="accountId"    column="account_id"    />
+        <result property="idHolder"    column="id_holder"    />
+        <result property="accountType"    column="account_type"    />
+        <result property="balance"    column="balance"    />
+        <result property="openDate"    column="open_date"    />
+        <result property="address"    column="address"    />
+        <result property="phoneNumber"    column="phone_number"    />
+        <result property="email"    column="email"    />
+        <result property="isActive"    column="is_active"    />
+        <result property="lastUpdatedAt"    column="last_updated_at"    />
+    </resultMap>
+
+    <sql id="selectIndividualAccountVo">
+        select account_id, id_holder, account_type, balance, open_date, address, phone_number, email, is_active, last_updated_at from individual_account
+    </sql>
+
+    <select id="selectIndividualAccountList" parameterType="IndividualAccount" resultMap="IndividualAccountResult">
+        <include refid="selectIndividualAccountVo"/>
+        <where>  
+            <if test="idHolder != null  and idHolder != ''"> and id_holder = #{idHolder}</if>
+            <if test="accountType != null  and accountType != ''"> and account_type = #{accountType}</if>
+            <if test="balance != null "> and balance = #{balance}</if>
+            <if test="openDate != null "> and open_date = #{openDate}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="phoneNumber != null  and phoneNumber != ''"> and phone_number = #{phoneNumber}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="isActive != null "> and is_active = #{isActive}</if>
+            <if test="lastUpdatedAt != null "> and last_updated_at = #{lastUpdatedAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectIndividualAccountByAccountId" parameterType="String" resultMap="IndividualAccountResult">
+        <include refid="selectIndividualAccountVo"/>
+        where account_id = #{accountId}
+    </select>
+        
+    <insert id="insertIndividualAccount" parameterType="IndividualAccount">
+        insert into individual_account
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">account_id,</if>
+            <if test="idHolder != null">id_holder,</if>
+            <if test="accountType != null">account_type,</if>
+            <if test="balance != null">balance,</if>
+            <if test="openDate != null">open_date,</if>
+            <if test="address != null">address,</if>
+            <if test="phoneNumber != null">phone_number,</if>
+            <if test="email != null">email,</if>
+            <if test="isActive != null">is_active,</if>
+            <if test="lastUpdatedAt != null">last_updated_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="accountId != null">#{accountId},</if>
+            <if test="idHolder != null">#{idHolder},</if>
+            <if test="accountType != null">#{accountType},</if>
+            <if test="balance != null">#{balance},</if>
+            <if test="openDate != null">#{openDate},</if>
+            <if test="address != null">#{address},</if>
+            <if test="phoneNumber != null">#{phoneNumber},</if>
+            <if test="email != null">#{email},</if>
+            <if test="isActive != null">#{isActive},</if>
+            <if test="lastUpdatedAt != null">#{lastUpdatedAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateIndividualAccount" parameterType="IndividualAccount">
+        update individual_account
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="idHolder != null">id_holder = #{idHolder},</if>
+            <if test="accountType != null">account_type = #{accountType},</if>
+            <if test="balance != null">balance = #{balance},</if>
+            <if test="openDate != null">open_date = #{openDate},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="phoneNumber != null">phone_number = #{phoneNumber},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="isActive != null">is_active = #{isActive},</if>
+            <if test="lastUpdatedAt != null">last_updated_at = #{lastUpdatedAt},</if>
+        </trim>
+        where account_id = #{accountId}
+    </update>
+
+    <delete id="deleteIndividualAccountByAccountId" parameterType="String">
+        delete from individual_account where account_id = #{accountId}
+    </delete>
+
+    <delete id="deleteIndividualAccountByAccountIds" parameterType="String">
+        delete from individual_account where account_id in 
+        <foreach item="accountId" collection="array" open="(" separator="," close=")">
+            #{accountId}
+        </foreach>
+    </delete>
+
+</mapper>
