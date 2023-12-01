@@ -13,35 +13,34 @@ class Transfer extends StatefulWidget {
 
 class _MyTransferState extends State<Transfer> {
   bool switchValue = false;
-  Widget card=Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Image.asset(
-                                        'images/card.png',
-                                        height: 70,
-                                      ),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      const Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          // 使用ListView.builder遍历cardList中的值
-                                          Text(
-                                            "cardItem['number'].toString()",
-                                            style: MyTextStyle.mediumLarge,
-                                          ),
-                                          Text(
-                                            "cardItem['type'].toString()",
-                                            style: MyTextStyle.mediumLarge,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  );
+  Widget card = Row(
+    children: [
+      const SizedBox(
+        width: 10,
+      ),
+      Image.asset(
+        'images/card.png',
+        height: 70,
+      ),
+      const SizedBox(
+        width: 20,
+      ),
+      const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 使用ListView.builder遍历cardList中的值
+          Text(
+            "cardItem['number'].toString()",
+            style: MyTextStyle.mediumLarge,
+          ),
+          Text(
+            "cardItem['type'].toString()",
+            style: MyTextStyle.mediumLarge,
+          ),
+        ],
+      ),
+    ],
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,11 +78,9 @@ class _MyTransferState extends State<Transfer> {
                     showModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
-                          return ListView(children: [
-                          card,
-                          card,
-                          card
-                          ],);
+                          return ListView(
+                            children: [card, card, card],
+                          );
                         });
                   },
                 ),
@@ -148,7 +145,7 @@ class _MyTransferState extends State<Transfer> {
                   child: const Row(
                     children: [
                       Text(
-                        ' 收款账号',
+                        '收款账号 ',
                         style: MyTextStyle.mediumLarge,
                       ),
                       Expanded(

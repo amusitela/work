@@ -1,7 +1,10 @@
+import 'package:app/theme/textstyle.dart';
 import 'package:flutter/material.dart';
 // 其他必要的import
 
 class EditUserInfoPage extends StatefulWidget {
+  const EditUserInfoPage({super.key});
+
   @override
   _EditUserInfoPageState createState() => _EditUserInfoPageState();
 }
@@ -21,38 +24,76 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
     _birthDateController.dispose();
     _ethnicityController.dispose();
     super.dispose();
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('编辑个人信息'),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+          onPressed: () {
+            // 在这里添加返回操作
+            // Navigator.pop(context);
+            Navigator.pushNamed(context, '/account');
+          },
+        ),
+        title: const Text(
+          "修改信息",
+          style: MyTextStyle.mediumLargeBlack,
+        ),
+        centerTitle: true,
       ),
       body: ListView(
         children: <Widget>[
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '头像',
+                    style: MyTextStyle.mediumBlack,
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage: AssetImage("images/1.jpg"),
+                  ),
+                  Icon(Icons.arrow_forward_ios_outlined),
+                ],
+              )
+            ],
+          ),
           ListTile(
-            title: Text('昵称'),
+            title: const Text('昵称'),
             subtitle: TextField(
               controller: _nicknameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: '请输入您的昵称',
               ),
             ),
           ),
           ListTile(
-            title: Text('手机号'),
+            title: const Text('手机号'),
             subtitle: TextField(
               controller: _phoneNumberController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: '请输入您的手机号',
               ),
               keyboardType: TextInputType.phone,
             ),
           ),
           ListTile(
-            title: Text('出生日期'),
+            title: const Text('出生日期'),
             subtitle: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () async {
@@ -65,14 +106,15 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                 );
                 if (pickedDate != null) {
                   setState(() {
-                    _birthDateController.text = pickedDate.toLocal().toString().split(' ')[0];
+                    _birthDateController.text =
+                        pickedDate.toLocal().toString().split(' ')[0];
                   });
                 }
               },
               child: AbsorbPointer(
                 child: TextField(
                   controller: _birthDateController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: '请选择日期',
                   ),
                 ),
@@ -80,10 +122,10 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
             ),
           ),
           ListTile(
-            title: Text('民族'),
+            title: const Text('民族'),
             subtitle: TextField(
               controller: _ethnicityController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: '请输入您的民族',
               ),
             ),
@@ -98,9 +140,9 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
               );
 
               // 使用 Navigator.pop 回传 UserInfo 对象
-              Navigator.pop(context, userInfo);// TODO: 在这里添加更新用户信息的逻辑
+              Navigator.pop(context, userInfo); // TODO: 在这里添加更新用户信息的逻辑
             },
-            child: Text('保存'),
+            child: const Text('保存'),
           ),
         ],
       ),

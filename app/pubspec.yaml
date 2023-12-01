@@ -47,6 +47,8 @@ dependencies:
   getwidget: ^2.0.4
   fl_chart: ^0.64.0
   syncfusion_flutter_charts: ^23.2.4
+  shared_preferences: ^2.2.2
+  
 
   # bubble_bottom_bar: ^2.0.0
 

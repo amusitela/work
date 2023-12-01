@@ -13,6 +13,17 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _MyRegisterPage extends State<RegisterPage> {
+
+  late TextEditingController _phoneController;
+  late TextEditingController _passwordController;
+  late TextEditingController _yzmController;
+  @override
+  void initState() {
+    super.initState();
+    _phoneController = TextEditingController();
+    _passwordController = TextEditingController();
+    _yzmController = TextEditingController();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,11 +45,11 @@ class _MyRegisterPage extends State<RegisterPage> {
             height: 50,
           ),
           const MyText2(text: "手机号"),
-          const MyTextField(showText: true),
+           MyTextField(showText: true,controller: _phoneController,),
           const MyText2(text: "密码"),
-          const MyTextField(showText: false),
+           MyTextField(showText: false,controller: _passwordController,),
           const MyText2(text: "验证码"),
-          const MyTextField(showText: true),
+           MyTextField(showText: true,controller: _yzmController,),
           const SizedBox(
             height: 30,
           ),

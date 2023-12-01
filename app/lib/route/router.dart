@@ -1,4 +1,5 @@
 import 'package:app/page/addCardPage.dart';
+import 'package:app/page/body/EditUserInfoPage.dart';
 import 'package:app/page/body/creditcard.dart';
 import 'package:app/page/forex_page.dart';
 import 'package:app/page/funddetail.dart';
@@ -122,6 +123,10 @@ class MyRouter {
       case '/add/card':
         return MaterialPageRoute(
           builder: (context) => AddCardPage(),
+        );
+      case '/profile':
+        return MaterialPageRoute(
+          builder: (context) => EditUserInfoPage(),
         );
       case '/pay/user':
         // 从 settings 中获取参数

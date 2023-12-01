@@ -18,12 +18,20 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class JwtConfig implements WebMvcConfigurer {
     @Autowired
     private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(jwtTokenAdminInterceptor)
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/login", "/register"); // 排除不需要拦截的路径
-//    }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        String[] excludePatterns = new String[]{"/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**",
+                "/api", "/api-docs", "/api-docs/**", "/doc.html/**"};
+
+        registry.addInterceptor(jwtTokenAdminInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/login","/login2","/registry").excludePathPatterns(excludePatterns); // 排除不需要拦截的路径
+    }
 @Bean
 public Docket docket2() {
     ApiInfo apiInfo = new ApiInfoBuilder()
@@ -35,7 +43,7 @@ public Docket docket2() {
             .groupName("用户接口")
             .apiInfo(apiInfo)
             .select()
-            .apis(RequestHandlerSelectors.basePackage("com.test.testBackend.controller"))
+            .apis(RequestHandlerSelectors.basePackage("com.test.testbackend.controller"))
             .paths(PathSelectors.any())
             .build();
     return docket;
@@ -45,8 +53,5 @@ public Docket docket2() {
      * 设置静态资源映射
      * @param registry
      */
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
+
 }

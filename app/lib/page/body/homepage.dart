@@ -4,12 +4,13 @@ import 'package:app/theme/colorplatte.dart';
 import 'package:app/theme/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'monthly_budget_page.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage(
       {super.key,
-        required this.imageUrl,
-        required this.userName,
-        required this.money});
+      required this.imageUrl,
+      required this.userName,
+      required this.money});
   final String imageUrl;
   final String userName;
   final String money;
@@ -28,10 +29,15 @@ class HomePage extends StatelessWidget {
         const SizedBox(
           width: 10,
         ),
-        Text(
-          userName,
-          style: MyTextStyle.large,
-          selectionColor: Colors.white,
+        GestureDetector(
+          child: Text(
+            userName,
+            style: MyTextStyle.large,
+            selectionColor: Colors.white,
+          ),
+          onTap: () {
+            Navigator.pushNamed(context, '/profile');
+          },
         )
       ],
     );
@@ -72,7 +78,7 @@ class HomePage extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MonthlyBudgetPage()),
+          MaterialPageRoute(builder: (context) => const MonthlyBudgetPage()),
         );
       },
       child: Align(
@@ -80,13 +86,13 @@ class HomePage extends StatelessWidget {
         child: Container(
           width: 350,
           padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(
               Radius.circular(8),
             ),
             color: Colors.white, // 你可以调整颜色以匹配你的设计
           ),
-          child: Column(
+          child: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
@@ -134,7 +140,7 @@ class HomePage extends StatelessWidget {
         width: 350,
         height: 100,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
+          borderRadius: const BorderRadius.all(
             Radius.circular(8),
           ),
           image: DecorationImage(
@@ -150,7 +156,6 @@ class HomePage extends StatelessWidget {
         child: Column(children: [
           const Row(
             children: [
-
               Text(
                 '资产',
                 style: MyTextStyle.medium,
@@ -159,7 +164,6 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 width: 5,
               ),
-
             ],
           ),
           const SizedBox(
@@ -187,15 +191,23 @@ class HomePage extends StatelessWidget {
           ),
           const Row(
             children: [
-              SizedBox(width: 20,)
-              ,Text("我的资产",style: MyTextStyle.mediumLarge,),
+              SizedBox(
+                width: 20,
+              ),
+              Text(
+                "我的资产",
+                style: MyTextStyle.mediumLarge,
+              ),
             ],
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           card,
-          const SizedBox(height: 20,), // 在卡片和新模块之间添加空间
+          const SizedBox(
+            height: 20,
+          ), // 在卡片和新模块之间添加空间
           incomeExpenditureModule, // 在这里添加收支模块
-
         ],
       ),
     );
