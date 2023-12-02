@@ -76,4 +76,12 @@ public interface IUserInformationService
      * @return 结果
      */
     public List<IndividualAccount> displayCard(String idCard);
+
+
+    /**
+     * 验证用户密码是否正确
+     * @param id
+     *   @return pswd
+    * */
+    public String loginCheck(String id);
 }

@@ -32,7 +32,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectUserInformationVo"/>
         where id_card = #{idCard}
     </select>
-        
+    <select id="selectUserInformationPSWDById" resultType="java.lang.String">
+        select pswd from user_information where id_card = ${id} or phone = ${id}
+    </select>
+
     <insert id="insertUserInformation" parameterType="UserInformation">
         insert into user_information
         <trim prefix="(" suffix=")" suffixOverrides=",">

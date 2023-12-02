@@ -2,6 +2,7 @@ package com.cumt.bankapp.mapper;
 
 import java.util.List;
 import com.cumt.bankapp.domain.IndividualAccount;
+import org.springframework.stereotype.Repository;
 
 /**
  * individual_accountMapper接口
@@ -9,6 +10,7 @@ import com.cumt.bankapp.domain.IndividualAccount;
  * @author lyw
  * @date 2023-11-10
  */
+@Repository
 public interface IndividualAccountMapper 
 {
     /**

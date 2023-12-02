@@ -1,12 +1,15 @@
 package com.cumt.bankapp.service.impl;
 
 import java.util.List;
+
+import com.cumt.common.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cumt.bankapp.mapper.IndividualAccountMapper;
 import com.cumt.bankapp.domain.IndividualAccount;
 import com.cumt.bankapp.service.IIndividualAccountService;
-import com.ruoyi.common.core.text.Convert;
+
+
 
 /**
  * individual_accountService业务层处理

@@ -2,6 +2,7 @@ package com.cumt.bankapp.mapper;
 
 import java.util.List;
 import com.cumt.bankapp.domain.PublicAccount;
+import org.springframework.stereotype.Repository;
 
 /**
  * public_accountMapper接口
@@ -9,6 +10,7 @@ import com.cumt.bankapp.domain.PublicAccount;
  * @author lyw
  * @date 2023-11-10
  */
+@Repository
 public interface PublicAccountMapper 
 {
     /**

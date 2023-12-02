@@ -4,19 +4,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import com.ruoyi.common.annotation.Log;
-import com.ruoyi.common.enums.BusinessType;
+import org.springframework.web.bind.annotation.*;
+
 import com.cumt.bankapp.domain.IndividualAccount;
 import com.cumt.bankapp.service.IIndividualAccountService;
-import com.ruoyi.common.core.controller.BaseController;
-import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.page.TableDataInfo;
+
 
 /**
  * individual_accountController
@@ -24,9 +16,9 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @author lyw
  * @date 2023-11-10
  */
-@Controller
+@RestController
 @RequestMapping("/individual_account/Iaccount")
-public class IndividualAccountController extends BaseController
+public class IndividualAccountController
 {
     private String prefix = "individual_account/Iaccount";
 
@@ -44,28 +36,28 @@ public class IndividualAccountController extends BaseController
      * 查询individual_account列表
      */
 
-    @PostMapping("/list")
-    @ResponseBody
-    public TableDataInfo list(IndividualAccount individualAccount)
-    {
-        startPage();
-        List<IndividualAccount> list = individualAccountService.selectIndividualAccountList(individualAccount);
-        return getDataTable(list);
-    }
+//    @PostMapping("/list")
+//    @ResponseBody
+//    public TableDataInfo list(IndividualAccount individualAccount)
+//    {
+//        startPage();
+//        List<IndividualAccount> list = individualAccountService.selectIndividualAccountList(individualAccount);
+//        return getDataTable(list);
+//    }
 
     /**
      * 导出individual_account列表
      */
 
-    @Log(title = "individual_account", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    @ResponseBody
-    public AjaxResult export(IndividualAccount individualAccount)
-    {
-        List<IndividualAccount> list = individualAccountService.selectIndividualAccountList(individualAccount);
-        ExcelUtil<IndividualAccount> util = new ExcelUtil<IndividualAccount>(IndividualAccount.class);
-        return util.exportExcel(list, "individual_account数据");
-    }
+//    @Log(title = "individual_account", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    @ResponseBody
+//    public AjaxResult export(IndividualAccount individualAccount)
+//    {
+//        List<IndividualAccount> list = individualAccountService.selectIndividualAccountList(individualAccount);
+//        ExcelUtil<IndividualAccount> util = new ExcelUtil<IndividualAccount>(IndividualAccount.class);
+//        return util.exportExcel(list, "individual_account数据");
+//    }
 
     /**
      * 新增individual_account
@@ -80,13 +72,13 @@ public class IndividualAccountController extends BaseController
      * 新增保存individual_account
      */
 
-    @Log(title = "individual_account", businessType = BusinessType.INSERT)
-    @PostMapping("/add")
-    @ResponseBody
-    public AjaxResult addSave(IndividualAccount individualAccount)
-    {
-        return toAjax(individualAccountService.insertIndividualAccount(individualAccount));
-    }
+//    @Log(title = "individual_account", businessType = BusinessType.INSERT)
+//    @PostMapping("/add")
+//    @ResponseBody
+//    public AjaxResult addSave(IndividualAccount individualAccount)
+//    {
+//        return toAjax(individualAccountService.insertIndividualAccount(individualAccount));
+//    }
 
     /**
      * 修改individual_account
@@ -104,23 +96,23 @@ public class IndividualAccountController extends BaseController
      * 修改保存individual_account
      */
 
-    @Log(title = "individual_account", businessType = BusinessType.UPDATE)
-    @PostMapping("/edit")
-    @ResponseBody
-    public AjaxResult editSave(IndividualAccount individualAccount)
-    {
-        return toAjax(individualAccountService.updateIndividualAccount(individualAccount));
-    }
-
-    /**
-     * 删除individual_account
-     */
-
-    @Log(title = "individual_account", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
-    @ResponseBody
-    public AjaxResult remove(String ids)
-    {
-        return toAjax(individualAccountService.deleteIndividualAccountByAccountIds(ids));
-    }
+//    @Log(title = "individual_account", businessType = BusinessType.UPDATE)
+//    @PostMapping("/edit")
+//    @ResponseBody
+//    public AjaxResult editSave(IndividualAccount individualAccount)
+//    {
+//        return toAjax(individualAccountService.updateIndividualAccount(individualAccount));
+//    }
+//
+//    /**
+//     * 删除individual_account
+//     */
+//
+//    @Log(title = "individual_account", businessType = BusinessType.DELETE)
+//    @PostMapping( "/remove")
+//    @ResponseBody
+//    public AjaxResult remove(String ids)
+//    {
+//        return toAjax(individualAccountService.deleteIndividualAccountByAccountIds(ids));
+//    }
 }

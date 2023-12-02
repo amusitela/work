@@ -1,12 +1,13 @@
 package com.cumt.bankapp.service.impl;
 
 import java.util.List;
+
+import com.cumt.common.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cumt.bankapp.mapper.TransferMoneyMapper;
 import com.cumt.bankapp.domain.TransferMoney;
 import com.cumt.bankapp.service.ITransferMoneyService;
-import com.ruoyi.common.core.text.Convert;
 
 /**
  * transfer_moneyService业务层处理
