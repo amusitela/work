@@ -15,47 +15,43 @@ import org.json.JSONObject;
 
 @SuppressWarnings({"all"})
 public class ExchangeRateFetcher {
-    public static void main(String[] args) {
-        System.out.println(exchangeRate("CNY", "USD"));
-    }
 
-        public static double exchangeRate(String from, String to) {
-            String now = from;
-            String requestUrl = "https://api.exchangerate-api.com/v4/latest/" + now;
+public static double exchangeRate(String from, String to) {
+    String now = from;
+    String requestUrl = "https://api.exchangerate-api.com/v4/latest/" + now;
 
-            try {
-                URL url = new URL(requestUrl);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
+    try {
+        URL url = new URL(requestUrl);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
 
-                int responseCode = connection.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    String inputLine;
-                    StringBuilder response = new StringBuilder();
+        int responseCode = connection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
 
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-
-                    in.close();
-
-
-                    String s = response.toString();
-                    String[] split = s.split(to);
-                    String[] split1 = split[1].split("[:,\"]");
-                    double ans = Double.parseDouble(split1[2]);
-                    return ans;
-//                    JSONObject jsonResponse = new JSONObject(response.toString());
-//                    // 处理响应数据
-////                    System.out.println(jsonResponse);
-                } else {
-                    System.out.println("GET请求未成功。");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
             }
-            return -1;
+            in.close();
+
+            String s = response.toString();
+            String[] split = s.split(to);
+            String[] split1 = split[1].split("[:,\"]");
+
+            double ans = Double.parseDouble(split1[2]);
+
+            JSONObject jsonResponse = new JSONObject(ans);
+
+            return ans;
+        } else {
+            System.out.println("GET请求未成功。");
         }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return -1;
+}
 
 }

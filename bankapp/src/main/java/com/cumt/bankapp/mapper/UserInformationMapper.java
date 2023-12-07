@@ -67,4 +67,11 @@ public interface UserInformationMapper
      *   @return pswd
      * */
     public String selectUserInformationPSWDById(String id);
+
+    /**
+     * 验证用户密码是否正确
+     * @param phone
+     *   @return card id
+     * */
+    public String getId(String phone);
 }

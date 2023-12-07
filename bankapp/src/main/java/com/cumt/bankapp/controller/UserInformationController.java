@@ -3,7 +3,7 @@ package com.cumt.bankapp.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cumt.bankapp.domain.MyResult;
+import com.cumt.common.MyResult;
 import com.cumt.common.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,20 +20,14 @@ import com.cumt.bankapp.service.IUserInformationService;
  * @date 2023-11-10
  */
 @RestController
-@RequestMapping("/user_information/information")
+@RequestMapping("/user_information")
 public class UserInformationController
 {
-    private String prefix = "user_information/information";
+    private String prefix = "user_information";
 
     @Autowired
     private IUserInformationService userInformationService;
 
-
-    @GetMapping()
-    public String information()
-    {
-        return prefix + "/information";
-    }
 
     @PostMapping("/updateUserCard")
     @ResponseBody

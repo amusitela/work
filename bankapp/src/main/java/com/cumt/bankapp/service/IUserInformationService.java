@@ -84,4 +84,6 @@ public interface IUserInformationService
      *   @return pswd
     * */
     public String loginCheck(String id);
+
+    public String getId(String phone);
 }

@@ -141,5 +141,10 @@ public class UserInformationServiceImpl implements IUserInformationService
         return userInformationMapper.selectUserInformationPSWDById(id);
     }
 
+    @Override
+    public String getId(String phone) {
+        return userInformationMapper.getId(phone);
+    }
+
 
 }

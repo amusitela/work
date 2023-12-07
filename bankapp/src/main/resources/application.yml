@@ -19,7 +19,7 @@ server:
 # 日志配置
 logging:
   level:
-    com.ruoyi: debug
+    com.cumt: debug
     org.springframework: warn
 
 # 用户配置
@@ -35,20 +35,19 @@ spring:
     password: '021125'
     url: jdbc:mysql://localhost:3306/bank?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
-  activiti:
-    database-schema-update: true
-    check-process-definitions: true
-    process-definition-location-prefix: classpath:/processes/
-    history-level: full
-#  # 资源信息
-#  messages:
-#    # 国际化资源文件路径
-#    basename: static/i18n/messages
+#josn解析
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+#配置为开发环境
   profiles: 
     active: druid
+#mvc配置
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+    servlet:
+      load-on-startup: 1
   # 文件上传
   servlet:
      multipart:
@@ -61,23 +60,10 @@ spring:
     restart:
       # 热部署开关
       enabled: true
+  redis:
+    host: localhost
+    port: 6379
 
-
-# PageHelper分页插件
-pagehelper: 
-  helperDialect: mysql
-  supportMethodsArguments: true
-  params: count=countSql 
-
-
-# 防止XSS攻击
-xss: 
-  # 过滤开关
-  enabled: true
-  # 排除链接（多个用逗号分隔）
-  excludes: /system/notice/*
-  # 匹配链接
-  urlPatterns: /system/*,/monitor/*,/tool/*
 
 # Swagger配置
 swagger:
@@ -91,4 +77,16 @@ mybatis:
   mapperLocations: classpath*:mapper/**/*Mapper.xml
   # 加载全局的配置文件
   configLocation: classpath:mybatis/mybatis-config.xml
-
+jwt:
+  # ??jwt??????????
+  admin-secret-key: cumt
+  # ??jwt????
+  admin-ttl: 7200000
+  # ?????????????
+  admin-token-name: token
+  # jwt????
+  current-user: current-user
+mica:
+  xss:
+    enabled: true
+    path-patterns: /**
