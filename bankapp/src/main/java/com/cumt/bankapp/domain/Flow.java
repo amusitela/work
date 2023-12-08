@@ -1,12 +1,10 @@
 package com.cumt.bankapp.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.BaseEntity;
+
 
 /**
  * flow对象 flow
@@ -14,7 +12,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author lyw
  * @date 2023-11-10
  */
-public class Flow extends BaseEntity
+public class Flow implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
@@ -22,24 +20,24 @@ public class Flow extends BaseEntity
     private String transactionId;
 
     /**  */
-    @Excel(name = "")
+
     private String account1Id;
 
     /**  */
-    @Excel(name = "")
+
     private String transactionType;
 
     /**  */
-    @Excel(name = "")
+
     private BigDecimal amount;
 
     /**  */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "", width = 30, dateFormat = "yyyy-MM-dd")
+
     private Date transactionDate;
 
     /**  */
-    @Excel(name = "")
+
     private String description;
 
     public static long getSerialVersionUID() {
@@ -102,13 +100,13 @@ public class Flow extends BaseEntity
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("transactionId", getTransactionId())
-            .append("account1Id", getAccount1Id())
-            .append("transactionType", getTransactionType())
-            .append("amount", getAmount())
-            .append("transactionDate", getTransactionDate())
-            .append("description", getDescription())
-            .toString();
+        return "Flow{" +
+                "transactionId='" + transactionId + '\'' +
+                ", account1Id='" + account1Id + '\'' +
+                ", transactionType='" + transactionType + '\'' +
+                ", amount=" + amount +
+                ", transactionDate=" + transactionDate +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

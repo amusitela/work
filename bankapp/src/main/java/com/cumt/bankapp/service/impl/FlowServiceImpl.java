@@ -1,12 +1,13 @@
 package com.cumt.bankapp.service.impl;
 
 import java.util.List;
+
+import com.cumt.common.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cumt.bankapp.mapper.FlowMapper;
 import com.cumt.bankapp.domain.Flow;
 import com.cumt.bankapp.service.IFlowService;
-import com.ruoyi.common.core.text.Convert;
 
 /**
  * flowService业务层处理

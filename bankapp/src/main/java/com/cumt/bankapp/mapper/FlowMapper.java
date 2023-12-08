@@ -2,6 +2,7 @@ package com.cumt.bankapp.mapper;
 
 import java.util.List;
 import com.cumt.bankapp.domain.Flow;
+import org.springframework.stereotype.Repository;
 
 /**
  * flowMapper接口
@@ -9,6 +10,7 @@ import com.cumt.bankapp.domain.Flow;
  * @author lyw
  * @date 2023-11-10
  */
+@Repository
 public interface FlowMapper 
 {
     /**

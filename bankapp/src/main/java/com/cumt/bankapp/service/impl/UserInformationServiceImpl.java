@@ -6,12 +6,13 @@ import java.util.List;
 import com.cumt.bankapp.domain.IndividualAccount;
 import com.cumt.bankapp.mapper.IndividualAccountMapper;
 import com.cumt.bankapp.service.IIndividualAccountService;
+import com.cumt.common.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cumt.bankapp.mapper.UserInformationMapper;
 import com.cumt.bankapp.domain.UserInformation;
 import com.cumt.bankapp.service.IUserInformationService;
-import com.ruoyi.common.core.text.Convert;
+
 
 /**
  * user_informationService业务层处理
@@ -119,7 +120,7 @@ public class UserInformationServiceImpl implements IUserInformationService
     @Override
     public List<IndividualAccount> displayCard(String idCard) {
 
-        List<IndividualAccount> individualAccounts = new ArrayList<>();
+        List<IndividualAccount> individualAccounts = new ArrayList<IndividualAccount>();
         //查询用户的银行卡信息
         UserInformation userInformation = userInformationMapper.selectUserInformationByIdCard(idCard);
 
@@ -134,5 +135,16 @@ public class UserInformationServiceImpl implements IUserInformationService
         }
         return individualAccounts;
     }
+
+    @Override
+    public String loginCheck(String id) {
+        return userInformationMapper.selectUserInformationPSWDById(id);
+    }
+
+    @Override
+    public String getId(String phone) {
+        return userInformationMapper.getId(phone);
+    }
+
 
 }

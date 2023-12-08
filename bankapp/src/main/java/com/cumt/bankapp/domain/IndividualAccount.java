@@ -1,12 +1,9 @@
 package com.cumt.bankapp.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * individual_account对象 individual_account
@@ -14,7 +11,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author lyw
  * @date 2023-11-10
  */
-public class IndividualAccount extends BaseEntity
+public class IndividualAccount implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
@@ -22,41 +19,41 @@ public class IndividualAccount extends BaseEntity
     private String accountId;
 
     /**  */
-    @Excel(name = "")
+
     private String idHolder;
 
     /**  */
-    @Excel(name = "")
+
     private String accountType;
 
     /**  */
-    @Excel(name = "")
+
     private BigDecimal balance;
 
     /**  */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "", width = 30, dateFormat = "yyyy-MM-dd")
+
     private Date openDate;
 
     /**  */
-    @Excel(name = "")
+
     private String address;
 
     /**  */
-    @Excel(name = "")
+
     private String phoneNumber;
 
     /**  */
-    @Excel(name = "")
+
     private String email;
 
     /**  */
-    @Excel(name = "")
+
     private Integer isActive;
 
     /**  */
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "", width = 30, dateFormat = "yyyy-MM-dd")
+
     private Date lastUpdatedAt;
 
     public void setAccountId(String accountId)
@@ -152,17 +149,17 @@ public class IndividualAccount extends BaseEntity
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("accountId", getAccountId())
-            .append("idHolder", getIdHolder())
-            .append("accountType", getAccountType())
-            .append("balance", getBalance())
-            .append("openDate", getOpenDate())
-            .append("address", getAddress())
-            .append("phoneNumber", getPhoneNumber())
-            .append("email", getEmail())
-            .append("isActive", getIsActive())
-            .append("lastUpdatedAt", getLastUpdatedAt())
-            .toString();
+        return "IndividualAccount{" +
+                "accountId='" + accountId + '\'' +
+                ", idHolder='" + idHolder + '\'' +
+                ", accountType='" + accountType + '\'' +
+                ", balance=" + balance +
+                ", openDate=" + openDate +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", isActive=" + isActive +
+                ", lastUpdatedAt=" + lastUpdatedAt +
+                '}';
     }
 }

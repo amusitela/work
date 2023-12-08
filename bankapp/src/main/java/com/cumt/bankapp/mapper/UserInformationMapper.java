@@ -2,6 +2,7 @@ package com.cumt.bankapp.mapper;
 
 import java.util.List;
 import com.cumt.bankapp.domain.UserInformation;
+import org.springframework.stereotype.Repository;
 
 /**
  * user_informationMapper接口
@@ -9,6 +10,7 @@ import com.cumt.bankapp.domain.UserInformation;
  * @author lyw
  * @date 2023-11-10
  */
+@Repository
 public interface UserInformationMapper 
 {
     /**
@@ -58,4 +60,18 @@ public interface UserInformationMapper
      * @return 结果
      */
     public int deleteUserInformationByIdCards(String[] idCards);
+
+    /**
+     * 验证用户密码是否正确
+     * @param id
+     *   @return pswd
+     * */
+    public String selectUserInformationPSWDById(String id);
+
+    /**
+     * 验证用户密码是否正确
+     * @param phone
+     *   @return card id
+     * */
+    public String getId(String phone);
 }
