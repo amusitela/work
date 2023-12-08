@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget avatar = Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      // crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(
           width: 20,
@@ -35,6 +35,13 @@ class HomePage extends StatelessWidget {
             style: MyTextStyle.large,
             selectionColor: Colors.white,
           ),
+          onTap: () {
+            Navigator.pushNamed(context, '/profile');
+          },
+        ),
+        const Expanded(child: Text(" ")),
+        GestureDetector(
+          child: const Icon(Icons.arrow_forward_ios_rounded),
           onTap: () {
             Navigator.pushNamed(context, '/profile');
           },
@@ -64,13 +71,37 @@ class HomePage extends StatelessWidget {
               stops: [0.0, 1.0], // 渐变色的起始和结束位置
             ),
           ),
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              MyIcon(text: "我的账户", icon: Icon(Icons.account_balance_wallet)),
-              MyIcon(text: "我的权益", icon: Icon(Icons.security)),
-              MyIcon(text: "我的积分", icon: Icon(Icons.star)),
-              MyIcon(text: "我的奖品", icon: Icon(Icons.card_giftcard)),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, "/account");
+                },
+                child: const MyIcon(
+                    text: "我的账户", icon: Icon(Icons.account_balance_wallet)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, "/bill");
+                },
+                child: const MyIcon(
+                    text: "我的账单", icon: Icon(Icons.monetization_on)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, "/service");
+                },
+                child: const MyIcon(
+                    text: "在线客服", icon: Icon(Icons.headset)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, "/article");
+                },
+                child: const MyIcon(
+                    text: "新闻资讯", icon: Icon(Icons.article)),
+              ),
             ],
           )),
     );

@@ -1,17 +1,23 @@
+import 'dart:developer';
+
 import 'package:app/page/addCardPage.dart';
 import 'package:app/page/body/EditUserInfoPage.dart';
 import 'package:app/page/body/creditcard.dart';
+import 'package:app/page/body/monthly_budget_page.dart';
 import 'package:app/page/forex_page.dart';
 import 'package:app/page/funddetail.dart';
 import 'package:app/page/guidance.dart';
 import 'package:app/page/index.dart';
 import 'package:app/page/login.dart';
+import 'package:app/page/news.dart';
+import 'package:app/page/newslist.dart';
 import 'package:app/page/payment.dart';
 import 'package:app/page/payment_csdn.dart';
 import 'package:app/page/payresult.dart';
 import 'package:app/page/register.dart';
 import 'package:app/page/scanpage.dart';
-import 'package:app/page/tradedetail.dart';
+import 'package:app/page/service.dart';
+import 'package:app/page/account.dart';
 import 'package:app/page/transfer.dart';
 import 'package:flutter/material.dart';
 
@@ -90,6 +96,10 @@ class MyRouter {
         return MaterialPageRoute(
           builder: (context) => const main_keyboard(),
         );
+      case '/service':
+        return MaterialPageRoute(
+          builder: (context) => const ChatPage(),
+        );
       case '/forex':
         return MaterialPageRoute(
           builder: (context) => ForexPage(),
@@ -104,15 +114,18 @@ class MyRouter {
             success: true,
           ),
         );
+      case '/article':
+        return MaterialPageRoute(
+          builder: (context) => NewsListPage(),
+        );
+      case '/article/detail':
+        final String articleId = settings.arguments as String;
+        return MaterialPageRoute(
+            builder: (context) => NewsDetailPage(articleId: articleId));
+
       case '/account':
         return MaterialPageRoute(
-            builder: (context) => const TradeDetailPage(
-                  money: "11111",
-                  cardList: [
-                    {"number": "1234567890", "money": "123", 'type': "借记卡"},
-                    {"number": "1234567890", "money": "123", 'type': "借记卡"},
-                    {"number": "1234567890", "money": "123", 'type': "借记卡"}
-                  ],
+            builder: (context) => TradeDetailPage(
                 ));
       case '/pay/fail':
         return MaterialPageRoute(
@@ -126,7 +139,11 @@ class MyRouter {
         );
       case '/profile':
         return MaterialPageRoute(
-          builder: (context) => EditUserInfoPage(),
+          builder: (context) => const EditUserInfoPage(),
+        );
+      case '/bill':
+        return MaterialPageRoute(
+          builder: (context) => const MonthlyBudgetPage(),
         );
       case '/pay/user':
         // 从 settings 中获取参数

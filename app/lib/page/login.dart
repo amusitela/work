@@ -129,6 +129,7 @@ class _MyLoginPage extends State<LoginPage> {
                   };
                   try {
                     isLoggingIn = true;
+                    print("点击1");
                     Response response = await LoginApi.loginApi(data);
                     debugPrint(response.toString());
                     hint = response.data['data'].toString();

@@ -12,30 +12,64 @@ class CreditCard extends StatefulWidget {
 }
 
 class _MyCreditCardState extends State<CreditCard> {
-final Map<String,dynamic> cardItem={
-        "number":"1234567890",
-        "money":"123",
-        'type':"借记卡"
-        };
+  final Map<String, dynamic> cardItem = {
+    "number": "1234567890",
+    "money": "123",
+    'type': "借记卡"
+  };
   @override
   Widget build(BuildContext context) {
-  int currentIndex = 0;
-    return SizedBox(
-        // height: MediaQuery.of(context).size.height * 0.75,
-        height:300,
-        
-        // height: auto,
-        child: AppinioSwiper(
-          cardsCount: 10,
-          loop: true,
-          onSwiping: (AppinioSwiperDirection direction){
-            print(direction.toString());
-            
-          },
-          cardsBuilder: (BuildContext context,int index){
-              return Padding(
+    Widget addCard = Align(
+      alignment: Alignment.center,
+      child: Container(
+        width: Constant.cardWidth,
+        padding: const EdgeInsets.only(bottom: 10, top: 10),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey,
+              offset: Offset(0, 0), // 设置底部阴影
+              blurRadius: 2.0,
+            ),
+          ],
+        ),
+        child: const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "+申请信用卡/添加账户",
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500, // 设置字体加粗
+                    letterSpacing: 0.15, // 设置字间距
+                    fontFamily: "Dosis",
+                    height: 1.5),
+              ),
+              Text(
+                "添加你的账户、数字钱包",
+                style: MyTextStyle.medium,
+              )
+            ]),
+      ),
+    );
+    Widget cardList = SizedBox(
+      // height: MediaQuery.of(context).size.height * 0.75,
+      height: 200,
+
+      // height: auto,
+      child: AppinioSwiper(
+        cardsCount: 10,
+        loop: true,
+        onSwiping: (AppinioSwiperDirection direction) {
+          print(direction.toString());
+        },
+        cardsBuilder: (BuildContext context, int index) {
+          return Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
-              
               child: Align(
                   child: Container(
                 width: Constant.cardWidth,
@@ -76,7 +110,7 @@ final Map<String,dynamic> cardItem={
                               style: MyTextStyle.mediumLarge,
                             ),
                             Text(
-                              cardItem['type'].toString()+index.toString(),
+                              cardItem['type'].toString() + index.toString(),
                               style: MyTextStyle.mediumLarge,
                             ),
                           ],
@@ -105,8 +139,23 @@ final Map<String,dynamic> cardItem={
                   ],
                 ),
               )));
-          },
+        },
+      ),
+    );
+    int currentIndex = 0;
+    return ListView(
+      children: [
+        cardList,
+        const SizedBox(
+          height: 50,
         ),
-      );
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, '/add/card');
+          },
+          child: addCard,
+        )
+      ],
+    );
   }
 }

@@ -1,16 +1,13 @@
+import 'package:app/test/test2.dart';
 import 'package:app/theme/constant.dart';
 import 'package:app/theme/textstyle.dart';
 import 'package:flutter/material.dart';
 
 class TradeDetailPage extends StatelessWidget {
-  const TradeDetailPage(
-      {super.key,
-      required this.money,
-      this.earnMoney = "暂未更新",
-      required this.cardList});
-  final String money;
-  final String earnMoney;
-  final List<Map<String, String>> cardList;
+  TradeDetailPage({super.key});
+  final String money = "1111";
+  final String earnMoney = "暂未更新";
+  final List<Map<String, String>> cardList = Test.cardList;
   // final List<String> cardList;
   @override
   Widget build(BuildContext context) {
@@ -105,15 +102,16 @@ class TradeDetailPage extends StatelessWidget {
         ),
       ),
     );
-    Widget card = ListView.builder(
-        shrinkWrap: true,
-        itemCount: cardList.length,
-        itemBuilder: (context, index) {
+
+    Widget card = Column(
+      children: List.generate(
+        cardList.length,
+        (index) {
           Map<String, String> cardItem = cardList[index];
           return Padding(
-              padding: const EdgeInsets.only(bottom: 10.0),
-              child: Align(
-                  child: Container(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: Align(
+              child: Container(
                 width: Constant.cardWidth,
                 decoration: const BoxDecoration(
                   color: Colors.white,
@@ -121,7 +119,7 @@ class TradeDetailPage extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey,
-                      offset: Offset(0, 0), // 设置底部阴影
+                      offset: Offset(0, 0),
                       blurRadius: 2.0,
                     ),
                   ],
@@ -146,7 +144,6 @@ class TradeDetailPage extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // 使用ListView.builder遍历cardList中的值
                             Text(
                               cardItem['number'].toString(),
                               style: MyTextStyle.mediumLarge,
@@ -174,14 +171,18 @@ class TradeDetailPage extends StatelessWidget {
                           Text(
                             "人民币元: ${cardItem['money'].toString()}",
                             style: MyTextStyle.mediumLarge,
-                          )
+                          ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
-              )));
-        });
+              ),
+            ),
+          );
+        },
+      ),
+    );
     Widget addCard = Align(
       alignment: Alignment.center,
       child: Container(
@@ -227,8 +228,7 @@ class TradeDetailPage extends StatelessWidget {
           color: Colors.black,
           onPressed: () {
             // 在这里添加返回操作
-            // Navigator.pop(context);
-            Navigator.pushNamed(context, '/');
+            Navigator.pop(context);
           },
         ),
         title: const Text(
@@ -238,6 +238,7 @@ class TradeDetailPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: ListView(
+        // physics: const NeverScrollableScrollPhysics(),
         children: [
           const SizedBox(
             height: 40,
@@ -252,10 +253,10 @@ class TradeDetailPage extends StatelessWidget {
           ),
           card,
           GestureDetector(
-          onTap: (){
-          Navigator.pushNamed(context, '/add/card');
-          },
-          child: addCard,
+            onTap: () {
+              Navigator.pushNamed(context, '/add/card');
+            },
+            child: addCard,
           )
         ],
       ),

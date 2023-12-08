@@ -1,15 +1,16 @@
+import 'package:app/theme/textstyle.dart';
 import 'package:flutter/material.dart';
 
 class PaymentPage extends StatefulWidget {
-  PaymentPage({super.key,required this.userId});
+  const PaymentPage({super.key, required this.userId});
   final String userId;
   @override
   _PaymentPageState createState() => _PaymentPageState();
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  TextEditingController _amountController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   String _selectedPaymentMethod = '';
   bool _isPaymentSelected = false;
 
@@ -18,12 +19,12 @@ class _PaymentPageState extends State<PaymentPage> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ListTile(
-                title: Text('银行卡1'),
+                title: const Text('银行卡1'),
                 onTap: () {
                   setState(() {
                     _selectedPaymentMethod = '银行卡1';
@@ -33,7 +34,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 },
               ),
               ListTile(
-                title: Text('银行卡2'),
+                title: const Text('银行卡2'),
                 onTap: () {
                   setState(() {
                     _selectedPaymentMethod = '银行卡2';
@@ -54,20 +55,20 @@ class _PaymentPageState extends State<PaymentPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('输入支付密码'),
+          title: const Text('输入支付密码'),
           content: TextField(
             controller: _passwordController,
             keyboardType: TextInputType.number,
             obscureText: true,
             maxLength: 6,
-            decoration: InputDecoration(counterText: ''),
+            decoration: const InputDecoration(counterText: ''),
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('取消'),
+              child: const Text('取消'),
             ),
             TextButton(
               onPressed: () {
@@ -80,7 +81,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   // 可以在这里添加密码错误提示
                 }
               },
-              child: Text('确认'),
+              child: const Text('确认'),
             ),
           ],
         );
@@ -92,19 +93,32 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('向用户${widget.userId}转账'),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+          onPressed: () {
+            // 在这里添加返回操作
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          '向用户${widget.userId}转账',
+          style: MyTextStyle.mediumLargeBlack,
+        ),
+        centerTitle: true,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             TextField(
               controller: _amountController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: '请输入金额'),
+              decoration: const InputDecoration(labelText: '请输入金额'),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
                 if (!_isPaymentSelected) {
@@ -114,9 +128,9 @@ class _PaymentPageState extends State<PaymentPage> {
                   Navigator.pushNamed(context, '/pay');
                 }
               },
-              child: Text('支付'),
+              child: const Text('支付'),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Text('选择支付方式: $_selectedPaymentMethod'),
           ],
         ),

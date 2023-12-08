@@ -1,3 +1,4 @@
+import 'package:app/theme/textstyle.dart';
 import 'package:flutter/material.dart';
 
 class MonthlyBudgetPage extends StatelessWidget {
@@ -7,8 +8,21 @@ class MonthlyBudgetPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('本月收支'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Colors.black,
+          onPressed: () {
+            // 在这里添加返回操作
+            // Navigator.pop(context);
+            Navigator.pop(context);
+          },
+        ),
+        title: const Text(
+          "账单",
+          style: MyTextStyle.mediumLargeBlack,
+        ),
+        centerTitle: true,
       ),
       body: ListView(
         children: [
@@ -27,17 +41,20 @@ class MonthlyBudgetPage extends StatelessWidget {
   }
 
   Widget buildTransactionItem(
-      BuildContext context, {
-        required String merchant,
-        required String amount,
-        required String cardType,
-        required String cardLastDigits,
-      }) {
+    BuildContext context, {
+    required String merchant,
+    required String amount,
+    required String cardType,
+    required String cardLastDigits,
+  }) {
     return ListTile(
-      leading: Icon(Icons.store, color: Colors.blue), // 可以根据商户类型更改图标
-      title: Text(merchant, style: TextStyle(fontSize: 16.0)),
-      subtitle: Text('$cardType 尾号$cardLastDigits', style: TextStyle(color: Colors.grey)),
-      trailing: Text(amount, style: TextStyle(color: amount.startsWith('-') ? Colors.red : Colors.green)),
+      leading: const Icon(Icons.store, color: Colors.black), // 可以根据商户类型更改图标
+      title: Text(merchant, style: const TextStyle(fontSize: 16.0)),
+      subtitle: Text('$cardType 尾号$cardLastDigits',
+          style: const TextStyle(color: Colors.grey)),
+      trailing: Text(amount,
+          style: TextStyle(
+              color: amount.startsWith('-') ? Colors.red : Colors.green)),
     );
   }
 }

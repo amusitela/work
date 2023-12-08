@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:app/theme/textstyle.dart';
 import 'package:flutter/material.dart';
-// 其他必要的import
+
+import 'package:image_picker/image_picker.dart';
 
 class EditUserInfoPage extends StatefulWidget {
   const EditUserInfoPage({super.key});
@@ -15,6 +18,19 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _birthDateController = TextEditingController();
   final TextEditingController _ethnicityController = TextEditingController();
+
+  File ?_imageFile ;
+
+  Future _getImage() async {
+    final imagePicker = ImagePicker();
+    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -37,7 +53,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
           onPressed: () {
             // 在这里添加返回操作
             // Navigator.pop(context);
-            Navigator.pushNamed(context, '/account');
+            Navigator.pop(context);
           },
         ),
         title: const Text(
@@ -48,30 +64,27 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
       ),
       body: ListView(
         children: <Widget>[
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '头像',
-                    style: MyTextStyle.mediumBlack,
-                  ),
-                ],
-              ),
-              Row(
+          ListTile(
+            leading: const Text(
+              '头像',
+              style: MyTextStyle.mediumBlack,
+            ),
+            trailing: InkWell(
+              onTap: _getImage,
+              child:  Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   CircleAvatar(
-                    radius: 40,
-                    backgroundImage: AssetImage("images/1.jpg"),
-                  ),
-                  Icon(Icons.arrow_forward_ios_outlined),
+  radius: 40,
+  backgroundImage: _imageFile != null
+    ? FileImage(_imageFile!) as ImageProvider
+    : const AssetImage('images/1.jpg'),
+),
+
+                  const Icon(Icons.arrow_forward_ios_outlined),
                 ],
-              )
-            ],
+              ),
+            ),
           ),
           ListTile(
             title: const Text('昵称'),

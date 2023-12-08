@@ -24,3 +24,6 @@ jwt:
   admin-token-name: token
   # jwt????
   current-user: current-user
+server:
+  port: 8080        # 服务器的HTTP端口
+  address: 0.0.0.0
