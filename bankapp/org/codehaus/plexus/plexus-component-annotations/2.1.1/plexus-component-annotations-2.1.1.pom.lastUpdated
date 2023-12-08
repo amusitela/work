@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Dec 08 15:22:41 CST 2023
+@default-aliyunmaven-https\://maven.aliyun.com/repository/public/.lastUpdated=1702020161957
+https\://maven.aliyun.com/repository/public/.error=Could not transfer artifact org.codehaus.plexus\:plexus-component-annotations\:pom\:2.1.1 from/to aliyunmaven (https\://maven.aliyun.com/repository/public)\: maven.aliyun.com

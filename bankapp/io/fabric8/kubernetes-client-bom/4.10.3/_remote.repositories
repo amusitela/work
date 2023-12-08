@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Dec 08 15:44:57 CST 2023
+kubernetes-client-bom-4.10.3.pom>central=
+kubernetes-client-bom-4.10.3.pom>aliyunmaven=

@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Dec 08 15:21:52 CST 2023
+@default-aliyunmaven-https\://maven.aliyun.com/repository/public/.lastUpdated=1702020112397
+https\://maven.aliyun.com/repository/public/.error=Could not transfer artifact org.apache.maven\:maven-core\:pom\:3.2.5 from/to aliyunmaven (https\://maven.aliyun.com/repository/public)\: Connect to maven.aliyun.com\:443 [maven.aliyun.com/182.92.29.54, maven.aliyun.com/182.92.29.13, maven.aliyun.com/59.110.251.10, maven.aliyun.com/182.92.29.16, maven.aliyun.com/182.92.29.40, maven.aliyun.com/59.110.251.12, maven.aliyun.com/59.110.251.11, maven.aliyun.com/59.110.251.4, maven.aliyun.com/59.110.251.9, maven.aliyun.com/182.92.29.53] failed\: connect timed out

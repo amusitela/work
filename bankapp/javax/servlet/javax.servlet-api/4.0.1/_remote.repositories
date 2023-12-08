@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Dec 08 15:14:35 CST 2023
+javax.servlet-api-4.0.1.jar>aliyunmaven=
+javax.servlet-api-4.0.1.pom>central=
+javax.servlet-api-4.0.1.pom>aliyunmaven=

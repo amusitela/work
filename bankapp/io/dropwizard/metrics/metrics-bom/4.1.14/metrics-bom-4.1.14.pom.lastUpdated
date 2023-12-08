@@ -1,0 +1,10 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Dec 08 15:44:32 CST 2023
+https\://repo.spring.io/snapshot/.error=
+https\://repo.spring.io/milestone/.error=
+https\://repo.spring.io/milestone/.lastUpdated=1702017576586
+https\://repo.maven.apache.org/maven2/.lastUpdated=1702017579302
+https\://repo.spring.io/snapshot/.lastUpdated=1702017576838
+https\://maven.aliyun.com/repository/public/.lastUpdated=1702021472335
+https\://oss.sonatype.org/content/repositories/snapshots/.lastUpdated=1702017576339
+https\://oss.sonatype.org/content/repositories/snapshots/.error=

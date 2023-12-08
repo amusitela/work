@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Fri Dec 08 15:22:42 CST 2023
+@default-aliyunmaven-https\://maven.aliyun.com/repository/public/.lastUpdated=1702020162043
+https\://maven.aliyun.com/repository/public/.error=Could not transfer artifact org.eclipse.jetty\:jetty-util\:pom\:9.4.46.v20220331 from/to aliyunmaven (https\://maven.aliyun.com/repository/public)\: maven.aliyun.com
