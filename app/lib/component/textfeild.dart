@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MyTextField extends StatefulWidget {
-  const MyTextField({Key? key, required this.showText}) : super(key: key);
+  const MyTextField({Key? key, required this.showText,required this.controller}) : super(key: key);
   final bool showText;
+  final TextEditingController controller;
   @override
   _MyTextFieldState createState() => _MyTextFieldState();
 }
 
 class _MyTextFieldState extends State<MyTextField> {
-  late TextEditingController _controller;
+  
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
+    // _controller = TextEditingController();
   }
 
   void _showErrorDialog(String errorMessage) {
@@ -40,7 +41,7 @@ class _MyTextFieldState extends State<MyTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-        controller: _controller,
+        controller: widget.controller,
         obscureText: !widget.showText,
         decoration: InputDecoration(
           border: const OutlineInputBorder(
@@ -53,7 +54,7 @@ class _MyTextFieldState extends State<MyTextField> {
           if (!RegExp(widget.showText
                   ? r'[0-9]'
                   : r'[0-9a-zA-Z!@#$%^&*(),.?":{}|<>]')
-              .hasMatch(_controller.text)) {
+              .hasMatch(widget.controller.text)) {
             _showErrorDialog('Invalid input. Please check your input.');
           }
         });

@@ -8,7 +8,7 @@ import 'package:app/page/register.dart';
 import 'package:app/page/scanpage.dart';
 import 'package:app/page/tradedetail.dart';
 import 'package:app/route/router.dart';
-//import 'package:app/test/test.dart';
+// import 'package:app/test/test.dart';
 import 'package:app/test/test2.dart';
 import 'package:app/test/test3.dart';
 import 'package:app/theme/mytheme.dart';
@@ -25,35 +25,9 @@ import 'package:flutter/material.dart';
 // }
 void main() {
   runApp(const MaterialApp(
-      // home: const HomePage(imageUrl: "images/1.jpg", userName: 'userName', money: '100.0')
       onGenerateRoute: MyRouter.generateRoute,
       home: IndexPage()
-      // home: InvestmentInfoPage3(),
       ));
 }
 
-// void main() {
-//   runApp(const MaterialApp(
-//       // home: const HomePage(imageUrl: "images/1.jpg", userName: 'userName', money: '100.0')
-//       onGenerateRoute: MyRouter.generateRoute,
-//       home: TradeDetailPage(
-//         money: "11111",
-// <<<<<<< HEAD
-//         cardList: [{
-//         "number":"1234567890",
-//         "money":"123",
-//         'type':"借记卡"
-//         },
-//         {
-//         "number":"1234567890",
-//         "money":"123",
-//         'type':"借记卡"
-//         },{
-//         "number":"1234567890",
-//         "money":"123",
-//         'type':"借记卡"
-//         }],
-// =======
-// >>>>>>> d38cb765bf60d884eab7ff9fbe6e482d5a9aed4a
-//       )));
-// }
+

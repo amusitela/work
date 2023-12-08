@@ -1,6 +1,8 @@
 import 'package:app/page/addCardPage.dart';
+import 'package:app/page/body/EditUserInfoPage.dart';
 import 'package:app/page/body/creditcard.dart';
 import 'package:app/page/forex_page.dart';
+import 'package:app/page/funddetail.dart';
 import 'package:app/page/guidance.dart';
 import 'package:app/page/index.dart';
 import 'package:app/page/login.dart';
@@ -122,12 +124,22 @@ class MyRouter {
         return MaterialPageRoute(
           builder: (context) => AddCardPage(),
         );
+      case '/profile':
+        return MaterialPageRoute(
+          builder: (context) => EditUserInfoPage(),
+        );
       case '/pay/user':
         // 从 settings 中获取参数
         final String userId = settings.arguments as String;
         print('------------------------------$userId-------------');
         return MaterialPageRoute(
             builder: (context) => PaymentPage(userId: userId));
+
+      case '/fund/detail':
+        // 从 settings 中获取参数
+        final String fundId = settings.arguments as String;
+        return MaterialPageRoute(
+            builder: (context) => FundDetail(fundId: fundId));
       default:
         return MaterialPageRoute(
           builder: (context) => const IndexPage(),
