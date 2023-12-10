@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cumt.common.MyResult;
-import com.cumt.common.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,9 +30,9 @@ public class UserInformationController
 
     @PostMapping("/updateUserCard")
     @ResponseBody
-    public AjaxResult updateUserCard(UserInformation userInformation){
+    public MyResult<Integer> updateUserCard(UserInformation userInformation){
 
-        return AjaxResult.success(userInformationService.updateUserCard(userInformation));
+        return MyResult.success(userInformationService.updateUserCard(userInformation));
     }
 
     @GetMapping ("/selectUserCard/{idCard}")
