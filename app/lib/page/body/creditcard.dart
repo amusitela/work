@@ -40,7 +40,7 @@ class _MyCreditCardState extends State<CreditCard> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "+申请信用卡/添加账户",
+                "+申请信用卡",
                 style: TextStyle(
                     color: Colors.blue,
                     fontSize: 15,
@@ -151,7 +151,7 @@ class _MyCreditCardState extends State<CreditCard> {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, '/add/card');
+            Navigator.pushNamed(context, '/apply/card');
           },
           child: addCard,
         )

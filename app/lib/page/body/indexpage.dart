@@ -153,7 +153,7 @@ class _MyFirstPageState extends State<FirstPage> {
           GestureDetector(
             onTap: () {},
             child: Image.asset(
-              'images/postcard.jpg', // 设置图片宽度与屏幕同宽
+              'images/redCard.png', // 设置图片宽度与屏幕同宽
               fit: BoxFit.fitWidth, // BoxFit.fitWidth 会让图片宽度等于给定宽度，高度自适应
             ),
           ),

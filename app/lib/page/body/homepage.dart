@@ -1,9 +1,10 @@
 import 'package:app/component/myButton.dart';
 import 'package:app/component/myicon.dart';
 import 'package:app/theme/colorplatte.dart';
+import 'package:app/theme/constant.dart';
 import 'package:app/theme/textstyle.dart';
 import 'package:flutter/material.dart';
-import 'monthly_budget_page.dart';
+import '../monthly_budget_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage(
@@ -16,38 +17,34 @@ class HomePage extends StatelessWidget {
   final String money;
   @override
   Widget build(BuildContext context) {
-    Widget avatar = Row(
-      // crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const SizedBox(
-          width: 20,
-        ),
-        CircleAvatar(
-          radius: 30,
-          backgroundImage: AssetImage(imageUrl),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        GestureDetector(
-          child: Text(
+    Widget avatar = GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/profile');
+      },
+      child: Row(
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(
+            width: 20,
+          ),
+          CircleAvatar(
+            radius: 30,
+            backgroundImage: AssetImage(imageUrl),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Text(
             userName,
             style: MyTextStyle.large,
             selectionColor: Colors.white,
           ),
-          onTap: () {
-            Navigator.pushNamed(context, '/profile');
-          },
-        ),
-        const Expanded(child: Text(" ")),
-        GestureDetector(
-          child: const Icon(Icons.arrow_forward_ios_rounded),
-          onTap: () {
-            Navigator.pushNamed(context, '/profile');
-          },
-        )
-      ],
+          const Expanded(child: Text(" ")),
+          const Icon(Icons.arrow_forward_ios_rounded),
+        ],
+      ),
     );
+
     Widget buttonSection = Align(
       alignment: Alignment.center,
       child: Container(
@@ -67,8 +64,8 @@ class HomePage extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Colors.white, ColorPlatte.bottomBarColor], // 渐变色数组
-              stops: [0.0, 1.0], // 渐变色的起始和结束位置
+              colors: [Colors.white, ColorPlatte.cardRed], // 渐变色数组
+              stops: [1.0, 1.0], // 渐变色的起始和结束位置
             ),
           ),
           child: Row(
@@ -92,15 +89,13 @@ class HomePage extends StatelessWidget {
                 onTap: () {
                   Navigator.pushNamed(context, "/service");
                 },
-                child: const MyIcon(
-                    text: "在线客服", icon: Icon(Icons.headset)),
+                child: const MyIcon(text: "在线客服", icon: Icon(Icons.headset)),
               ),
               GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, "/article");
                 },
-                child: const MyIcon(
-                    text: "新闻资讯", icon: Icon(Icons.article)),
+                child: const MyIcon(text: "新闻资讯", icon: Icon(Icons.article)),
               ),
             ],
           )),
@@ -115,8 +110,8 @@ class HomePage extends StatelessWidget {
       child: Align(
         alignment: Alignment.center,
         child: Container(
-          width: 350,
-          padding: const EdgeInsets.all(20),
+          width: Constant.cardWidth,
+          padding: const EdgeInsets.only(top: 20, bottom: 20),
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(
               Radius.circular(8),
@@ -129,20 +124,23 @@ class HomePage extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    '本月收支',
+                    '  本月收支',
                     style: MyTextStyle.medium,
                   ),
                   SizedBox(
-                    width: 5,
+                    width: 10,
                   ),
                   Icon(Icons.arrow_forward_ios)
                 ],
+              ),
+              SizedBox(
+                height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '收入',
+                    '  收入:',
                     style: MyTextStyle.medium,
                   ),
                   Text(
@@ -150,7 +148,7 @@ class HomePage extends StatelessWidget {
                     style: MyTextStyle.small,
                   ),
                   Text(
-                    '支出',
+                    '支出:',
                     style: MyTextStyle.medium,
                   ),
                   Text(
@@ -165,46 +163,50 @@ class HomePage extends StatelessWidget {
       ),
     );
 
-    Widget card = Align(
-      alignment: Alignment.center,
-      child: Container(
-        width: 350,
-        height: 100,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(
-            Radius.circular(8),
-          ),
-          image: DecorationImage(
-            image: const AssetImage('images/1.jpg'), // 替换为你的图片路径
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.5), // 设置图片透明度
-              BlendMode.dstATop, // 使用dstATop模式
+    Widget card = GestureDetector(
+      onTap: () {
+        // Navigator.pushNamed(context, "/total/money");
+      },
+      child: Align(
+        alignment: Alignment.center,
+        child: Container(
+          width: 350,
+          height: 100,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(8),
+            ),
+            image: DecorationImage(
+              image: AssetImage('images/logo.png'),
+              // fit: BoxFit.cover,
+              // colorFilter: ColorFilter.mode(
+              //   Colors.black.withOpacity(0.5), // 设置图片透明度
+              //   BlendMode.dstATop, // 使用dstATop模式
+              // ),
             ),
           ),
+          margin: const EdgeInsets.only(top: 20),
+          child: Column(children: [
+            const Row(
+              children: [
+                Text(
+                  '资产  ￥',
+                  style: MyTextStyle.mediumLargeBlack,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              money,
+              style: MyTextStyle.large,
+            )
+          ]),
         ),
-        padding: const EdgeInsets.all(10),
-        child: Column(children: [
-          const Row(
-            children: [
-              Text(
-                '资产',
-                style: MyTextStyle.medium,
-              ),
-              Icon(Icons.arrow_forward_ios),
-              SizedBox(
-                width: 5,
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            money,
-            style: MyTextStyle.large,
-          )
-        ]),
       ),
     );
 
@@ -212,33 +214,23 @@ class HomePage extends StatelessWidget {
       body: ListView(
         children: [
           avatar,
-          const SizedBox(
-            height: 30,
-          ),
-
+          const SizedBox(height: 30),
           buttonSection,
-          const SizedBox(
-            height: 20,
-          ),
-          const Row(
-            children: [
-              SizedBox(
-                width: 20,
-              ),
-              Text(
+          const SizedBox(height: 20),
+          Align(
+            alignment: Alignment.center,
+            child: SizedBox(
+              width: Constant.cardWidth,
+              child: const Text(
                 "我的资产",
                 style: MyTextStyle.mediumLarge,
               ),
-            ],
+            ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           card,
-          const SizedBox(
-            height: 20,
-          ), // 在卡片和新模块之间添加空间
-          incomeExpenditureModule, // 在这里添加收支模块
+          const SizedBox(height: 20),
+          incomeExpenditureModule,
         ],
       ),
     );

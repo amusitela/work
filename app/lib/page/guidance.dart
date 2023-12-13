@@ -27,8 +27,8 @@ class _MyGuidance extends State<Guidance> {
     ));
     Widget textSection1 = Center(
       child: SizedBox(
-        width: 134,
-        height: 86,
+        width: 200,
+        height: 100,
         child: Text(
           widget.text1,
           style: const TextStyle(
@@ -37,13 +37,14 @@ class _MyGuidance extends State<Guidance> {
               letterSpacing: 0.33, // 设置字间距
               fontFamily: "Dosis",
               height: 1),
+          textAlign: TextAlign.center,
         ),
       ),
     );
     Widget textSection2 = Center(
         child: SizedBox(
       width: 270,
-      height: 41,
+      height: 45,
       child: Text(
         widget.text2,
         style: const TextStyle(

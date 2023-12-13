@@ -34,22 +34,19 @@ class _MyIndexState extends State<IndexPage> {
   @override
   Widget build(BuildContext context) {
     // Widget card=Align(alignment: Alignment.center,
-    
+
     // child: ,
     // )
 
-
-
     return Scaffold(
-    
-      
       body: IndexedStack(
         index: currentIndex,
-        children:   [
-        FirstPage(),
-        CreditCard(),
-        Fund(),
-        HomePage(imageUrl: "images/1.jpg", userName: 'userName', money: '100.0')
+        children: const [
+          FirstPage(),
+          CreditCard(),
+          Fund(),
+          HomePage(
+              imageUrl: "images/1.jpg", userName: 'userName', money: '100.0')
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,

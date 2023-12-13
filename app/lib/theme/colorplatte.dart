@@ -6,5 +6,8 @@ class ColorPlatte {
   static const Color primaryColor = Color(0xFF039D71);
   static const Color buttonTextColor = Color(0xFFFFFFFF);
   static const Color bottomBarColor = Color(0xFFE0F1EC);
+  static const Color bgColor = Color.fromARGB(255, 249, 249, 249);
+  static const Color cardRed = Color.fromARGB(255, 219,112,147);
+  static const Color bottomBarColorTextRed = Color.fromARGB(255, 220, 20, 60);
   // static const Color
 }

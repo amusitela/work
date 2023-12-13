@@ -10,6 +10,7 @@ class AppTheme {
   static const Color primaryColor = Color(0xFFE33C64);
   static const Color secondaryColor = Color(0xFF3D1010);
   static const Color textColor = Colors.black;
+  
 
   static const TextTheme textTheme = TextTheme(
     bodySmall: TextStyle(fontSize: fontSizeSmall),

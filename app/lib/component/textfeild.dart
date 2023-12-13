@@ -1,8 +1,11 @@
+import 'package:app/theme/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MyTextField extends StatefulWidget {
-  const MyTextField({Key? key, required this.showText,required this.controller}) : super(key: key);
+  const MyTextField(
+      {Key? key, required this.showText, required this.controller})
+      : super(key: key);
   final bool showText;
   final TextEditingController controller;
   @override
@@ -10,8 +13,6 @@ class MyTextField extends StatefulWidget {
 }
 
 class _MyTextFieldState extends State<MyTextField> {
-  
-
   @override
   void initState() {
     super.initState();
@@ -41,22 +42,22 @@ class _MyTextFieldState extends State<MyTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-        controller: widget.controller,
-        obscureText: !widget.showText,
-        decoration: InputDecoration(
-          border: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          hintText: widget.showText ? "请输入用户名" : "请输入密码",
+      controller: widget.controller,
+      obscureText: !widget.showText,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),
         ),
-        onEditingComplete: () {
-          // 正则校验失败时弹出提示框
-          if (!RegExp(widget.showText
-                  ? r'[0-9]'
-                  : r'[0-9a-zA-Z!@#$%^&*(),.?":{}|<>]')
-              .hasMatch(widget.controller.text)) {
-            _showErrorDialog('Invalid input. Please check your input.');
-          }
-        });
+        hintText: widget.showText ? "请输入用户名" : "请输入密码",
+      ),
+      onEditingComplete: () {
+        // 正则校验失败时弹出提示框
+        if (!RegExp(
+                widget.showText ? r'[0-9]' : r'[0-9a-zA-Z!@#$%^&*(),.?":{}|<>]')
+            .hasMatch(widget.controller.text)) {
+          _showErrorDialog('Invalid input. Please check your input.');
+        }
+      },
+    );
   }
 }

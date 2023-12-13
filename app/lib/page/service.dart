@@ -105,7 +105,8 @@ class _ChatPageState extends State<ChatPage> {
                         if (message.identity == 1) // Left aligned avatar
                           CircleAvatar(
                               backgroundImage: AssetImage(message.avatarUrl)),
-                        if (message.identity == 1) const SizedBox(width: 10),
+                        if (message.identity == 1 && message.type == 'text')
+                          const SizedBox(width: 10),
                         Flexible(
                           // Use Flexible to allow the text to wrap
                           child: message.type == 'text'
@@ -133,7 +134,8 @@ class _ChatPageState extends State<ChatPage> {
                                       width: 150, height: 150),
                                 ),
                         ),
-                        if (message.identity == 2) const SizedBox(width: 10),
+                        if (message.identity == 2 && message.type == 'text')
+                          const SizedBox(width: 10),
                         if (message.identity == 2) // Right aligned avatar
                           CircleAvatar(
                               backgroundImage: AssetImage(message.avatarUrl)),

@@ -1,14 +1,15 @@
 import 'dart:developer';
 
 import 'package:app/page/addCardPage.dart';
-import 'package:app/page/body/EditUserInfoPage.dart';
+import 'package:app/page/EditUserInfoPage.dart';
 import 'package:app/page/body/creditcard.dart';
-import 'package:app/page/body/monthly_budget_page.dart';
+import 'package:app/page/monthly_budget_page.dart';
 import 'package:app/page/forex_page.dart';
 import 'package:app/page/funddetail.dart';
 import 'package:app/page/guidance.dart';
 import 'package:app/page/index.dart';
 import 'package:app/page/login.dart';
+import 'package:app/page/new_card.dart';
 import 'package:app/page/news.dart';
 import 'package:app/page/newslist.dart';
 import 'package:app/page/payment.dart';
@@ -18,6 +19,7 @@ import 'package:app/page/register.dart';
 import 'package:app/page/scanpage.dart';
 import 'package:app/page/service.dart';
 import 'package:app/page/account.dart';
+import 'package:app/page/total_money.dart';
 import 'package:app/page/transfer.dart';
 import 'package:flutter/material.dart';
 
@@ -27,10 +29,9 @@ class MyRouter {
       case '/g':
         return MaterialPageRoute(
           builder: (context) => const Guidance(
-            imagePath: "images/Business_Statistics.png",
-            text1: "第一页",
-            text2:
-                "Your goals will help us to formulate the right recommendations for success",
+            imagePath: "images/g1.png",
+            text1: "设置你的理财目标",
+            text2: "您的目标将帮助我们制定正确的目标成功建议",
             order: 1,
           ),
         );
@@ -39,10 +40,9 @@ class MyRouter {
           transitionDuration: const Duration(milliseconds: 400), // 过渡动画的持续时间
           pageBuilder: (context, animation, secondaryAnimation) =>
               const Guidance(
-            imagePath: "images/Business_Statistics.png",
-            text1: "第二页",
-            text2:
-                "Your goals will help us to formulate the right recommendations for success",
+            imagePath: "images/g2.png",
+            text1: "遵循我们的提示和技巧",
+            text2: "我们帮助用户做出正确的选择财务决策",
             order: 2,
           ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -60,10 +60,9 @@ class MyRouter {
           transitionDuration: const Duration(milliseconds: 400), // 过渡动画的持续时间
           pageBuilder: (context, animation, secondaryAnimation) =>
               const Guidance(
-            imagePath: "images/Business_Statistics.png",
-            text1: "第三页",
-            text2:
-                "Your goals will help us to formulate the right recommendations for success",
+            imagePath: "images/g3.png",
+            text1: "享受金融成功",
+            text2: "您可以跟踪您的进度和特殊部分的成就",
             order: 3,
           ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -124,18 +123,24 @@ class MyRouter {
             builder: (context) => NewsDetailPage(articleId: articleId));
 
       case '/account':
-        return MaterialPageRoute(
-            builder: (context) => TradeDetailPage(
-                ));
+        return MaterialPageRoute(builder: (context) => TradeDetailPage());
       case '/pay/fail':
         return MaterialPageRoute(
           builder: (context) => PaymentResultPage(
             success: false,
           ),
         );
+      case '/total/money':
+        return MaterialPageRoute(
+          builder: (context) => const TotalMoney(),
+        );
       case '/add/card':
         return MaterialPageRoute(
           builder: (context) => AddCardPage(),
+        );
+      case '/apply/card':
+        return MaterialPageRoute(
+          builder: (context) => const NewCard(),
         );
       case '/profile':
         return MaterialPageRoute(

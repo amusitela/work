@@ -74,7 +74,8 @@ class NewsListPage extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/article/detail',arguments:newsItems[index].articleId);
+              Navigator.pushNamed(context, '/article/detail',
+                  arguments: newsItems[index].articleId);
             },
             child: Container(
                 margin: const EdgeInsets.only(
@@ -147,10 +148,18 @@ class NewsListPage extends StatelessWidget {
                     //   fit: BoxFit.cover,
                     // )
                     // NetworkImageSSL(newsItems[index].imageUrl,)
-                    Image(
-                        image: NetworkImageSSL(newsItems[index].imageUrl,
-                            width: 140, height: 80),
-                        fit: BoxFit.fill)
+                    // Image.asset('images/loading.gif', width: 140, height: 80)
+                    FadeInImage(
+                        placeholder: Image.asset('images/loading.gif',
+                                width: 140, height: 80)
+                            .image, // Use a GIF as a placeholder
+                        // image: NetworkImageSSL(newsItems[index].imageUrl,
+                        //     width: 140, height: 80),
+                        image: Image.network(newsItems[index].imageUrl).image,
+                        // image: Image.asset('images/loading.gif').image,
+                        fit: BoxFit.fill,
+                        width: 140,
+                        height: 80)
                   ],
                 )),
           );
