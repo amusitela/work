@@ -1,0 +1,60 @@
+package com.cumt.bankapp.controller;
+
+import com.cumt.bankapp.domain.News;
+import com.cumt.bankapp.service.INewsService;
+import com.cumt.bankapp.tools.getData.GetNew;
+import com.cumt.common.MyResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author 李易蔚
+ * @version 1.0
+ */
+
+@SuppressWarnings({"all"})
+@RestController
+@RequestMapping("/news")
+public class NewsController {
+    @Autowired
+    private INewsService iNewsService;
+
+    @Scheduled(cron = "0 0 * * * ?")
+    public void insertNews(){
+        try {
+            int i1 = iNewsService.deleteAllNews();
+            GetNew getNew = new GetNew();
+            ArrayList<News> allNews = getNew.getAllNews();
+            int i = iNewsService.insertBatchNews(allNews);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @GetMapping("list")
+    public MyResult<List<News>> selectAllNews(){
+        try {
+            return MyResult.success(iNewsService.selectNewsList(new News()),"请求成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MyResult.error("返回失败:"+e.getMessage());
+        }
+    }
+
+    @GetMapping("/detail")
+    public MyResult<News> seleNewsById(String id){
+        try {
+            iNewsService.updateWatch(id);
+            return MyResult.success(iNewsService.selectNewsById(id),"请求成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MyResult.error("返回失败:"+e.getMessage());
+        }
+    }
+}

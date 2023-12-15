@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.*;
 
 ;
 
@@ -41,38 +43,63 @@ public class LoginController {
     @PostMapping("/login")
     public MyResult<String> generateJwt(@RequestBody UserInformation userInformation,String code) {
         String phone = null;
-        try {
-            phone = userInformation.getPhone();
-            if (phone==null){phone = userInformation.getIdCard();}
-        } catch (Exception e) {
-            e.printStackTrace();
+        phone = userInformation.getPhone();
+        if (phone==null){
+            phone = userInformation.getIdCard();
+        }
+
+        if(userInformationService.selectUserInformationName(phone)==null) {
             return MyResult.error("用户名不存在");
         }
+
+
         if(!validateCaptcha(phone,code)){
             return MyResult.error("验证码错误");
-        }else {
-
         }
+
 
         String pwd=userInformation.getPswd();
         if (!LetterDigit.isLetterDigit(pwd)){
             return MyResult.error("密码格式错误");
         }
+
+
         if(pwd.equals(userInformationService.loginCheck(phone))){
             String secretKey = jwtProperties.getAdminSecretKey(); // 替换为实际的密钥
             long ttlMillis = jwtProperties.getAdminTtl(); // 过期时间，这里设置为1小时
             // 创建Claims
             Map<String, Object> claims = new HashMap<>();
-            String id=userInformationService.getId(phone);
-            claims.put("id", id);
+            claims.put("id", phone);
             String jwt= JwtUtil.createJWT(secretKey, ttlMillis, claims);
-            return MyResult.success(jwt);
+            return MyResult.success(jwt,"登陆成功");
         }
         else{
             return MyResult.error("密码错误");
         }
     }
 
+    @PostMapping("/registry")
+    public MyResult<String> registryUser(@RequestBody UserInformation userInformation,String code){
+        String phone = userInformation.getPhone();
+        if(!validateCaptcha(phone,code)){
+            return MyResult.error("验证码错误");
+        }else {
+
+            if (userInformationService.selectUserInformationName(phone)!=null){
+                return MyResult.error("账号已注册");
+            }
+
+            String pwd=userInformation.getPswd();
+
+            if (!LetterDigit.isLetterDigit(pwd)){
+                return MyResult.error("密码格式错误");
+            }
+
+            userInformationService.insertUserInformation(userInformation);
+
+            return MyResult.successMsg("注册成功");
+        }
+    }
 
     @GetMapping("/captcha")
     public void getCaptcha(HttpServletResponse response,String key) throws Exception {
@@ -87,9 +114,13 @@ public class LoginController {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ImageIO.write(image, "jpg", outputStream);
         response.getOutputStream().write(outputStream.toByteArray());
+//        Base64.getEncoder().encodeToString(outputStream.toByteArray());
+        response.getOutputStream().flush();
+        response.getOutputStream().close();
     }
 
     public boolean validateCaptcha(String key, String captcha) {
         return captchaService.validateCaptcha(key, captcha);
     }
 }
+

@@ -37,6 +37,8 @@ public class UserInformation implements Serializable
     /**  */
     private String card;
 
+    private String payPswd;
+
     public void setNm(String nm) 
     {
         this.nm = nm;
@@ -92,6 +94,14 @@ public class UserInformation implements Serializable
         return card;
     }
 
+    public String getPayPswd() {
+        return payPswd;
+    }
+
+    public void setPayPswd(String payPswd) {
+        this.payPswd = payPswd;
+    }
+
     @Override
     public String toString() {
         return "UserInformation{" +
@@ -101,6 +111,7 @@ public class UserInformation implements Serializable
                 ", phone='" + phone + '\'' +
                 ", createdAt=" + createdAt +
                 ", card='" + card + '\'' +
+                ", payPswd='" + payPswd + '\'' +
                 '}';
     }
 }

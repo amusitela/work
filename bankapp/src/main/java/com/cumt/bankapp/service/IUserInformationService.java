@@ -30,6 +30,22 @@ public interface IUserInformationService
     public List<UserInformation> selectUserInformationList(UserInformation userInformation);
 
     /**
+     * 查询user_information
+     *
+     * @param id
+     * @return user_information
+     */
+    public String selectUserInformationName(String id);
+
+    /**
+     * 查询user_information
+     *
+     * @param userInformation
+     * @return user_information
+     */
+    public UserInformation selectUserInformation(UserInformation userInformation);
+
+    /**
      * 新增user_information
      * 
      * @param userInformation user_information
@@ -67,7 +83,7 @@ public interface IUserInformationService
      * @param userInformation
      * @return 结果
      */
-    public int updateUserCard(UserInformation userInformation);
+    public int updateUserCard(UserInformation userInformation,int status);
 
     /**
      * 查询用户银行卡信息

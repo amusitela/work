@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LetterDigit {
-    public static boolean isLetterDigit1(String str) {
+    public static boolean isLetterDigit(String str) {
         boolean isDigit = false;//定义一个boolean值，用来表示是否包含数字
         boolean isLetter = false;//定义一个boolean值，用来表示是否包含字母
         boolean isSpecial = false;//定义一个boolean值，用来表示是否包含特殊字符
@@ -36,7 +36,7 @@ public class LetterDigit {
     //特殊符号(~!@#$%^&*()_+|<>,.?/:;'[]{}\)
     public static final String REG_SYMBOL = ".*[~!@#$%^&*()_+|<>,.?/:;'\\[\\]{}\"]+.*";
 
-    public static boolean isLetterDigit(String password) {
+    public static boolean isLetterDigit1(String password) {
         //数字
 
         //密码为空及长度8-12位判断

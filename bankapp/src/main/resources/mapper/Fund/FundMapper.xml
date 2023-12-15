@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cumt.bankapp.mapper.FundMapper">
+
+    <resultMap type="Fund" id="FundResult">
+        <result property="dayIncomeRatio"  column="dayIncomeRatio"/>
+        <result property="product_name"  column="product_name"     />
+        <result property="fundTypeName"  column="fundTypeName"     />
+        <result property="productRiskLevel"  column="productRiskLevel"     />
+        <result property="accumulativeNav"  column="accumulativeNav"    />
+        <result property="productId"  column="productId"    />
+
+    </resultMap>
+
+    <sql id="selectNewsVo">
+        select  productId,product_name,fundTypeName,productRiskLevel,accumulativeNav,dayIncomeRatio from fund
+    </sql>
+
+    <select id="selectFundList" parameterType="Fund" resultMap="FundResult">
+        <include refid="selectNewsVo"/>
+    </select>
+
+        <select id="selectFundById" parameterType="String" resultMap="FundResult">
+            <include refid="selectNewsVo"/>
+            where productId = #{productId}
+        </select>
+
+
+    <insert id="insertBatchFunds" parameterType="java.util.List">
+        insert into fund
+        (productId,product_name,fundTypeName,productRiskLevel,accumulativeNav,dayIncomeRatio)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.productId},
+            #{item.product_name},
+            #{item.fundTypeName},
+            #{item.productRiskLevel},
+            #{item.accumulativeNav},
+            #{item.dayIncomeRatio}
+            )
+        </foreach>
+    </insert>
+
+
+
+    <delete id="deleteAllFund" >
+        delete from fund
+    </delete>
+
+
+
+</mapper>

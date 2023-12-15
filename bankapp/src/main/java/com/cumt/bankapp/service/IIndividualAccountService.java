@@ -28,6 +28,14 @@ public interface IIndividualAccountService
     public List<IndividualAccount> selectIndividualAccountList(IndividualAccount individualAccount);
 
     /**
+     * 查询individual_account
+     *
+     * @param individualAccount individual_account
+     * @return individual_account
+     */
+    public IndividualAccount selectIndividualAccount(IndividualAccount individualAccount);
+
+    /**
      * 新增individual_account
      * 
      * @param individualAccount individual_account
@@ -58,4 +66,11 @@ public interface IIndividualAccountService
      * @return 结果
      */
     public int deleteIndividualAccountByAccountId(String accountId);
+    /**
+     * 执行转账操作
+     *
+     * @param fromAccountId toAccountId amount
+     * @return 结果
+     */
+    public String transfer(String fromAccountId, String toAccountId, Double amount);
 }

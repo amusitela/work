@@ -22,25 +22,40 @@ import com.cumt.bankapp.service.IUserInformationService;
 @RequestMapping("/user_information")
 public class UserInformationController
 {
-    private String prefix = "user_information";
 
     @Autowired
     private IUserInformationService userInformationService;
 
+//    /**
+//     * 更新卡号
+//     *
+//     * */
+//    @PostMapping("/updateUserCard")
+//    @ResponseBody
+//    public MyResult updateUserCard(UserInformation userInformation){
+//        try {
+//            userInformationService.updateUserCard(userInformation);
+//            return MyResult.successMsg("更新成功");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return MyResult.error("更新失败");
+//        }
+//
+//    }
 
-    @PostMapping("/updateUserCard")
-    @ResponseBody
-    public MyResult<Integer> updateUserCard(UserInformation userInformation){
-
-        return MyResult.success(userInformationService.updateUserCard(userInformation));
+    /**
+     * 查找使用者的卡列表
+     *
+     * */
+    @PostMapping ("/selectUserCard")
+    public MyResult<String> showUserCard(@RequestParam("idCard") String idCard){
+        return  MyResult.success(userInformationService.displayCard(idCard).toString());
     }
 
-    @GetMapping ("/selectUserCard/{idCard}")
-    public String showUserCard(@PathVariable("idCard") String idCard){
-        System.out.println(userInformationService.displayCard(idCard).toString());
-        return userInformationService.displayCard(idCard).toString();
-    }
-
+    /**
+     * 查找所有数据库信息
+     *
+     * */
     @GetMapping("sele")
     public MyResult<List<UserInformation>> seletAll(){
         List<UserInformation> userInformations = new ArrayList<UserInformation>();
@@ -49,10 +64,14 @@ public class UserInformationController
         return MyResult.success(userInformations);
     }
 
-    @GetMapping("/loginCheck/{id}")
-    public MyResult<String> LoginCheck(@PathVariable(value = "id") String id){
-        return MyResult.success(userInformationService.loginCheck(id));
-    }
+//    /**
+//     * 验证密码
+//     *
+//     * */
+//    @PostMapping("/loginCheck")
+//    public MyResult<String> LoginCheck(@RequestBody  String id){
+//        return MyResult.success(userInformationService.loginCheck(id));
+//    }
 
 
 

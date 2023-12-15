@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cumt.bankapp.mapper.IndividualAccountMapper;
 import com.cumt.bankapp.domain.IndividualAccount;
 import com.cumt.bankapp.service.IIndividualAccountService;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -46,6 +46,17 @@ public class IndividualAccountServiceImpl implements IIndividualAccountService
     public List<IndividualAccount> selectIndividualAccountList(IndividualAccount individualAccount)
     {
         return individualAccountMapper.selectIndividualAccountList(individualAccount);
+    }
+
+    /**
+     * 查询individual_account
+     *
+     * @param individualAccount individual_account
+     * @return individual_account
+     */
+    @Override
+    public IndividualAccount selectIndividualAccount(IndividualAccount individualAccount) {
+        return individualAccountMapper.selectIndividualAccount(individualAccount);
     }
 
     /**
@@ -94,5 +105,35 @@ public class IndividualAccountServiceImpl implements IIndividualAccountService
     public int deleteIndividualAccountByAccountId(String accountId)
     {
         return individualAccountMapper.deleteIndividualAccountByAccountId(accountId);
+    }
+
+    /**
+     * 执行转账操作
+     *
+     * @param fromAccountId toAccountId amount
+     * @return 结果
+     */
+    @Override
+    @Transactional
+    public String transfer(String fromAccountId, String toAccountId, Double amount) {
+
+        IndividualAccount IAUser = individualAccountMapper.selectIndividualAccountByAccountId(fromAccountId);
+        try {
+            IndividualAccount IAToUser = individualAccountMapper.selectIndividualAccountByAccountId(toAccountId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "转账用户不存在";
+        }
+        if(IAUser.getBalance().doubleValue()<amount){
+            return "余额不足";
+        }
+        try {
+            individualAccountMapper.withdraw(fromAccountId,amount);
+            individualAccountMapper.deposit(toAccountId,amount);
+            return "转账成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "转账失败:"+e.getMessage();
+        }
     }
 }

@@ -38,9 +38,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectPublicAccountByAccountId" parameterType="String" resultMap="PublicAccountResult">
         <include refid="selectPublicAccountVo"/>
+        <where>
+            <if test="accountName != null  and accountName != ''"> and account_name like concat('%', #{accountName}, '%')</if>
+            <if test="accountType != null  and accountType != ''"> and account_type = #{accountType}</if>
+            <if test="balance != null "> and balance = #{balance}</if>
+            <if test="openDate != null "> and open_date = #{openDate}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="phoneNumber != null  and phoneNumber != ''"> and phone_number = #{phoneNumber}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="isActive != null "> and is_active = #{isActive}</if>
+            <if test="lastUpdatedAt != null "> and last_updated_at = #{lastUpdatedAt}</if>
+        </where>
+    </select>
+    <select id="selectPublicAccount" parameterType="PublicAccount" resultMap="PublicAccountResult">
+        <include refid="selectPublicAccountVo"/>
         where account_id = #{accountId}
     </select>
-        
+
     <insert id="insertPublicAccount" parameterType="PublicAccount">
         insert into public_account
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -60,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="accountName != null">#{accountName},</if>
             <if test="accountType != null">#{accountType},</if>
             <if test="balance != null">#{balance},</if>
-            <if test="openDate != null">#{openDate},</if>
+            <if test="openDate != null">CURRENT_DATE(),</if>
             <if test="address != null">#{address},</if>
             <if test="phoneNumber != null">#{phoneNumber},</if>
             <if test="email != null">#{email},</if>

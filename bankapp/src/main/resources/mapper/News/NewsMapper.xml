@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cumt.bankapp.mapper.NewsMapper">
+
+    <resultMap type="News" id="NewsResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="image"    column="image"    />
+        <result property="author"    column="author"    />
+        <result property="watch"    column="watch"    />
+
+    </resultMap>
+
+    <sql id="selectNewsVo">
+        select id , title , content , iamge , author , watch from news
+    </sql>
+    <update id="updateWatch" parameterType="String">
+        update news set watch = watch + 1 where id =#{id}
+    </update>
+
+    <select id="selectNewsList" parameterType="News" resultMap="NewsResult">
+        <include refid="selectNewsVo"/>
+        <where>
+            <if test="id != null">and id = '#{id}' </if>
+            <if test="title != null">and title = '#{title}'</if>
+            <if test="content != null">and content = '#{content}'</if>
+            <if test="image != null">and image = '#{image}'</if>
+            <if test="author != null">and author = '#{author}'</if>
+            <if test="watch != null">and author = '#{watch}'</if>
+        </where>
+    </select>
+
+    <select id="selectNewsById" parameterType="String" resultMap="NewsResult">
+        <include refid="selectNewsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertNews" parameterType="News">
+        insert into news
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">id,</if>
+        <if test="title != null">title,</if>
+        <if test="content != null">content,</if>
+        <if test="image != null">image,</if>
+        <if test="author != null">author,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">'${id}',</if>
+            <if test="title != null">'${title}',</if>
+            <if test="content != null">'${content}',</if>
+            <if test="image != null">'${image}',</if>
+            <if test="author != null">'${author}',</if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatchNews" parameterType="java.util.List">
+        insert into news
+        (id, title, content, image, author)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},
+            #{item.title},
+            #{item.content},
+            #{item.image},
+            #{item.author}
+            )
+        </foreach>
+    </insert>
+
+
+
+
+    <delete id="deleteAllNews" >
+        delete from news
+    </delete>
+
+
+
+</mapper>

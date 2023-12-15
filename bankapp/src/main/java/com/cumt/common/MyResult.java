@@ -21,11 +21,17 @@ public class MyResult<T> implements Serializable {
         result.code = 1;
         return result;
     }
-
     public static <T> MyResult<T> success(T object) {
         MyResult<T> result = new MyResult<T>();
         result.data = object;
         result.code = 200;
+        return result;
+    }
+    public static <T> MyResult<T> success(T object,String msg) {
+        MyResult<T> result = new MyResult<T>();
+        result.data = object;
+        result.code = 200;
+        result.msg=msg;
         return result;
     }
 
@@ -35,5 +41,13 @@ public class MyResult<T> implements Serializable {
         result.code = 0;
         return result;
     }
+
+    public static <T> MyResult<T> successMsg(String msg) {
+        MyResult result = new MyResult();
+        result.msg = msg;
+        result.code = 200;
+        return result;
+    }
+
 
 }

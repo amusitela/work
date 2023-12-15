@@ -30,6 +30,14 @@ public interface PublicAccountMapper
     public List<PublicAccount> selectPublicAccountList(PublicAccount publicAccount);
 
     /**
+     * 查询public_account
+     *
+     * @param publicAccount public_account
+     * @return public_account
+     */
+    public PublicAccount selectPublicAccount(PublicAccount publicAccount);
+
+    /**
      * 新增public_account
      * 
      * @param publicAccount public_account

@@ -46,6 +46,11 @@ public class PublicAccountServiceImpl implements IPublicAccountService
         return publicAccountMapper.selectPublicAccountList(publicAccount);
     }
 
+    @Override
+    public PublicAccount selectPublicAccount(PublicAccount publicAccount) {
+        return publicAccountMapper.selectPublicAccount(publicAccount);
+    }
+
     /**
      * 新增public_account
      * 

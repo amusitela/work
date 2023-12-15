@@ -2,12 +2,14 @@ package com.cumt.bankapp.service.impl;
 
 import java.util.List;
 
+import com.cumt.bankapp.mapper.IndividualAccountMapper;
 import com.cumt.common.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cumt.bankapp.mapper.TransferMoneyMapper;
 import com.cumt.bankapp.domain.TransferMoney;
 import com.cumt.bankapp.service.ITransferMoneyService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * transfer_moneyService业务层处理
@@ -16,7 +18,7 @@ import com.cumt.bankapp.service.ITransferMoneyService;
  * @date 2023-11-10
  */
 @Service
-public class TransferMoneyServiceImpl implements ITransferMoneyService 
+public class TransferMoneyServiceImpl implements ITransferMoneyService
 {
     @Autowired
     private TransferMoneyMapper transferMoneyMapper;

@@ -1,11 +1,19 @@
 package com.cumt.bankapp.controller;
 
+import com.cumt.bankapp.domain.UserInformation;
+import com.cumt.bankapp.service.IUserInformationService;
+import com.cumt.common.MyResult;
+import lombok.extern.java.Log;
+import net.dreamlu.mica.core.result.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import com.cumt.bankapp.domain.IndividualAccount;
 import com.cumt.bankapp.service.IIndividualAccountService;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 
 /**
@@ -15,102 +23,116 @@ import com.cumt.bankapp.service.IIndividualAccountService;
  * @date 2023-11-10
  */
 @RestController
-@RequestMapping("/individual_account/Iaccount")
+@RequestMapping("/account")
 public class IndividualAccountController
 {
-    private String prefix = "individual_account/Iaccount";
 
     @Autowired
     private IIndividualAccountService individualAccountService;
 
+    @Autowired
+    private IUserInformationService uis;
 
-    @GetMapping()
-    public String Iaccount()
-    {
-        return prefix + "/Iaccount";
-    }
 
     /**
      * 查询individual_account列表
      */
 
-//    @PostMapping("/list")
-//    @ResponseBody
-//    public TableDataInfo list(IndividualAccount individualAccount)
-//    {
-//        startPage();
-//        List<IndividualAccount> list = individualAccountService.selectIndividualAccountList(individualAccount);
-//        return getDataTable(list);
-//    }
-
-    /**
-     * 导出individual_account列表
-     */
-
-//    @Log(title = "individual_account", businessType = BusinessType.EXPORT)
-//    @PostMapping("/export")
-//    @ResponseBody
-//    public AjaxResult export(IndividualAccount individualAccount)
-//    {
-//        List<IndividualAccount> list = individualAccountService.selectIndividualAccountList(individualAccount);
-//        ExcelUtil<IndividualAccount> util = new ExcelUtil<IndividualAccount>(IndividualAccount.class);
-//        return util.exportExcel(list, "individual_account数据");
-//    }
-
-    /**
-     * 新增individual_account
-     */
-    @GetMapping("/add")
-    public String add()
+    @PostMapping("/list")
+    @ResponseBody
+    public MyResult<List<IndividualAccount>> list(IndividualAccount individualAccount)
     {
-        return prefix + "/add";
+        List<IndividualAccount> list = individualAccountService.selectIndividualAccountList(individualAccount);
+        return MyResult.success(list);
     }
+
+    /**
+     * 导出individual_account总金额
+     */
+
+    @PostMapping("/money")
+    @ResponseBody
+    public MyResult<BigDecimal> getMoneyTotal(@RequestBody IndividualAccount individualAccount)
+    {
+        List<IndividualAccount> list = individualAccountService.selectIndividualAccountList(individualAccount);
+        BigDecimal ans = new BigDecimal(0.00);
+        for (IndividualAccount i: list
+             ) {
+            ans =ans.add(i.getBalance());
+        }
+        return MyResult.success(ans);
+    }
+
+    @PostMapping("/card")
+    @ResponseBody
+    public MyResult<IndividualAccount> getCardInformation(@RequestBody IndividualAccount individualAccount)
+    {
+        IndividualAccount list = individualAccountService.selectIndividualAccount(individualAccount);
+
+        return MyResult.success(list);
+    }
+
 
     /**
      * 新增保存individual_account
      */
 
-//    @Log(title = "individual_account", businessType = BusinessType.INSERT)
-//    @PostMapping("/add")
-//    @ResponseBody
-//    public AjaxResult addSave(IndividualAccount individualAccount)
-//    {
-//        return toAjax(individualAccountService.insertIndividualAccount(individualAccount));
-//    }
-
-    /**
-     * 修改individual_account
-     */
-
-    @GetMapping("/edit/{accountId}")
-    public String edit(@PathVariable("accountId") String accountId, ModelMap mmap)
+    @PostMapping("/add")
+    @ResponseBody
+    public MyResult addSave(@RequestBody IndividualAccount individualAccount)
     {
-        IndividualAccount individualAccount = individualAccountService.selectIndividualAccountByAccountId(accountId);
-        mmap.put("individualAccount", individualAccount);
-        return prefix + "/edit";
+        individualAccountService.insertIndividualAccount(individualAccount);
+        UserInformation userInformation = new UserInformation();
+        userInformation.setIdCard(individualAccount.getIdHolder());
+        userInformation.setCard(individualAccount.getAccountId());
+        userInformation.setPhone(individualAccount.getPhoneNumber());
+        uis.updateUserCard(userInformation,1);
+        return MyResult.successMsg("添加银行卡成功");
     }
+
+//    /**
+//     * 修改individual_account
+//     */
+//
+//    @GetMapping("/edit/{accountId}")
+//    public String edit(@PathVariable("accountId") String accountId, ModelMap mmap)
+//    {
+//        IndividualAccount individualAccount = individualAccountService.selectIndividualAccountByAccountId(accountId);
+//        mmap.put("individualAccount", individualAccount);
+//        return "/edit";
+//    }
 
     /**
      * 修改保存individual_account
      */
+    @PostMapping("/edit")
+    @ResponseBody
+    public MyResult editSave(@RequestBody IndividualAccount individualAccount)
+    {
+        try {
+            individualAccountService.updateIndividualAccount(individualAccount);
+            return MyResult.successMsg("修改成功");
+        } catch (Exception e) {
+            return MyResult.error("修改失败"+e.getMessage());
+        }
 
-//    @Log(title = "individual_account", businessType = BusinessType.UPDATE)
-//    @PostMapping("/edit")
-//    @ResponseBody
-//    public AjaxResult editSave(IndividualAccount individualAccount)
-//    {
-//        return toAjax(individualAccountService.updateIndividualAccount(individualAccount));
-//    }
-//
-//    /**
-//     * 删除individual_account
-//     */
-//
-//    @Log(title = "individual_account", businessType = BusinessType.DELETE)
-//    @PostMapping( "/remove")
-//    @ResponseBody
-//    public AjaxResult remove(String ids)
-//    {
-//        return toAjax(individualAccountService.deleteIndividualAccountByAccountIds(ids));
-//    }
+    }
+
+    /**
+     * 删除individual_account
+     */
+
+    @PostMapping( "/remove")
+    @ResponseBody
+    public MyResult remove(@RequestBody UserInformation userInformation)
+    {
+        try {
+            individualAccountService.deleteIndividualAccountByAccountIds(userInformation.getCard());
+            uis.updateUserCard(userInformation,0);
+            return MyResult.successMsg("删除成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MyResult.error("删除失败"+e.getMessage());
+        }
+    }
 }

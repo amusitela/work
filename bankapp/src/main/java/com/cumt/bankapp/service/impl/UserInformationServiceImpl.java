@@ -1,6 +1,7 @@
 package com.cumt.bankapp.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.cumt.bankapp.domain.IndividualAccount;
@@ -26,6 +27,7 @@ public class UserInformationServiceImpl implements IUserInformationService
     @Autowired
     private UserInformationMapper userInformationMapper;
 
+    @Autowired
     private IndividualAccountMapper iam;
 
     /**
@@ -50,6 +52,28 @@ public class UserInformationServiceImpl implements IUserInformationService
     public List<UserInformation> selectUserInformationList(UserInformation userInformation)
     {
         return userInformationMapper.selectUserInformationList(userInformation);
+    }
+
+    /**
+     * 查询user_information
+     *
+     * @param id
+     * @return user_information
+     */
+    @Override
+    public String selectUserInformationName(String id) {
+        return userInformationMapper.selectUserInformationName(id);
+    }
+
+    /**
+     * 查询user_information
+     *
+     * @param userInformation
+     * @return user_information
+     */
+    @Override
+    public UserInformation selectUserInformation(UserInformation userInformation) {
+        return userInformationMapper.selectUserInformation(userInformation);
     }
 
     /**
@@ -101,15 +125,23 @@ public class UserInformationServiceImpl implements IUserInformationService
     }
 
     @Override
-    public int updateUserCard(UserInformation userInformation) {
-
+    public int updateUserCard(UserInformation userInformation, int status) {
+        String s = null;
         UserInformation userInformation1 = userInformationMapper.selectUserInformationByIdCard(userInformation.getIdCard());
-
-        String s = "2";
-        if (userInformation1.getCard() != null){
-            s = userInformation1.getCard() + "," + userInformation.getCard();
+        if(status==1) {
+            if (userInformation1.getCard() != null) {
+                s = userInformation1.getCard() + "," + userInformation.getCard();
+            } else {
+                s = userInformation.getCard();
+            }
         }else{
             s=userInformation.getCard();
+            String[] split = s.split(",");
+            for (String i:split
+                 ) {
+                i=i+",";
+                s=s.replace(i,"");
+            }
         }
 
         userInformation.setCard(s);

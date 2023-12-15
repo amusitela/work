@@ -19,23 +19,12 @@ import com.cumt.bankapp.service.IFlowService;
 @RequestMapping("/flow/flow")
 public class FlowController
 {
-    private String prefix = "flow/flow";
+
 
     @Autowired
     private IFlowService flowService;
 
-    @GetMapping()
-    public String flow()
-    {
-        return prefix + "/flow";
-    }
 
-
-    @GetMapping("/hel")
-    public String hello(){
-        System.out.println("helo");
-        return "helloworld";
-    }
 
 //    /**
 //     * 查询flow列表
@@ -93,7 +82,7 @@ public class FlowController
     {
         Flow flow = flowService.selectFlowByTransactionId(transactionId);
         mmap.put("flow", flow);
-        return prefix + "/edit";
+        return  "/edit";
     }
 
     /**

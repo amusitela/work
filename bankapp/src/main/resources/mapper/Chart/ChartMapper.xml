@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cumt.bankapp.mapper.ChartMapper">
+    <resultMap type="Chart" id="ChartResult">
+        <result property="id"   column="id"/>
+        <result property="dwfeRateLJ"   column="dwfeRateLJ"   />
+        <result property="dyejiLjSYL"  column="dyejiLjSYL"    />
+        <result property="ratioLJ"   column="ratioLJ"   />
+        <result property="ratingSimilarAve"   column="ratingSimilarAve"    />
+
+    </resultMap>
+
+    <sql id="selectNewsVo">
+        select id , dwfeRateLJ , dyejiLjSYL , ratioLJ , ratingSimilarAve from chart
+    </sql>
+
+    <select id="selectNewsById" parameterType="String" resultMap="ChartResult">
+        <include refid="selectNewsVo"/>
+        where id = #{id}
+    </select>
+
+
+
+
+
+</mapper>

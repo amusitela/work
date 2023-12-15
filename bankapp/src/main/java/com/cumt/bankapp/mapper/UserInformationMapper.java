@@ -30,6 +30,22 @@ public interface UserInformationMapper
     public List<UserInformation> selectUserInformationList(UserInformation userInformation);
 
     /**
+     * 查询user_information姓名
+     *
+     * @param id
+     * @return user_information集合
+     */
+    public String selectUserInformationName(String id);
+
+    /**
+     * 精确查询user_information
+     *
+     * @param userInformation
+     * @return user_information集合
+     */
+    public UserInformation selectUserInformation(UserInformation userInformation);
+
+    /**
      * 新增user_information
      * 
      * @param userInformation user_information
@@ -69,7 +85,13 @@ public interface UserInformationMapper
     public String selectUserInformationPSWDById(String id);
 
     /**
-     * 验证用户密码是否正确
+     * 获取用户支付密码
+     * @param id
+     *   @return pswd
+     * */
+    public String selectUserInformationPayPswdById(String id);
+    /**
+     * 获取银行卡号
      * @param phone
      *   @return card id
      * */

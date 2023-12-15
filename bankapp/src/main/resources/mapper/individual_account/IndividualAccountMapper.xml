@@ -40,7 +40,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectIndividualAccountVo"/>
         where account_id = #{accountId}
     </select>
-        
+
+
+    <select id="selectIndividualAccount" parameterType="IndividualAccount" resultMap="IndividualAccountResult">
+        <include refid="selectIndividualAccountVo"/>
+        <where>
+            <if test="idHolder != null  and idHolder != ''"> and id_holder = #{idHolder}</if>
+            <if test="accountType != null  and accountType != ''"> and account_type = #{accountType}</if>
+            <if test="balance != null "> and balance = #{balance}</if>
+            <if test="openDate != null "> and open_date = #{openDate}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="phoneNumber != null  and phoneNumber != ''"> and phone_number = #{phoneNumber}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="isActive != null "> and is_active = #{isActive}</if>
+            <if test="lastUpdatedAt != null "> and last_updated_at = #{lastUpdatedAt}</if>
+        </where>
+    </select>
+
     <insert id="insertIndividualAccount" parameterType="IndividualAccount">
         insert into individual_account
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -60,7 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="idHolder != null">#{idHolder},</if>
             <if test="accountType != null">#{accountType},</if>
             <if test="balance != null">#{balance},</if>
-            <if test="openDate != null">#{openDate},</if>
+            <if test="openDate != null">CURRENT_DATE(),</if>
             <if test="address != null">#{address},</if>
             <if test="phoneNumber != null">#{phoneNumber},</if>
             <if test="email != null">#{email},</if>
@@ -83,6 +99,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="lastUpdatedAt != null">last_updated_at = #{lastUpdatedAt},</if>
         </trim>
         where account_id = #{accountId}
+    </update>
+
+    <update id="withdraw">
+        UPDATE individual_account
+        SET balance = balance - #{amount}
+        WHERE account_id = #{accountId} AND balance >= #{amount}
+    </update>
+
+    <update id="deposit" >
+        UPDATE individual_account
+        SET balance = balance + #{amount}
+        WHERE account_id = #{accountId}
     </update>
 
     <delete id="deleteIndividualAccountByAccountId" parameterType="String">

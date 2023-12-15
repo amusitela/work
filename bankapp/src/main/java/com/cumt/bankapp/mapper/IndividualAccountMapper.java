@@ -2,6 +2,7 @@ package com.cumt.bankapp.mapper;
 
 import java.util.List;
 import com.cumt.bankapp.domain.IndividualAccount;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -28,6 +29,14 @@ public interface IndividualAccountMapper
      * @return individual_account集合
      */
     public List<IndividualAccount> selectIndividualAccountList(IndividualAccount individualAccount);
+
+    /**
+     * 查询individual_account
+     *
+     * @param individualAccount individual_account
+     * @return individual_account
+     */
+    public IndividualAccount selectIndividualAccount(IndividualAccount individualAccount);
 
     /**
      * 新增individual_account
@@ -60,4 +69,17 @@ public interface IndividualAccountMapper
      * @return 结果
      */
     public int deleteIndividualAccountByAccountIds(String[] accountIds);
+
+
+    /**
+     * 转账操作
+     * @param accountId amount
+     * */
+    public void withdraw(@Param("accountId") String accountId, @Param("amount") Double amount);
+
+    /**
+     * 转账操作
+     * @param accountId amount
+     * */
+    public void deposit(@Param("accountId") String accountId, @Param("amount") Double amount);
 }

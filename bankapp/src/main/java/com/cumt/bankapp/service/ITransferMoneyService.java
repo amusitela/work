@@ -2,6 +2,7 @@ package com.cumt.bankapp.service;
 
 import java.util.List;
 import com.cumt.bankapp.domain.TransferMoney;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * transfer_moneyService接口
@@ -58,4 +59,6 @@ public interface ITransferMoneyService
      * @return 结果
      */
     public int deleteTransferMoneyByTransferId(String transferId);
+
+
 }
