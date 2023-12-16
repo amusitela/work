@@ -13,7 +13,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _MyRegisterPage extends State<RegisterPage> {
-
   late TextEditingController _phoneController;
   late TextEditingController _passwordController;
   late TextEditingController _yzmController;
@@ -24,6 +23,7 @@ class _MyRegisterPage extends State<RegisterPage> {
     _passwordController = TextEditingController();
     _yzmController = TextEditingController();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,23 +33,53 @@ class _MyRegisterPage extends State<RegisterPage> {
           const SizedBox(
             height: 20,
           ),
-          const PictureWidget(imagePath: "images/1.jpg"),
+          const Align(
+            alignment: Alignment.centerLeft,
+            child: PictureWidget(imagePath: "images/registry.png"),
+          ),
+          // Image.asset("images/registry.png"),
           const SizedBox(
             height: 10,
           ),
           const MyText1(text: "注册"),
-          const MyText2(
-              text:
-                  "Sign In with your data  that you entered during your registration."),
+          const MyText2(text: "向我们提供您的一些信息"),
           const SizedBox(
-            height: 50,
+            height: 30,
           ),
           const MyText2(text: "手机号"),
-           MyTextField(showText: true,controller: _phoneController,),
+          MyTextField(
+            showText: true,
+            controller: _phoneController,
+          ),
           const MyText2(text: "密码"),
-           MyTextField(showText: false,controller: _passwordController,),
+          MyTextField(
+            showText: false,
+            controller: _passwordController,
+          ),
           const MyText2(text: "验证码"),
-           MyTextField(showText: true,controller: _yzmController,),
+          MyTextField(
+            showText: true,
+            controller: _yzmController,
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, "/login");
+            },
+            child: const Text(
+              "去登录",
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500, // 设置字体加粗
+                  letterSpacing: 0.15, // 设置字间距
+                  fontFamily: "Dosis",
+                  height: 1.5),
+              selectionColor: Colors.blue,
+            ),
+          ),
           const SizedBox(
             height: 30,
           ),

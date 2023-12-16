@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bank_app
+    username: root
+    password: 123456
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+jwt:
+  # ??jwt??????????
+  admin-secret-key: dzqq
+  # ??jwt????
+  admin-ttl: 7200000
+  # ?????????????
+  admin-token-name: token
+  # jwt????
+  current-user: current-user
+server:
+  port: 8080        # 服务器的HTTP端口
+  address: 0.0.0.0

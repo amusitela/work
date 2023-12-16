@@ -52,7 +52,7 @@ class _MyLoginPage extends State<LoginPage> {
           const SizedBox(
             height: 20,
           ),
-          const PictureWidget(imagePath: "images/1.jpg"),
+          const PictureWidget(imagePath: "images/sign.png"),
           const SizedBox(
             height: 10,
           ),
@@ -62,9 +62,7 @@ class _MyLoginPage extends State<LoginPage> {
             },
             child: const MyText1(text: "登录"),
           ),
-          const MyText2(
-              text:
-                  "Sign In with your data  that you entered during your registration."),
+          const MyText2(text: "使用您在注册时输入的数据登录。"),
           const SizedBox(
             height: 50,
           ),
@@ -119,40 +117,38 @@ class _MyLoginPage extends State<LoginPage> {
                 buttonWidth: 319,
                 buttonHeight: 56,
                 onPressed: () async {
-                  print("点击");
-                  if (isLoggingIn) {
-                    return;
-                  }
-                  Map<String, String> data = {
-                    'password': MyMD5.generateMd5(_passwordController.text),
-                    'account': _accountController.text.toString()
-                  };
-                  try {
-                    isLoggingIn = true;
-                    Response response = await LoginApi.loginApi(data);
-                    debugPrint(response.toString());
-                    hint = response.data['data'].toString();
-                    debugPrint(hint);
-                    if(hint!="null"){
-                    Navigator.pushNamed(context, '/');
-                    await saveToken(hint);
-                    }
-                    else{
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text("密码错误")));
-                    }
-                    
+                  // print("点击");
+                  // if (isLoggingIn) {
+                  //   return;
+                  // }
+                  // Map<String, String> data = {
+                  //   'password': MyMD5.generateMd5(_passwordController.text),
+                  //   'account': _accountController.text.toString()
+                  // };
+                  // try {
+                  //   isLoggingIn = true;
+                  //   print("点击1");
+                  //   Response response = await LoginApi.loginApi(data);
+                  //   debugPrint(response.toString());
+                  //   hint = response.data['data'].toString();
+                  //   debugPrint(hint);
+                  //   if (hint != "null") {
+                  //     Navigator.pushNamed(context, '/');
+                  //     await saveToken(hint);
+                  //   } else {
+                  //     ScaffoldMessenger.of(context)
+                  //         .showSnackBar(const SnackBar(content: Text("密码错误")));
+                  //   }
+                  // } catch (e) {
+                  //   debugPrint("Error: $e");
 
-                    
-                  } catch (e) {
-                    debugPrint("Error: $e");
-
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(const SnackBar(content: Text("网络错误")));
-                  } finally {
-                    // 重置标志位，允许下一次登录
-                    isLoggingIn = false;
-                  }
+                  //   ScaffoldMessenger.of(context)
+                  //       .showSnackBar(const SnackBar(content: Text("网络错误")));
+                  // } finally {
+                  //   // 重置标志位，允许下一次登录
+                  //   isLoggingIn = false;
+                  // }
+                  Navigator.pushNamed(context, "/");
                 }),
           )
         ],

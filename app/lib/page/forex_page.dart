@@ -1,28 +1,11 @@
+import 'package:app/test/test2.dart';
 import 'package:app/theme/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // 用于更改状态栏颜色
 
 class ForexPage extends StatelessWidget {
   ForexPage({super.key});
-  final List<Map<String, dynamic>> currencyData = [
-    {
-      'country': '美国',
-      'currency': 'USD',
-      'buyRate': '726.57',
-      'sellRate': '723.69',
-      'realRate': '723.53',
-      'flag': '🇺🇸',
-    },
-    {
-      'country': '日本',
-      'currency': 'YEN',
-      'buyRate': '726.57',
-      'sellRate': '723.69',
-      'realRate': '723.53',
-      'flag': '🇺🇸',
-    },
-    // 更多货币数据...
-  ];
+  final List<Map<String, dynamic>> currencyData = Test.currencyData;
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +17,8 @@ class ForexPage extends StatelessWidget {
           color: Colors.black,
           onPressed: () {
             // 在这里添加返回操作
-            // Navigator.pop(context);
-            Navigator.pushNamed(context, '/');
+            Navigator.pop(context);
+            // Navigator.pushNamed(context, '/');
           },
         ),
         title: const Text(

@@ -1,0 +1,49 @@
+{
+  "groups": [
+    {
+      "name": "jwt",
+      "type": "com.test.testbackend.copy.JwtProperties",
+      "sourceType": "com.test.testbackend.copy.JwtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jwt.admin-secret-key",
+      "type": "java.lang.String",
+      "description": "管理端员工生成jwt令牌相关配置",
+      "sourceType": "com.test.testbackend.copy.JwtProperties"
+    },
+    {
+      "name": "jwt.admin-token-name",
+      "type": "java.lang.String",
+      "sourceType": "com.test.testbackend.copy.JwtProperties"
+    },
+    {
+      "name": "jwt.admin-ttl",
+      "type": "java.lang.Long",
+      "sourceType": "com.test.testbackend.copy.JwtProperties"
+    },
+    {
+      "name": "jwt.current-user",
+      "type": "java.lang.String",
+      "sourceType": "com.test.testbackend.copy.JwtProperties"
+    },
+    {
+      "name": "jwt.user-secret-key",
+      "type": "java.lang.String",
+      "description": "用户端微信用户生成jwt令牌相关配置",
+      "sourceType": "com.test.testbackend.copy.JwtProperties"
+    },
+    {
+      "name": "jwt.user-token-name",
+      "type": "java.lang.String",
+      "sourceType": "com.test.testbackend.copy.JwtProperties"
+    },
+    {
+      "name": "jwt.user-ttl",
+      "type": "java.lang.Long",
+      "sourceType": "com.test.testbackend.copy.JwtProperties"
+    }
+  ],
+  "hints": []
+}

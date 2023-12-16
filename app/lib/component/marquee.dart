@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MarqueeWidget extends StatefulWidget {
-  final List<String> textList;
+  final List<Map<String, dynamic>> textList;
   final int loopSeconds;
 
   const MarqueeWidget({
@@ -49,7 +49,6 @@ class _MarqueeWidgetState extends State<MarqueeWidget> {
         if (nextPage >= widget.textList.length) {
           nextPage = 0;
         }
-        
       });
     }
   }
@@ -65,35 +64,41 @@ class _MarqueeWidgetState extends State<MarqueeWidget> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50, // This can be adjusted to fit the single item height
-      
+
       child: PageView.builder(
         itemCount: widget.textList.length,
         controller: _controller,
         scrollDirection: Axis.vertical,
         itemBuilder: (context, index) {
-          return Center(
-            child: Container(
-              width: Constant.cardWidth,
-              constraints: BoxConstraints.expand(height: null),
-              // height: 200,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    width: 40,
-                  ),
-                  Expanded(
-                    child: Container(
-                    
-                    // height: 200,
-                      child: Text(
-                        widget.textList[index],
-                        style: MyTextStyle.medium,
+          return GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, "/article/detail",
+                  arguments: widget.textList[index]["articleId"]);
+            },
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.only(right: 20),
+                width: Constant.cardWidth,
+                constraints: const BoxConstraints.expand(height: null),
+                // height: 200,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 40,
+                    ),
+                    Expanded(
+                      child: Container(
+                        // height: 200,
+                        child: Text(widget.textList[index]["title"],
+                            style: MyTextStyle.medium,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis),
                       ),
                     ),
-                  ),
-                  const Icon(Icons.arrow_forward_ios_sharp)
-                ],
+                    const Icon(Icons.arrow_forward_ios_sharp)
+                  ],
+                ),
               ),
             ),
           );

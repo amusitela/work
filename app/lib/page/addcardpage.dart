@@ -17,8 +17,8 @@ class AddCardPage extends StatelessWidget {
           color: Colors.black,
           onPressed: () {
             // 在这里添加返回操作
-            // Navigator.pop(context);
-            Navigator.pushNamed(context, '/account');
+            Navigator.pop(context);
+            // Navigator.pushNamed(context, '/account');
           },
         ),
         title: const Text(

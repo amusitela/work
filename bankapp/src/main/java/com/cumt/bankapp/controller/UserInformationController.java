@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cumt.common.MyResult;
-import com.cumt.common.AjaxResult;
+//import com.cumt.common.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,12 +29,12 @@ public class UserInformationController
     private IUserInformationService userInformationService;
 
 
-    @PostMapping("/updateUserCard")
-    @ResponseBody
-    public AjaxResult updateUserCard(UserInformation userInformation){
-
-        return AjaxResult.success(userInformationService.updateUserCard(userInformation));
-    }
+//    @PostMapping("/updateUserCard")
+//    @ResponseBody
+//    public AjaxResult updateUserCard(UserInformation userInformation){
+//
+//        return AjaxResult.success(userInformationService.updateUserCard(userInformation));
+//    }
 
     @GetMapping ("/selectUserCard/{idCard}")
     public String showUserCard(@PathVariable("idCard") String idCard){

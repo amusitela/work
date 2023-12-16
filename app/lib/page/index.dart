@@ -34,38 +34,19 @@ class _MyIndexState extends State<IndexPage> {
   @override
   Widget build(BuildContext context) {
     // Widget card=Align(alignment: Alignment.center,
-    
+
     // child: ,
     // )
 
-
-
     return Scaffold(
-    
-      appBar: AppBar(
-        title: const Text(
-          '首页',
-          style: MyTextStyle.small,
-        ),
-        backgroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.exit_to_app,color: Colors.black,),
-            onPressed: () {
-              // 在这里处理搜索按钮的点击事件
-              //showSearch(context: context, delegate: MySearchDelegate());
-              Navigator.pushNamed(context, '/login');
-            },
-          ),
-        ],
-      ),
       body: IndexedStack(
         index: currentIndex,
-        children:   [
-        FirstPage(),
-        CreditCard(),
-        Fund(),
-        HomePage(imageUrl: "images/1.jpg", userName: 'userName', money: '100.0')
+        children: const [
+          FirstPage(),
+          CreditCard(),
+          Fund(),
+          HomePage(
+              imageUrl: "images/1.jpg", userName: 'userName', money: '100.0')
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,

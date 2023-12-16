@@ -33,10 +33,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id_card = #{idCard}
     </select>
     <select id="selectUserInformationPSWDById" parameterType="String" resultType="java.lang.String">
-        select pswd from user_information where id_card = ${id} or phone = ${id}
+        select pswd from user_information where id_card = #{id} or phone = #{id}
     </select>
     <select id="getId" parameterType="String" resultType="java.lang.String">
-        select card from user_information where phone = ${phone}
+        select card from user_information where phone = #{phone}
     </select>
 
     <insert id="insertUserInformation" parameterType="UserInformation">
