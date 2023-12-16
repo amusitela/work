@@ -1,6 +1,7 @@
 package com.cumt.bankapp.mapper;
 
 import com.cumt.bankapp.domain.News;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -55,4 +56,25 @@ public interface NewsMapper {
      * @return int
      * */
     public int deleteAllNews();
+
+   /**
+    *插入点赞
+    * @param useId newId
+    * @return int
+    * */
+   public int insertLikes(@Param("newsId") String newsId, @Param("userId") String userId);
+
+ /**
+  *更新点赞
+  * @param useId newId
+  * @return int
+  * */
+ public int updateLikes(@Param("newsId") String newsId,@Param("userId") String userId,@Param("like") String like);
+
+ /**
+  *更新点赞
+  * @param useId newId
+  * @return int
+  * */
+ public String selectLikes(@Param("newsId") String newsId,@Param("userId") String userId);
 }

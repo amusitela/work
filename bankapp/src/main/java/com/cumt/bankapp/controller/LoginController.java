@@ -41,7 +41,7 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public MyResult<String> generateJwt(@RequestBody UserInformation userInformation,String code) {
+    public MyResult<String> generateJwt(@RequestBody UserInformation userInformation) {
         String phone = null;
         phone = userInformation.getPhone();
         if (phone==null){
@@ -53,7 +53,7 @@ public class LoginController {
         }
 
 
-        if(!validateCaptcha(phone,code)){
+        if(!validateCaptcha(phone,userInformation.getCode())){
             return MyResult.error("验证码错误");
         }
 
@@ -79,9 +79,9 @@ public class LoginController {
     }
 
     @PostMapping("/registry")
-    public MyResult<String> registryUser(@RequestBody UserInformation userInformation,String code){
+    public MyResult<String> registryUser(@RequestBody UserInformation userInformation){
         String phone = userInformation.getPhone();
-        if(!validateCaptcha(phone,code)){
+        if(!validateCaptcha(phone,userInformation.getCode())){
             return MyResult.error("验证码错误");
         }else {
 

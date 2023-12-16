@@ -6,9 +6,7 @@ import com.cumt.bankapp.tools.getData.GetNew;
 import com.cumt.common.MyResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +49,32 @@ public class NewsController {
     public MyResult<News> seleNewsById(String id){
         try {
             iNewsService.updateWatch(id);
-            return MyResult.success(iNewsService.selectNewsById(id),"请求成功");
+            News news = iNewsService.selectNewsById(id);
+            news.setLike(iNewsService.selectLikes(id,""));
+            return MyResult.success(news,"请求成功");
         } catch (Exception e) {
             e.printStackTrace();
             return MyResult.error("返回失败:"+e.getMessage());
         }
     }
+
+    @PostMapping("/like")
+    public MyResult updateLikes(@RequestBody News news){
+        String id = news.getId();
+        String userId = news.getUserId();
+        String like = news.getLike();
+        try {
+            if(iNewsService.selectLikes(id,userId)==null){
+                iNewsService.insertLikes(id,userId);
+            }else{
+                iNewsService.updateLikes(id,userId,like);
+            }
+            return MyResult.successMsg("成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MyResult.error("失败");
+        }
+
+    }
+
 }

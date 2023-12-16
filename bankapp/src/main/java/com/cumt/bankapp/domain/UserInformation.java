@@ -3,6 +3,7 @@ package com.cumt.bankapp.domain;
 import java.io.Serializable;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 
 /**
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * @author lyw
  * @date 2023-11-10
  */
+@Data
 public class UserInformation implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -29,6 +31,8 @@ public class UserInformation implements Serializable
     /**  */
 
     private String phone;
+
+    private String code;
 
     /**  */
     @JsonFormat(pattern = "yyyy-MM-dd")

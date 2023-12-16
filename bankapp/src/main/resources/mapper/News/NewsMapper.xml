@@ -20,6 +20,19 @@
     <update id="updateWatch" parameterType="String">
         update news set watch = watch + 1 where id =#{id}
     </update>
+    <update id="updateLikes">
+        <choose>
+            <when test="like == 1">
+                update `likes` set `like` = #{like} where newsId = #{newsId} and userId = #{userId};
+                update `likes` set `like` = `like`+1 where newsId = #{newsId} and userId = null
+            </when>
+            <otherwise>
+                update `likes` set `like` = #{like} where newsId = #{newsId} and userId = #{userId};
+                update `likes` set `like` = `like`- 1 where newsId = #{newsId} and userId = null
+            </otherwise>
+        </choose>
+
+    </update>
 
     <select id="selectNewsList" parameterType="News" resultMap="NewsResult">
         <include refid="selectNewsVo"/>
@@ -36,6 +49,9 @@
     <select id="selectNewsById" parameterType="String" resultMap="NewsResult">
         <include refid="selectNewsVo"/>
         where id = #{id}
+    </select>
+    <select id="selectLikes" resultType="java.lang.String">
+        select newsId from `likes` where newsId = #{newsId} and userId = #{userId}
     </select>
 
     <insert id="insertNews" parameterType="News">
@@ -70,8 +86,10 @@
             )
         </foreach>
     </insert>
-
-
+    <insert id="insertLikes">
+       insert into `likes` (newsId,userId,`like`) values (#{newsId},#{userId},1);
+       update `likes` set `like` = `like`+1 where newsId = #{newsId} and userId = null
+    </insert>
 
 
     <delete id="deleteAllNews" >

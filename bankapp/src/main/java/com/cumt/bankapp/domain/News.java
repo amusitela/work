@@ -16,5 +16,7 @@ public class News {
     private String image;
     private String author;
     private String watch;
+    private String userId;
+    private String like;
 
 }

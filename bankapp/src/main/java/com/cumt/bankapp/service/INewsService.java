@@ -1,6 +1,7 @@
 package com.cumt.bankapp.service;
 
 import com.cumt.bankapp.domain.News;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,4 +55,25 @@ public interface INewsService  {
      * @return News
      * */
     public News selectNewsById(String id);
+
+    /**
+     *插入点赞
+     * @param useId newId
+     * @return int
+     * */
+    public int insertLikes( String newsId, String userId);
+
+    /**
+     *更新点赞
+     * @param useId newId
+     * @return int
+     * */
+    public int updateLikes( String newsId, String userId ,String like);
+
+    /**
+     *更新点赞
+     * @param useId newId
+     * @return int
+     * */
+    public String selectLikes(String newsId,String userId);
 }
