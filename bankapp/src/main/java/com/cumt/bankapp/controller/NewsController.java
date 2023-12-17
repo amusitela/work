@@ -35,7 +35,7 @@ public class NewsController {
         }
     }
 
-    @GetMapping("list")
+    @GetMapping("/list")
     public MyResult<List<News>> selectAllNews(){
         try {
             return MyResult.success(iNewsService.selectNewsList(new News()),"请求成功");

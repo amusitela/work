@@ -15,7 +15,7 @@
     </resultMap>
 
     <sql id="selectNewsVo">
-        select id , title , content , iamge , author , watch from news
+        select id , title , content , image , author , watch,description from news
     </sql>
     <update id="updateWatch" parameterType="String">
         update news set watch = watch + 1 where id =#{id}
