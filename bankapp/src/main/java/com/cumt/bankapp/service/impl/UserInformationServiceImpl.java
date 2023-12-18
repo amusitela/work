@@ -17,12 +17,12 @@ import com.cumt.bankapp.service.IUserInformationService;
 
 /**
  * user_informationService业务层处理
- * 
+ *
  * @author lyw
  * @date 2023-11-10
  */
 @Service
-public class UserInformationServiceImpl implements IUserInformationService 
+public class UserInformationServiceImpl implements IUserInformationService
 {
     @Autowired
     private UserInformationMapper userInformationMapper;
@@ -32,7 +32,7 @@ public class UserInformationServiceImpl implements IUserInformationService
 
     /**
      * 查询user_information
-     * 
+     *
      * @param idCard user_information主键
      * @return user_information
      */
@@ -44,7 +44,7 @@ public class UserInformationServiceImpl implements IUserInformationService
 
     /**
      * 查询user_information列表
-     * 
+     *
      * @param userInformation user_information
      * @return user_information
      */
@@ -78,7 +78,7 @@ public class UserInformationServiceImpl implements IUserInformationService
 
     /**
      * 新增user_information
-     * 
+     *
      * @param userInformation user_information
      * @return 结果
      */
@@ -90,7 +90,7 @@ public class UserInformationServiceImpl implements IUserInformationService
 
     /**
      * 修改user_information
-     * 
+     *
      * @param userInformation user_information
      * @return 结果
      */
@@ -102,7 +102,7 @@ public class UserInformationServiceImpl implements IUserInformationService
 
     /**
      * 批量删除user_information
-     * 
+     *
      * @param idCards 需要删除的user_information主键
      * @return 结果
      */
@@ -114,7 +114,7 @@ public class UserInformationServiceImpl implements IUserInformationService
 
     /**
      * 删除user_information信息
-     * 
+     *
      * @param idCard user_information主键
      * @return 结果
      */
@@ -138,7 +138,7 @@ public class UserInformationServiceImpl implements IUserInformationService
             s=userInformation.getCard();
             String[] split = s.split(",");
             for (String i:split
-                 ) {
+            ) {
                 i=i+",";
                 s=s.replace(i,"");
             }
@@ -161,7 +161,7 @@ public class UserInformationServiceImpl implements IUserInformationService
         String[] split = card.split(",");
 
         for (String i:split
-             ) {
+        ) {
             IndividualAccount individualAccount = iam.selectIndividualAccountByAccountId(i);
             individualAccounts.add(individualAccount);
         }
@@ -174,9 +174,15 @@ public class UserInformationServiceImpl implements IUserInformationService
     }
 
     @Override
-    public String getId(String phone) {
-        return userInformationMapper.getId(phone);
+    public String getPay(String phone) {
+        return userInformationMapper.getPay(phone);
     }
+
+    @Override
+    public String seletPayPSWD(String phone) {
+        return userInformationMapper.selectUserInformationPayPswdById(phone);
+    }
+
 
 
 }

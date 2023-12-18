@@ -36,6 +36,7 @@ public interface ITransferMoneyService
      */
     public int insertTransferMoney(TransferMoney transferMoney);
 
+    public List<TransferMoney> selectAllFlow(String id);
     /**
      * 修改transfer_money
      * 

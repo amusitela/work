@@ -60,4 +60,9 @@ public interface TransferMoneyMapper
      * @return 结果
      */
     public int deleteTransferMoneyByTransferIds(String[] transferIds);
+
+    public List<TransferMoney> selectAllFlow(String[] ids);
+
+    public String selectAllCard(String id);
+
 }
