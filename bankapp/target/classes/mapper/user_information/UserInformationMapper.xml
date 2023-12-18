@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cumt.bankapp.mapper.UserInformationMapper">
-
+    
     <resultMap type="UserInformation" id="UserInformationResult">
         <result property="nm"    column="nm"    />
         <result property="pswd"    column="pswd"    />
@@ -12,15 +12,16 @@
         <result property="createdAt"    column="created_at"    />
         <result property="card"    column="card"    />
         <result property="payPswd" column="paypswd"/>
+        <result property="img" column="img"/>
     </resultMap>
 
     <sql id="selectUserInformationVo">
-        select nm, pswd, id_card, phone, card ,paypswd from user_information
+        select nm, pswd, id_card, phone, card ,paypswd , img from user_information
     </sql>
 
     <select id="selectUserInformationList" parameterType="UserInformation" resultMap="UserInformationResult">
         <include refid="selectUserInformationVo"/>
-        <where>
+        <where>  
             <if test="nm != null  and nm != ''"> and nm = #{nm}</if>
             <if test="pswd != null  and pswd != ''"> and pswd = #{pswd}</if>
             <if test="phone != null "> and phone = #{phone}</if>
@@ -31,9 +32,9 @@
     </select>
 
     <select id="selectUserInformationName" parameterType="String" resultType="java.lang.String">
-        select nm from user_information where id_card = #{id} or phone = #{id}
+       select nm from user_information where id_card = #{id} or phone = #{id}
     </select>
-
+    
     <select id="selectUserInformationByIdCard" parameterType="String" resultMap="UserInformationResult">
         <include refid="selectUserInformationVo"/>
         where id_card = #{idCard} or phone =#{idCard}
@@ -45,7 +46,7 @@
         select paypswd from user_information where id_card = #{id} or phone = #{id}
     </select>
     <select id="getPay" parameterType="String" resultType="java.lang.String">
-        select paypswd from user_information  where phone = #{phone} or id_card= #{phone}
+        select payPswd from user_information  where phone_number = #{phone} or id_holder= #{phone}
     </select>
     <select id="selectUserInformation" resultType="com.cumt.bankapp.domain.UserInformation">
         <include refid="selectUserInformationVo"/>
@@ -63,14 +64,14 @@
             <if test="idCard != null">id_card,</if>
             <if test="phone != null">phone,</if>
             <if test="card != null">card,</if>
-        </trim>
+         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="nm != null">#{nm},</if>
             <if test="pswd != null">#{pswd},</if>
             <if test="idCard != null">#{idCard},</if>
             <if test="phone != null">#{phone},</if>
             <if test="card != null">#{card},</if>
-        </trim>
+         </trim>
     </insert>
 
     <update id="updateUserInformation" parameterType="UserInformation">
@@ -81,6 +82,8 @@
             <if test="phone != null">phone = #{phone},</if>
             <if test="createdAt != null">created_at = #{createdAt},</if>
             <if test="card != null">card = #{card},</if>
+            <if test="img != null">card = #{img},</if>
+            <if test="payPswd != null">paypswd = #{payPswd},</if>
         </trim>
         where id_card = #{idCard}
     </update>
@@ -90,7 +93,7 @@
     </delete>
 
     <delete id="deleteUserInformationByIdCards" parameterType="String">
-        delete from user_information where id_card in
+        delete from user_information where id_card in 
         <foreach item="idCard" collection="array" open="(" separator="," close=")">
             #{idCard}
         </foreach>

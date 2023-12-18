@@ -1,6 +1,5 @@
 package com.cumt.bankapp.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.cumt.bankapp.mapper.IndividualAccountMapper;
@@ -60,15 +59,6 @@ public class TransferMoneyServiceImpl implements ITransferMoneyService
         return transferMoneyMapper.insertTransferMoney(transferMoney);
     }
 
-    @Override
-    public List<TransferMoney> selectAllFlow(String id) {
-        String ids= transferMoneyMapper.selectAllCard(id);
-        String[] idList=ids.split(",");
-        List<TransferMoney> transferMoneyList=new ArrayList<>();
-        transferMoneyList=transferMoneyMapper.selectAllFlow(idList);
-        return  transferMoneyList;
-    }
-
     /**
      * 修改transfer_money
      * 
@@ -105,5 +95,8 @@ public class TransferMoneyServiceImpl implements ITransferMoneyService
         return transferMoneyMapper.deleteTransferMoneyByTransferId(transferId);
     }
 
-
+    @Override
+    public List<TransferMoney> selectAllFlow(String transferId) {
+        return transferMoneyMapper.selectAllFlow(transferId);
+    }
 }

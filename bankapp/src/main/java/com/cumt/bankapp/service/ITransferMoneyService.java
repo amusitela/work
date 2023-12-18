@@ -36,7 +36,6 @@ public interface ITransferMoneyService
      */
     public int insertTransferMoney(TransferMoney transferMoney);
 
-    public List<TransferMoney> selectAllFlow(String id);
     /**
      * 修改transfer_money
      * 
@@ -60,6 +59,14 @@ public interface ITransferMoneyService
      * @return 结果
      */
     public int deleteTransferMoneyByTransferId(String transferId);
+
+    /**
+     * 查询transfer_money信息
+     *
+     * @param transferId transfer_money主键
+     * @return 结果
+     */
+    public List<TransferMoney> selectAllFlow(String transferId);
 
 
 }

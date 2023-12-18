@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import com.cumt.bankapp.domain.IndividualAccount;
 import com.cumt.bankapp.mapper.IndividualAccountMapper;
 import com.cumt.bankapp.service.IIndividualAccountService;
 import com.cumt.bankapp.service.IUserInformationService;
@@ -102,10 +103,6 @@ public class TransferMoneyController
             e.printStackTrace();
         }
 
-        System.out.println(decryptedString);
-        System.out.println(uis.getPay(currentId));
-        System.out.println(uis.seletPayPSWD(currentId));
-
 
         if (!uis.getPay(currentId).equals(decryptedString)){
             return MyResult.error("支付密码错误");
@@ -141,9 +138,29 @@ public class TransferMoneyController
     @GetMapping("/flow")
     public MyResult<List<TransferMoney>> getFlow(){
         String id = BaseContext.getCurrentId();
-        List<TransferMoney> transferMoneyList=new ArrayList<>();
-         transferMoneyList=transferMoneyService.selectAllFlow(id);
-        return  MyResult.success(transferMoneyList);
+        List<IndividualAccount> individualAccounts = uis.displayCard(id);
+        List<String> cards = new ArrayList<String>();
+        for (int i = 0; i < individualAccounts.size(); i++) {
+            cards.add(individualAccounts.get(i).getAccountId()) ;
+        }
+        List<TransferMoney> transferMoneyAllList=new ArrayList<>();
+        for (int i = 0; i < individualAccounts.size(); i++) {
+            List<TransferMoney> transferMoneyList=new ArrayList<>();
+            transferMoneyList=transferMoneyService.selectAllFlow(cards.get(i));
+            transferMoneyAllList.addAll(transferMoneyList);
+        }
+        ArrayList<TransferMoney> answer = new ArrayList<>();
+        for (TransferMoney i:transferMoneyAllList
+             ) {
+            if(cards.contains(i.getFromAccount())){
+                i.setStatus("支出");
+            }else{
+                i.setStatus("收入");
+            }
+            answer.add(i);
+        }
+
+        return  MyResult.success(answer);
     }
 
 

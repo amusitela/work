@@ -43,6 +43,8 @@ public class UserInformation implements Serializable
 
     private String payPswd;
 
+    private String img;
+
     public void setNm(String nm) 
     {
         this.nm = nm;

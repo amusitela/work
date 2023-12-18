@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
 
 
 /**
@@ -13,7 +12,6 @@ import lombok.Data;
  * @author lyw
  * @date 2023-11-10
  */
-@Data
 public class TransferMoney implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -25,7 +23,7 @@ public class TransferMoney implements Serializable
 
     /**  */
     private String transferId;
-    private String pay;
+
     /**  */
 
     private String fromAccount;
@@ -42,10 +40,14 @@ public class TransferMoney implements Serializable
     @JsonFormat(pattern = "yyyy-MM-dd")
 
     private Date transferDate;
-    private String date;
+
     /**  */
 
     private String description;
+
+    private String pay;
+
+    private String status;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -132,5 +134,13 @@ public class TransferMoney implements Serializable
 
     public void setPay(String pay) {
         this.pay = pay;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

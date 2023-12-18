@@ -95,7 +95,5 @@ public interface UserInformationMapper
      * @param phone
      *   @return card id
      * */
-    public String getId(String phone);
-
     public String getPay(String phone);
 }

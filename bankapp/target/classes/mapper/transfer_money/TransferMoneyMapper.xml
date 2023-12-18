@@ -34,17 +34,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTransferMoneyVo"/>
         where transfer_id = #{transferId}
     </select>
-    <select id="selectAllFlow" resultType="com.cumt.bankapp.domain.TransferMoney" resultMap="TransferMoneyResult">
-        SELECT * FROM transfer_money WHERE from_account IN
-        <foreach item="id" collection="ids" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-        order by date desc
-    </select>
-    <select id="selectAllCard" resultType="java.lang.String">
-
-    select  card from user_information where  phone=#{id}
-
+    <select id="selectAllFlow" parameterType="string"  resultMap="TransferMoneyResult">
+        select appointment_time, transfer_id, from_account, from_account, amount, transfer_date, description from transfer_money where from_account = #{transferId} or from_account = #{transferId}
     </select>
 
     <insert id="insertTransferMoney" parameterType="TransferMoney">
@@ -64,11 +55,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="fromAccount != null">#{fromAccount},</if>
             <if test="toAccount != null">#{toAccount},</if>
             <if test="amount != null">#{amount},</if>
-            <if test="transferDate != null">CURRENT_DATE(),</if>
+            <if test="transferDate != null">#{transferDate},</if>
             <if test="description != null">#{description},</if>
          </trim>
-
     </insert>
+
     <update id="updateTransferMoney" parameterType="TransferMoney">
         update transfer_money
         <trim prefix="SET" suffixOverrides=",">

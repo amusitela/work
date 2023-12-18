@@ -61,8 +61,11 @@ public interface TransferMoneyMapper
      */
     public int deleteTransferMoneyByTransferIds(String[] transferIds);
 
-    public List<TransferMoney> selectAllFlow(String[] ids);
-
-    public String selectAllCard(String id);
-
+    /**
+     * 查询transfer_money信息
+     *
+     * @param transferId transfer_money主键
+     * @return 结果
+     */
+    public List<TransferMoney> selectAllFlow(String transferId);
 }
