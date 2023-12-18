@@ -77,4 +77,23 @@ public interface NewsMapper {
   * @return int
   * */
  public String selectLikes(@Param("newsId") String newsId,@Param("userId") String userId);
+
+    /**
+     *更新点赞
+     * @param useId newId
+     * @return int
+     * */
+    public String selectLikes1(@Param("newsId") String newsId,@Param("userId") String userId);
+
+    /**
+     *更新点赞
+     * @param useId newId
+     * @return int
+     * */
+    public int updateAddLikeA(@Param("newsId") String newsId,@Param("userId") String userId,@Param("like") String like);
+
+    public int updateAddLike(@Param("newsId") String newsId);
+
+
+
 }

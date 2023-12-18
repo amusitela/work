@@ -76,4 +76,12 @@ public interface INewsService  {
      * @return int
      * */
     public String selectLikes(String newsId,String userId);
+
+
+    /**
+     *更新点赞
+     * @param useId newId
+     * @return int
+     * */
+    public String selectLikes1(String newsId,String userId);
 }

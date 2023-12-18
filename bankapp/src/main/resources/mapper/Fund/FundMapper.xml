@@ -15,7 +15,7 @@
     </resultMap>
 
     <sql id="selectNewsVo">
-        select  productId,product_name,fundTypeName,productRiskLevel,accumulativeNav,dayIncomeRatio from fund
+        select  productId,product_name,fundTypeName,productRiskLevel,accumulativeNav,dayIncomeRatio,description from fund
     </sql>
 
     <select id="selectFundList" parameterType="Fund" resultMap="FundResult">

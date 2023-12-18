@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 /**
  * individual_account对象 individual_account
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * @author lyw
  * @date 2023-11-10
  */
+
 public class IndividualAccount implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -147,19 +149,34 @@ public class IndividualAccount implements Serializable
         return lastUpdatedAt;
     }
 
-    @Override
-    public String toString() {
-        return "IndividualAccount{" +
-                "accountId='" + accountId + '\'' +
-                ", idHolder='" + idHolder + '\'' +
-                ", accountType='" + accountType + '\'' +
-                ", balance=" + balance +
-                ", openDate=" + openDate +
-                ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", isActive=" + isActive +
-                ", lastUpdatedAt=" + lastUpdatedAt +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "{" +
+//                "accountId=" + accountId  +
+//                ", idHolder=" + idHolder  +
+//                ", accountType=" + accountType  +
+//                ", balance=" + balance +
+//                ", openDate=" + openDate +
+//                ", address=" + address  +
+//                ", phoneNumber=" + phoneNumber  +
+//                ", email=" + email  +
+//                ", isActive=" + isActive +
+//                ", lastUpdatedAt=" + lastUpdatedAt +
+//                '}';
+//    }
+@Override
+public String toString() {
+    return "{" +
+            "\"accountId\":\"" + accountId + "\"," +
+            "\"idHolder\":\"" + idHolder + "\"," +
+            "\"accountType\":\"" + accountType + "\"," +
+            "\"balance\":" + balance + "," +
+            "\"openDate\":\"" + openDate + "\"," +
+            "\"address\":\"" + address + "\"," +
+            "\"phoneNumber\":\"" + phoneNumber + "\"," +
+            "\"email\":\"" + email + "\"," +
+            "\"isActive\":\"" + isActive + "\"," +
+            "\"lastUpdatedAt\":\"" + lastUpdatedAt + "\"" +
+            "}";
+}
 }

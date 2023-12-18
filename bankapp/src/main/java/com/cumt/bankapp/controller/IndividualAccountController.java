@@ -2,6 +2,7 @@ package com.cumt.bankapp.controller;
 
 import com.cumt.bankapp.domain.UserInformation;
 import com.cumt.bankapp.service.IUserInformationService;
+import com.cumt.bankapp.tools.jwt.BaseContext;
 import com.cumt.common.MyResult;
 import lombok.extern.java.Log;
 import net.dreamlu.mica.core.result.R;
@@ -51,9 +52,11 @@ public class IndividualAccountController
      */
 
     @PostMapping("/money")
-    @ResponseBody
-    public MyResult<BigDecimal> getMoneyTotal(@RequestBody IndividualAccount individualAccount)
+    public MyResult<BigDecimal> getMoneyTotal()
     {
+        IndividualAccount individualAccount = new IndividualAccount();
+        String ID = BaseContext.getCurrentId();
+        individualAccount.setPhoneNumber(ID);
         List<IndividualAccount> list = individualAccountService.selectIndividualAccountList(individualAccount);
         BigDecimal ans = new BigDecimal(0.00);
         for (IndividualAccount i: list

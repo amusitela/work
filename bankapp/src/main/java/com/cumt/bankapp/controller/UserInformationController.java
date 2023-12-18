@@ -3,6 +3,7 @@ package com.cumt.bankapp.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cumt.bankapp.tools.jwt.BaseContext;
 import com.cumt.common.MyResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import com.cumt.bankapp.domain.UserInformation;
 import com.cumt.bankapp.service.IUserInformationService;
 
+import javax.naming.Context;
 
 
 /**
@@ -48,7 +50,8 @@ public class UserInformationController
      *
      * */
     @PostMapping ("/selectUserCard")
-    public MyResult<String> showUserCard(@RequestParam("idCard") String idCard){
+    public MyResult<String> showUserCard(){
+        String idCard= BaseContext.getCurrentId();
         return  MyResult.success(userInformationService.displayCard(idCard).toString());
     }
 
@@ -56,7 +59,7 @@ public class UserInformationController
      * 查找所有数据库信息
      *
      * */
-    @GetMapping("sele")
+    @GetMapping("/sele")
     public MyResult<List<UserInformation>> seletAll(){
         List<UserInformation> userInformations = new ArrayList<UserInformation>();
         userInformations = userInformationService.selectUserInformationList(new UserInformation());

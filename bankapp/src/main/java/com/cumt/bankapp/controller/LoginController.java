@@ -59,9 +59,9 @@ public class LoginController {
 
 
         String pwd=userInformation.getPswd();
-        if (!LetterDigit.isLetterDigit(pwd)){
-            return MyResult.error("密码格式错误");
-        }
+//        if (!LetterDigit.isLetterDigit(pwd)){
+//            return MyResult.error("密码格式错误");
+//        }
 
 
         if(pwd.equals(userInformationService.loginCheck(phone))){
@@ -91,9 +91,9 @@ public class LoginController {
 
             String pwd=userInformation.getPswd();
 
-            if (!LetterDigit.isLetterDigit(pwd)){
-                return MyResult.error("密码格式错误");
-            }
+//            if (!LetterDigit.isLetterDigit(pwd)){
+//                return MyResult.error("密码格式错误");
+//            }
 
             userInformationService.insertUserInformation(userInformation);
 

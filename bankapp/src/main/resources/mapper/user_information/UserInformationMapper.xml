@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectUserInformationVo">
-        select nm, pswd, id_card, phone, created_at, card ,paypswd from user_information
+        select nm, pswd, id_card, phone, card ,paypswd from user_information
     </sql>
 
     <select id="selectUserInformationList" parameterType="UserInformation" resultMap="UserInformationResult">
@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectUserInformationByIdCard" parameterType="String" resultMap="UserInformationResult">
         <include refid="selectUserInformationVo"/>
-        where id_card = #{idCard}
+        where id_card = #{idCard} or phone =#{idCard}
     </select>
     <select id="selectUserInformationPSWDById" parameterType="String" resultType="java.lang.String">
         select pswd from user_information where id_card = #{id} or phone = #{id}

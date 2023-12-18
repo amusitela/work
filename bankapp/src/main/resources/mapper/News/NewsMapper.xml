@@ -14,44 +14,57 @@
 
     </resultMap>
 
+    <sql id="selectNewsVo1">
+        select id , title  , image , author , watch from news
+    </sql>
     <sql id="selectNewsVo">
-        select id , title , content , image , author , watch,description from news
+        select id , title , content , image , author , watch from news
     </sql>
     <update id="updateWatch" parameterType="String">
         update news set watch = watch + 1 where id =#{id}
     </update>
+
+
+
+
     <update id="updateLikes">
         <choose>
             <when test="like == 1">
-                update `likes` set `like` = #{like} where newsId = #{newsId} and userId = #{userId};
-                update `likes` set `like` = `like`+1 where newsId = #{newsId} and userId = null
+                update `likes` set `like` = `like`+1 where newsId = #{newsId} and userId is null
             </when>
             <otherwise>
-                update `likes` set `like` = #{like} where newsId = #{newsId} and userId = #{userId};
-                update `likes` set `like` = `like`- 1 where newsId = #{newsId} and userId = null
+                update `likes` set `like` = `like`- 1 where userId is null and newsId = #{newsId}
             </otherwise>
         </choose>
 
     </update>
+    <update id="updateAddLike">
+        update `likes` set `like` = `like`+1 where newsId = #{newsId} and userId is null
+    </update>
+    <update id="updateAddLikeA">
+        update `likes` set `like` = #{like} where newsId = #{newsId} and userId = #{userId};
+    </update>
 
     <select id="selectNewsList" parameterType="News" resultMap="NewsResult">
-        <include refid="selectNewsVo"/>
+        <include refid="selectNewsVo1"/>
         <where>
             <if test="id != null">and id = '#{id}' </if>
             <if test="title != null">and title = '#{title}'</if>
-            <if test="content != null">and content = '#{content}'</if>
             <if test="image != null">and image = '#{image}'</if>
             <if test="author != null">and author = '#{author}'</if>
             <if test="watch != null">and author = '#{watch}'</if>
+
         </where>
     </select>
-
     <select id="selectNewsById" parameterType="String" resultMap="NewsResult">
         <include refid="selectNewsVo"/>
         where id = #{id}
     </select>
     <select id="selectLikes" resultType="java.lang.String">
-        select newsId from `likes` where newsId = #{newsId} and userId = #{userId}
+        select `like` from `likes` where newsId = #{newsId} and userId is null
+    </select>
+    <select id="selectLikes1" resultType="java.lang.String">
+        select `like` from `likes` where newsId = #{newsId} and userId = #{userId}
     </select>
 
     <insert id="insertNews" parameterType="News">
@@ -88,8 +101,9 @@
     </insert>
     <insert id="insertLikes">
        insert into `likes` (newsId,userId,`like`) values (#{newsId},#{userId},1);
-       update `likes` set `like` = `like`+1 where newsId = #{newsId} and userId = null
     </insert>
+
+
 
 
     <delete id="deleteAllNews" >

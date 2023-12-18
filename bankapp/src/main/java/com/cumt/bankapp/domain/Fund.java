@@ -17,7 +17,7 @@ public class Fund {
     private String productRiskLevel;
     private String accumulativeNav;
     private String productId;
-
+    private  String description;
     @Override
     public String toString() {
         return "Fund{" +

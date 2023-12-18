@@ -3,6 +3,7 @@ package com.cumt.bankapp.controller;
 import com.cumt.bankapp.domain.News;
 import com.cumt.bankapp.service.INewsService;
 import com.cumt.bankapp.tools.getData.GetNew;
+import com.cumt.bankapp.tools.jwt.BaseContext;
 import com.cumt.common.MyResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,7 +24,7 @@ public class NewsController {
     @Autowired
     private INewsService iNewsService;
 
-    @Scheduled(cron = "0 0 * * * ?")
+   // @Scheduled(cron = "0 0 * * * ?")
     public void insertNews(){
         try {
             int i1 = iNewsService.deleteAllNews();
@@ -48,10 +49,13 @@ public class NewsController {
     @GetMapping("/detail")
     public MyResult<News> seleNewsById(String id){
         try {
+            String userId = BaseContext.getCurrentId();
             iNewsService.updateWatch(id);
             News news = iNewsService.selectNewsById(id);
-            news.setLike(iNewsService.selectLikes(id,""));
-            return MyResult.success(news,"请求成功");
+            news.setLikes(iNewsService.selectLikes(id,""));
+            news.setLike(iNewsService.selectLikes1(id, userId));
+            System.out.println(news.getLike());
+        return MyResult.success(news,"请求成功");
         } catch (Exception e) {
             e.printStackTrace();
             return MyResult.error("返回失败:"+e.getMessage());
@@ -61,10 +65,12 @@ public class NewsController {
     @PostMapping("/like")
     public MyResult updateLikes(@RequestBody News news){
         String id = news.getId();
-        String userId = news.getUserId();
+        String userId = BaseContext.getCurrentId();
+        System.out.println(userId);
         String like = news.getLike();
+        System.out.println(like);
         try {
-            if(iNewsService.selectLikes(id,userId)==null){
+            if(iNewsService.selectLikes1(id,userId)==null){
                 iNewsService.insertLikes(id,userId);
             }else{
                 iNewsService.updateLikes(id,userId,like);
