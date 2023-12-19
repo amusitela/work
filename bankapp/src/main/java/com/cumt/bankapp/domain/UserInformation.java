@@ -1,5 +1,6 @@
 package com.cumt.bankapp.domain;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -43,7 +44,7 @@ public class UserInformation implements Serializable
 
     private String payPswd;
 
-    private String img;
+    private byte[] img;
 
     public void setNm(String nm) 
     {

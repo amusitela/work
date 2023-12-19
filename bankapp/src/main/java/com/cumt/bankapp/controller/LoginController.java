@@ -52,16 +52,16 @@ public class LoginController {
             return MyResult.error("用户名不存在");
         }
 
-
+        System.out.println(userInformation.getCode());
         if(!validateCaptcha(phone,userInformation.getCode())){
             return MyResult.error("验证码错误");
         }
 
 
         String pwd=userInformation.getPswd();
-//        if (!LetterDigit.isLetterDigit(pwd)){
-//            return MyResult.error("密码格式错误");
-//        }
+        if (!LetterDigit.isLetterDigit(pwd)){
+            return MyResult.error("密码格式错误");
+        }
 
 
         if(pwd.equals(userInformationService.loginCheck(phone))){

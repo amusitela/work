@@ -1,9 +1,11 @@
 package com.cumt.bankapp.service;
 
+import java.io.File;
 import java.util.List;
 
 import com.cumt.bankapp.domain.IndividualAccount;
 import com.cumt.bankapp.domain.UserInformation;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * user_informationService接口
@@ -102,4 +104,17 @@ public interface IUserInformationService
     public String loginCheck(String id);
 
     public String getPay(String phone);
+
+    /**
+     * 获取银行卡号
+     * @param phone
+     *   @return card id
+     * */
+    public byte[] selectImg(String phone);
+    /**
+     * 获取银行卡号
+     * @param phone
+     *   @return card id
+     * */
+    public int updateImg(String phone, byte[] flie);
 }

@@ -1,8 +1,13 @@
 package com.cumt.bankapp.mapper;
 
+import java.io.File;
 import java.util.List;
 import com.cumt.bankapp.domain.UserInformation;
+import liquibase.pro.packaged.P;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * user_informationMapper接口
@@ -96,4 +101,19 @@ public interface UserInformationMapper
      *   @return card id
      * */
     public String getPay(String phone);
+    /**
+     * 获取银行卡号
+     * @param phone
+     *   @return card id
+     * */
+    public byte[] selectImg(String phone);
+    /**
+     * 获取银行卡号
+     * @param phone
+     *   @return card id
+     * */
+    public int updateImg(@Param("phone") String phone, @Param("file") byte[] flie);
+
+
+
 }

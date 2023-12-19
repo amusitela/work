@@ -49,6 +49,8 @@ public class TransferMoney implements Serializable
 
     private String status;
 
+    private Boolean is;
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -142,5 +144,13 @@ public class TransferMoney implements Serializable
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Boolean getIs() {
+        return is;
+    }
+
+    public void setIs(Boolean is) {
+        this.is = is;
     }
 }

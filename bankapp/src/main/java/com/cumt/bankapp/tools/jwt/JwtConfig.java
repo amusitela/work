@@ -33,7 +33,7 @@ public class JwtConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(jwtTokenAdminInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/login","/captcha","/registry","/news/a")
+                .excludePathPatterns("/login","/captcha","/registry","/news/a","/transfer1/transfer")
                 .excludePathPatterns(excludePatterns); // 排除不需要拦截的路径
     }
 

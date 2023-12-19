@@ -7,14 +7,14 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 import com.cumt.bankapp.domain.IndividualAccount;
 import com.cumt.bankapp.mapper.IndividualAccountMapper;
+import com.cumt.bankapp.service.IFlowDefinitionService;
 import com.cumt.bankapp.service.IIndividualAccountService;
 import com.cumt.bankapp.service.IUserInformationService;
+import com.cumt.bankapp.service.impl.FlowDefinitionServiceImpl;
 import com.cumt.bankapp.tools.jwt.BaseContext;
 import com.cumt.common.MyResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +45,9 @@ public class TransferMoneyController
 
     @Autowired
     private IIndividualAccountService iIndividualAccountService;
+
+    @Autowired
+    private IFlowDefinitionService flowDefinitionService;
 
     @Autowired
     IUserInformationService uis;
@@ -116,8 +119,20 @@ public class TransferMoneyController
             money.setDescription(transferMoney.getDescription());
             money.setFromAccount(transferMoney.getFromAccount());
             money.setToAccount(transferMoney.getToAccount());
-            if (transferMoney.getAppointmentTime()!= null){
-                money.setAppointmentTime(transferMoney.getAppointmentTime());
+            if (transferMoney.getIs()){
+                // 获取当前时间戳
+                long currentTimestampMillis = System.currentTimeMillis();
+
+                // 将当前时间戳加上24小时
+                long newTimestampMillis = currentTimestampMillis + (24 * 60 * 60 * 1000);
+
+                // 创建 Date 对象
+                Date currentDate = new Date(currentTimestampMillis);
+                Date newDate = new Date(newTimestampMillis);
+
+                money.setAppointmentTime(newDate);
+                Map<String, Object> trans = trans(money);
+                flowDefinitionService.startProcessInstanceById("transferApprovalProcess:26:110016",trans);
             }else{
                 if(transferMoney.getAmount().doubleValue()> 20000.00){
                     return MyResult.error("数额大于两万，请预约转账");
@@ -163,6 +178,20 @@ public class TransferMoneyController
         return  MyResult.success(answer);
     }
 
+    public static Map<String, Object> trans(TransferMoney transferMoney) {
+
+        Map<String, Object> variablesMap = new HashMap<String, Object>();
+        String input = "fields=[{__config__={label=转账人, labelWidth=null, showLabel=true, changeTag=true, tag=el-input, tagIcon=input, required=true, layout=colFormItem, span=24, document=https://element.eleme.cn/#/zh-CN/component/input, regList=[{required=true, message=请输入转账人转账人, trigger=blur}], formId=101, renderKey=1011702627522851, defaultValue=11}, __slot__={prepend=, append=}, placeholder=请输入转账人转账人, style={width=100%}, clearable=true, prefix-icon=, suffix-icon=, maxlength=null, show-word-limit=false, readonly=false, disabled=false, __vModel__=fromAccount}, {__config__={label=转账对象, labelWidth=null, showLabel=true, changeTag=true, tag=el-input, tagIcon=input, required=true, layout=colFormItem, span=24, document=https://element.eleme.cn/#/zh-CN/component/input, regList=[{required=true, message=请输入转账对象转账对象, trigger=blur}], formId=101, renderKey=1011702705566833, defaultValue=1}, __slot__={prepend=, append=}, placeholder=请输入转账对象转账对象, style={width=100%}, clearable=true, prefix-icon=, suffix-icon=, maxlength=null, show-word-limit=false, readonly=false, disabled=false, __vModel__=toAccount}, {__config__={label=转账金额, labelWidth=null, showLabel=true, changeTag=true, tag=el-input, tagIcon=input, required=true, layout=colFormItem, span=24, document=https://element.eleme.cn/#/zh-CN/component/input, regList=[{required=true, message=请输入转账金额, trigger=blur}], formId=102, renderKey=1021702705567651, defaultValue=1}, __slot__={prepend=, append=}, placeholder=请输入转账金额, style={width=100%}, clearable=true, prefix-icon=, suffix-icon=, maxlength=null, show-word-limit=false, readonly=false, disabled=false, __vModel__=amount}, {__config__={label=转账方式, showLabel=true, labelWidth=null, tag=el-select, tagIcon=select, layout=colFormItem, span=24, required=true, regList=[{required=true, message=请选择转账方式, trigger=change}], changeTag=true, document=https://element.eleme.cn/#/zh-CN/component/select, formId=111, renderKey=1111702705777575, defaultValue=3}, __slot__={options=[{label=公户对公户, value=1}, {label=公户对个人, value=2}, {label=个人对个人, value=3}]}, placeholder=请选择转账方式, style={width=100%}, clearable=true, disabled=false, filterable=false, multiple=false, __vModel__=type}, {__config__={label=描述, labelWidth=null, showLabel=true, changeTag=true, tag=el-input, tagIcon=input, required=true, layout=colFormItem, span=24, document=https://element.eleme.cn/#/zh-CN/component/input, regList=[{required=true, message=请输入单行文本描述, trigger=blur}], formId=101, renderKey=1011702891630323, defaultValue=1}, __slot__={prepend=, append=}, placeholder=请输入单行文本描述, style={width=100%}, clearable=true, prefix-icon=, suffix-icon=, maxlength=null, show-word-limit=false, readonly=false, disabled=false, __vModel__=description}, {__config__={label=预约时间, tag=el-time-picker, tagIcon=time, defaultValue=16:06:05, span=24, showLabel=true, layout=colFormItem, labelWidth=null, required=true, regList=[{required=true, message=请选择预约时间预约时间, trigger=change}], changeTag=true, document=https://element.eleme.cn/#/zh-CN/component/time-picker, formId=103, renderKey=1031702627563350}, placeholder=请选择预约时间预约时间, style={width=100%}, disabled=false, clearable=true, picker-options={selectableRange=00:00:00-23:59:59}, format=HH:mm:ss, value-format=HH:mm:ss, __vModel__=time}], formRef=elForm, formModel=formData, size=medium, labelPosition=left, labelWidth=100, formRules=rules, gutter=15, disabled=true, span=24, formBtns=false}";
+        variablesMap.put("fromAccount",transferMoney.getFromAccount());
+        variablesMap.put("toAccount",transferMoney.getToAccount());
+        variablesMap.put("amount",transferMoney.getAmount());
+        variablesMap.put("description",transferMoney.getDescription());
+        variablesMap.put("time",transferMoney.getAppointmentTime());
+        variablesMap.put("variables",input);
+        variablesMap.put("type",3);
+
+        return variablesMap;
+    }
 
 
 }

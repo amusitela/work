@@ -1,5 +1,6 @@
 package com.cumt.bankapp.service.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -178,6 +179,15 @@ public class UserInformationServiceImpl implements IUserInformationService
         return userInformationMapper.getPay(phone);
     }
 
+    @Override
+    public byte[] selectImg(String phone) {
+        return userInformationMapper.selectImg(phone);
+    }
+
+    @Override
+    public int updateImg(String phone, byte[] flie) {
+        return userInformationMapper.updateImg(phone,flie);
+    }
 
 
 }

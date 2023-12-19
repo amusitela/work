@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where transfer_id = #{transferId}
     </select>
     <select id="selectAllFlow" parameterType="string"  resultMap="TransferMoneyResult">
-        select appointment_time, transfer_id, from_account, from_account, amount, transfer_date, description from transfer_money where from_account = #{transferId} or from_account = #{transferId}
+        select appointment_time, transfer_id, from_account, from_account, amount, transfer_date, description from transfer_money where from_account = #{transferId} or to_account = #{transferId}
     </select>
 
     <insert id="insertTransferMoney" parameterType="TransferMoney">

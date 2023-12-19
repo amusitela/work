@@ -32,8 +32,8 @@ user:
 spring:
   datasource:
     username: root
-    password: '123456'
-    url: jdbc:mysql://localhost:3306/bank_app?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    password: '021125'
+    url: jdbc:mysql://localhost:3306/bank-vue?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
 #josn解析
   jackson:
@@ -90,3 +90,9 @@ mica:
   xss:
     enabled: true
     path-patterns: /**
+# flowable相关表
+flowable:
+  # true 会对数据库中所有表进行更新操作。如果表不存在，则自动创建(建议开发时使用)
+  database-schema-update: false
+  # 关闭定时任务JOB
+  async-executor-activate: false

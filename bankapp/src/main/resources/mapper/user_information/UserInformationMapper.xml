@@ -55,6 +55,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
         </where>
     </select>
+    <select id="selectImg" resultType="java.io.File">
+        select img from user_information where phone = #{phone}
+    </select>
 
     <insert id="insertUserInformation" parameterType="UserInformation">
         insert into user_information
@@ -82,10 +85,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="phone != null">phone = #{phone},</if>
             <if test="createdAt != null">created_at = #{createdAt},</if>
             <if test="card != null">card = #{card},</if>
-            <if test="img != null">card = #{img},</if>
+            <if test="img != null">img = #{img},</if>
             <if test="payPswd != null">paypswd = #{payPswd},</if>
         </trim>
         where id_card = #{idCard}
+    </update>
+    <update id="updateImg">
+        update user_information set img = #{file} where phone = #{phone}
     </update>
 
     <delete id="deleteUserInformationByIdCard" parameterType="String">
