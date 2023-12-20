@@ -1,11 +1,17 @@
 package com.ruoyi.flowable.listener;
 
+import com.ruoyi.bank.domain.IndividualAccount;
+import com.ruoyi.bank.domain.UserInformation;
+import com.ruoyi.bank.service.IIndividualAccountService;
+import com.ruoyi.bank.service.IUserInformationService;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.common.engine.api.delegate.Expression;
 import org.flowable.engine.delegate.DelegateExecution;
 import org.flowable.engine.delegate.ExecutionListener;
 import org.flowable.http.common.api.HttpResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 执行监听器
@@ -29,15 +35,45 @@ public class FlowExecutionListener1 implements ExecutionListener {
      * 流程设计器添加的参数
      */
     private Expression param;
+    @Autowired
+    private IIndividualAccountService individualAccountService;
+
+    @Autowired
+    private IUserInformationService uis;
 
     @Override
+    @Transactional
     public void notify(DelegateExecution execution) {
-        log.info("执行监听器:{}", execution);
-        HttpResponse httpResponse = new HttpResponse();
-        String body = httpResponse.getBody();
-        System.out.println(body);
-        String someFormFieldValue = execution.getVariable("formFieldVariableName", String.class);
-        System.out.println("-----------------------------------");
-        System.out.println(someFormFieldValue);
+        String phone = (String) execution.getVariable("phone");
+        String idCard = (String) execution.getVariable("idCard");
+        String card = (String) execution.getVariable("card");
+        String address = (String) execution.getVariable("address");
+        String email = (String) execution.getVariable("email");
+        IndividualAccount individualAccount = new IndividualAccount();
+        individualAccount.setAccountId(card);
+        String id = individualAccountService.selectIndividualAccountList(individualAccount).get(0).getId();
+
+        individualAccount.setIdHolder(idCard);
+        individualAccount.setPhoneNumber(phone);
+        individualAccount.setAddress(address);
+        individualAccount.setEmail(email);
+        individualAccount.setIsActive("1");
+        individualAccount.setId(id);
+
+        UserInformation userInformation = new UserInformation();
+
+        userInformation.setIdCard(individualAccount.getIdHolder());
+        userInformation.setCard(individualAccount.getAccountId());
+        userInformation.setPhone(individualAccount.getPhoneNumber());
+
+        UserInformation userInformation1 = new UserInformation();
+        userInformation1.setIdCard("410482200211111111");
+        userInformation1.setCard(individualAccount.getAccountId());
+        userInformation1.setPhone("1");
+
+        individualAccountService.updateIndividualAccount(individualAccount);
+        uis.updateUserCard(userInformation,1);
+        uis.updateUserCard(userInformation1,0);
+
     }
 }

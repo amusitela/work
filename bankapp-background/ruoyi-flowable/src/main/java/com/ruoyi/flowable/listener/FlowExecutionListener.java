@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
+
 /**
  * 执行监听器
  *
@@ -49,7 +51,10 @@ public class FlowExecutionListener implements ExecutionListener {
 
     @Autowired
     private ITransferMoneyService tms;
+
+
     @Override
+    @Transactional
     public void notify(DelegateExecution execution) {
         try {
             // 假设所有变量都是必需的，如果任何一个变量缺失，将抛出异常
