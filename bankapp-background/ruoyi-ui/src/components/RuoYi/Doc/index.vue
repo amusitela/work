@@ -9,7 +9,7 @@ export default {
   name: 'RuoYiDoc',
   data() {
     return {
-      url: 'https://www.yuque.com/u1024153/icipor/vh4wfl'
+      url: 'https://github.com/amusitela/work.git'
     }
   },
   methods: {

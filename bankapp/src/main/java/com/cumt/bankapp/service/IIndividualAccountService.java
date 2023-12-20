@@ -73,4 +73,12 @@ public interface IIndividualAccountService
      * @return 结果
      */
     public String transfer(String fromAccountId, String toAccountId, Double amount);
+
+    /**
+     * 查询individual_account列表
+     *
+     * @param
+     * @return individual_account集合
+     */
+    public List<String> selectInActCard( );
 }

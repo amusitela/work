@@ -66,6 +66,11 @@ public class UserInformationServiceImpl implements IUserInformationService
         return userInformationMapper.selectUserInformationName(id);
     }
 
+    @Override
+    public int selectUserInformationNameTotal(String id) {
+        return userInformationMapper.selectUserInformationNameTotal(id);
+    }
+
     /**
      * 查询user_information
      *

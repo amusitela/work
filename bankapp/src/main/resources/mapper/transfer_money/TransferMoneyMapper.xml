@@ -36,6 +36,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectAllFlow" parameterType="string"  resultMap="TransferMoneyResult">
         select appointment_time,  from_account, to_account, amount, transfer_date, description from transfer_money where from_account = #{transferId} or to_account = #{transferId}
     </select>
+    <select id="getPay" resultType="java.lang.Double" parameterType="java.util.Map">
+        SELECT amount FROM transfer_money
+        WHERE from_account IN
+        <!-- Use MyBatis foreach to iterate over the list of IDs -->
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND transfer_date >= #{startDate}
+        ORDER BY transfer_date DESC
+    </select>
+
+    <select id="getRecive" resultType="java.lang.Double" parameterType="java.util.Map">
+        SELECT amount FROM transfer_money
+        WHERE to_account IN
+        <!-- Use MyBatis foreach to iterate over the list of IDs -->
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND transfer_date >= #{startDate}
+        ORDER BY transfer_date DESC
+    </select>
+
 
     <insert id="insertTransferMoney" parameterType="TransferMoney">
         insert into transfer_money

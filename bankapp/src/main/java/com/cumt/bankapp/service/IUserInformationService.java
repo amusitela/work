@@ -42,6 +42,14 @@ public interface IUserInformationService
     /**
      * 查询user_information
      *
+     * @param id
+     * @return user_information
+     */
+    public int selectUserInformationNameTotal(String id);
+
+    /**
+     * 查询user_information
+     *
      * @param userInformation
      * @return user_information
      */

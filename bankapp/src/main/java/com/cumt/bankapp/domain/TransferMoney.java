@@ -37,9 +37,8 @@ public class TransferMoney implements Serializable
     private BigDecimal amount;
 
     /**  */
-    @JsonFormat(pattern = "yyyy-MM-dd")
 
-    private Date transferDate;
+    private String transferDate;
 
     /**  */
 
@@ -98,12 +97,12 @@ public class TransferMoney implements Serializable
     {
         return amount;
     }
-    public void setTransferDate(Date transferDate) 
+    public void setTransferDate(String transferDate)
     {
         this.transferDate = transferDate;
     }
 
-    public Date getTransferDate() 
+    public String getTransferDate()
     {
         return transferDate;
     }

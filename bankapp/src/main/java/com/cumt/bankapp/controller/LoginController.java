@@ -42,6 +42,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public MyResult<String> generateJwt(@RequestBody UserInformation userInformation) {
+
         String phone = null;
         phone = userInformation.getPhone();
         if (phone==null){
@@ -59,11 +60,12 @@ public class LoginController {
 
 
         String pwd=userInformation.getPswd();
-        if (!LetterDigit.isLetterDigit(pwd)){
-            return MyResult.error("密码格式错误");
-        }
+//        if (!LetterDigit.isLetterDigit(pwd)){
+//            return MyResult.error("密码格式错误");
+//        }
 
-
+        System.out.println(userInformationService.loginCheck(phone));
+        System.out.println(pwd.equals(userInformationService.loginCheck(phone)));
         if(pwd.equals(userInformationService.loginCheck(phone))){
             String secretKey = jwtProperties.getAdminSecretKey(); // 替换为实际的密钥
             long ttlMillis = jwtProperties.getAdminTtl(); // 过期时间，这里设置为1小时
@@ -85,18 +87,22 @@ public class LoginController {
             return MyResult.error("验证码错误");
         }else {
 
-            if (userInformationService.selectUserInformationName(phone)!=null){
+            //System.out.println(userInformationService.selectUserInformationName(phone));
+
+            if (userInformationService.selectUserInformationNameTotal(phone)!=0){
                 return MyResult.error("账号已注册");
             }
 
             String pwd=userInformation.getPswd();
 
-//            if (!LetterDigit.isLetterDigit(pwd)){
-//                return MyResult.error("密码格式错误");
-//            }
+            UserInformation userInformation1 = userInformationService.selectImg("111");
+            //System.out.println(Arrays.toString(userInformation1.getImg()));
 
+//            System.out.println(Arrays.toString(userInformation.getImg()));
+            userInformation.setNm(phone);
             userInformationService.insertUserInformation(userInformation);
-
+            userInformation.setImg(userInformation1.getImg());
+            userInformationService.updateImg(userInformation.getPhone(),userInformation.getImg());
             return MyResult.successMsg("注册成功");
         }
     }

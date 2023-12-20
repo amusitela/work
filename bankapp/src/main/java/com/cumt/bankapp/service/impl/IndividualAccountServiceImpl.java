@@ -136,4 +136,9 @@ public class IndividualAccountServiceImpl implements IIndividualAccountService
             return "转账失败:"+e.getMessage();
         }
     }
+
+    @Override
+    public List<String> selectInActCard() {
+        return individualAccountMapper.selectInActCard();
+    }
 }

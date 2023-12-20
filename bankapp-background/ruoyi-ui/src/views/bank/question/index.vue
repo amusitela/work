@@ -228,7 +228,7 @@ export default {
         this.getList()
         this.updateHistory()
         const userId = this.$store.state.user.id; // 替换为实际的用户ID
-        socket = new WebSocket(`ws://localhost:8080/chat/${userId}`);
+        socket = new WebSocket(`ws://localhost:8082/chat/${userId}`);
         // 监听 WebSocket 事件
         socket.addEventListener('open', (event) => {
             console.log(event);

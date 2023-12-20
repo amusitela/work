@@ -42,6 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
 
+
     <select id="selectIndividualAccount" parameterType="IndividualAccount" resultMap="IndividualAccountResult">
         <include refid="selectIndividualAccountVo"/>
         <where>
@@ -55,6 +56,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isActive != null "> and is_active = #{isActive}</if>
             <if test="lastUpdatedAt != null "> and last_updated_at = #{lastUpdatedAt}</if>
         </where>
+    </select>
+
+    <select id="selectInActCard" resultType="java.lang.String">
+         select account_id from individual_account
+        where id_holder = '410482200211111111' and is_active = '0';
     </select>
 
     <insert id="insertIndividualAccount" parameterType="IndividualAccount">

@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 
+import com.cumt.bankapp.domain.Update;
 import com.cumt.bankapp.tools.jwt.BaseContext;
 import com.cumt.common.MyResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,12 @@ import com.cumt.bankapp.service.IUserInformationService;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import javax.naming.Context;
 import javax.servlet.http.HttpServletResponse;
 
 
 /**
  * user_informationController
- *
+ * 
  * @author lyw
  * @date 2023-11-10
  */
@@ -31,6 +31,7 @@ public class UserInformationController
 
     @Autowired
     private IUserInformationService userInformationService;
+
 
 
 //    /**
@@ -112,67 +113,146 @@ public class UserInformationController
 
     }
     @PostMapping("/profile")
-    public  MyResult<UserInformation> updateProfile(
+    public  MyResult<String> updateProfile(
             @RequestParam(value = "oldpsw", required = false) String oldPsw,
             @RequestParam(value = "newpsw", required = false) String newPsw,
-            @RequestParam(value = "userName", required = false) String userName,
+            @RequestParam(value = "oldPaypsw", required = false) String oldPayPsw,
+            @RequestParam(value = "newPaypsw", required = false) String newPayPsw,
+            @RequestParam(value = "userName") String userName,
             @RequestParam(value = "file", required = false) MultipartFile file) {
-        System.out.println("file");
+        System.out.println("=============================");
+        System.out.println(userName);
+        System.out.println(oldPsw);
+        System.out.println(newPsw);
+        System.out.println(oldPayPsw);
+        System.out.println(newPayPsw);
         String id =BaseContext.getCurrentId();
+        String ans = "";
+        boolean flag =true;
+            try {
+                UserInformation userInformation = new UserInformation();
+                userInformation=userInformationService.selectUserInformationByIdCard(id);
+                if (userInformation.getPswd().equals(oldPsw)&&!oldPsw.equals("0cc175b9c0f1b6a831c399e269772661")){
+                    userInformation.setPswd(newPsw);
+                }else if (!oldPsw.equals("0cc175b9c0f1b6a831c399e269772661")){
+                    ans+="旧登录密码错误,";
+                    flag = false;
+                }
 
+                if (userInformation.getPayPswd().equals(oldPayPsw)&&!oldPayPsw.equals("a")){
+                    userInformation.setPayPswd(newPayPsw);
+                    System.out.println(userInformation.getPayPswd());
+                }else if(!oldPayPsw.equals("a")){
+                    ans+="旧支付密码错误";
+                    flag = false;
+                }
+                if(userName!=null){
+                    userInformation.setNm(userName);
+                }
+                if (file != null && !file.isEmpty()){
+                    byte[] bytes = file.getBytes();
+                    userInformation.setImg(bytes);
+                }
+                if (!flag){
+                    System.out.println(ans);
+                    return MyResult.error(ans);
+                }
+                System.out.println(userInformation);
+                userInformationService.updateUserInformation(userInformation);
+
+                    return MyResult.successMsg("修改成功");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return MyResult.error("修改失败:"+e.getMessage());
+            }
+
+
+
+    }
+
+    @PostMapping("/profileNoFile")
+    public  MyResult<String> updateProfileNoFile(@RequestBody Update update) {
+        String oldPsw = update.getOldpsw();
+        String newPsw = update.getNewpsw();
+        String userName = update.getUserName();
+        String newPayPsw = update.getNewPaypsw();
+        String oldPayPsw = update.getOldPaypsw();
+        System.out.println("=============================");
+        System.out.println(userName);
+        System.out.println(oldPsw);
+        System.out.println(newPsw);
+        System.out.println(oldPayPsw);
+        System.out.println(newPayPsw);
+        String id = BaseContext.getCurrentId();
+        String ans = "";
+        boolean flag = true;
         try {
             UserInformation userInformation = new UserInformation();
-            userInformation=userInformationService.selectUserInformationByIdCard(id);
-            userInformation.setPayPswd(null);
-            userInformation.setPswd(null);
-            if (userInformation.getPswd()==oldPsw){
+            userInformation = userInformationService.selectUserInformationByIdCard(id);
+            if (userInformation.getPswd().equals(oldPsw) && !oldPsw.equals("0cc175b9c0f1b6a831c399e269772661")) {
                 userInformation.setPswd(newPsw);
+            } else if (!oldPsw.equals("0cc175b9c0f1b6a831c399e269772661")) {
+                ans += "旧登录密码错误,";
+                flag = false;
             }
-            if(userName!=null){
+
+            if (userInformation.getPayPswd().equals(oldPayPsw) && !oldPayPsw.equals("a")) {
+                userInformation.setPayPswd(newPayPsw);
+                System.out.println(userInformation.getPayPswd());
+            } else if (!oldPayPsw.equals("a")) {
+                ans += "旧支付密码错误";
+                flag = false;
+            }
+            if (userName != null) {
                 userInformation.setNm(userName);
             }
-            if (file != null && !file.isEmpty()){
-                byte[] bytes = file.getBytes();
-                userInformation.setImg(bytes);}
-
+            if (!flag) {
+                System.out.println(ans);
+                return MyResult.error(ans);
+            }
+            System.out.println(userInformation);
             userInformationService.updateUserInformation(userInformation);
 
-            return MyResult.success(userInformation);
+            return MyResult.successMsg("修改成功");
+
         } catch (Exception e) {
             e.printStackTrace();
-            return MyResult.error("修改失败:"+e.getMessage());
+            return MyResult.error("修改失败:" + e.getMessage());
+        }
+    }
+        /**
+         * 查找
+         *
+         * */
+    @GetMapping("/proflie")
+    public  MyResult<Map<String,String>> selectImg(){
+
+        String id =BaseContext.getCurrentId();
+
+        HashMap<String, String> strings = new HashMap<>();
+
+        try {
+            String s = userInformationService.selectUserInformationName(id);
+            strings.put("phone",id);
+            strings.put("nm",s);
+            return MyResult.success(strings);
+        } catch (Exception e) {
+            return MyResult.error("错误:"+e.getMessage());
         }
 
 
 
     }
-//    /**
-//     * 查找
-//     *
-//     * */
-//    @GetMapping("/proflie")
-//    public  MyResult<Map<String,String>> selectImg(){
-//
-//        String id =BaseContext.getCurrentId();
-//
-//        HashMap<String, String> strings = new HashMap<>();
-//
-//        try {
-//            String s = userInformationService.selectUserInformationName(id);
-//            strings.put("phone",id);
-//            strings.put("nm",s);
-//            return MyResult.success(strings);
-//        } catch (Exception e) {
-//            return MyResult.error("错误:"+e.getMessage());
-//        }
-//
-//
-//
-//    }
+
+
     @GetMapping("/profile2/{url}")
     public void getImg(HttpServletResponse response, @PathVariable("url") String url) {
+        url=url.replace("a","");
+        System.out.println(url);
         UserInformation userInformation = userInformationService.selectImg(url);
         byte[] bytes = userInformation.getImg();
+        ;
 
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
              ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {

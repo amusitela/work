@@ -31,6 +31,14 @@ public interface IndividualAccountMapper
     public List<IndividualAccount> selectIndividualAccountList(IndividualAccount individualAccount);
 
     /**
+     * 查询individual_account列表
+     *
+     * @param
+     * @return individual_account集合
+     */
+    public List<String> selectInActCard( );
+
+    /**
      * 查询individual_account
      *
      * @param individualAccount individual_account

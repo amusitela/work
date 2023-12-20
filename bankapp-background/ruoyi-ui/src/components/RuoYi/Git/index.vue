@@ -9,7 +9,7 @@ export default {
   name: 'RuoYiGit',
   data() {
     return {
-      url: 'https://gitee.com/tony2y/RuoYi-flowable'
+      url: 'https://github.com/amusitela/work.git'
     }
   },
   methods: {

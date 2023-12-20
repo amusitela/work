@@ -34,6 +34,8 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.xml.transform.Result;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * transfer_moneyController
@@ -112,9 +114,9 @@ public class TransferMoneyController
         }
 
 
-//        if (!uis.getPay(currentId).equals(decryptedString)){
-//            return MyResult.error("支付密码错误");
-//        }
+        if (!uis.getPay(currentId).equals(decryptedString)){
+            return MyResult.error("支付密码错误");
+        }
 
         try {
 
@@ -131,15 +133,16 @@ public class TransferMoneyController
                 // 将当前时间戳加上24小时
                 long newTimestampMillis = currentTimestampMillis + (24 * 60 * 60 * 1000);
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
                 // 创建 Date 对象
                 Date currentDate = new Date(currentTimestampMillis);
                 Date newDate = new Date(newTimestampMillis);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 
                 String formattedDate = dateFormat.format(newDate);
+                Date parsedDate = dateFormat.parse(formattedDate);
 
-                money.setAppointmentTime(newDate);
+                money.setAppointmentTime(parsedDate);
                 Map<String, Object> trans = trans(money);
                 flowDefinitionService.startProcessInstanceById("transferApprovalProcess:26:110016",trans);
 
@@ -182,10 +185,35 @@ public class TransferMoneyController
             }else{
                 i.setStatus("收入");
             }
+            System.out.println(i);
             answer.add(i);
         }
 
         return  MyResult.success(answer);
+    }
+
+    @PostMapping("addCard")
+    public MyResult<String> addCard(@RequestBody IndividualAccount individualAccount){
+
+        try {
+            Map<String, Object> trans = transAdd(individualAccount);
+            flowDefinitionService.startProcessInstanceById("insertCard:1:180044",trans);
+            return MyResult.successMsg("申请成功，静候佳音");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MyResult.error("申请失败");
+        }
+    }
+
+    @PostMapping("/getInActCard")
+    public MyResult<List<String>> getInActCard(){
+        try {
+            List<String> strings = iIndividualAccountService.selectInActCard();
+            return MyResult.success(strings,"成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MyResult.error("查找失败");
+        }
     }
 
     public static Map<String, Object> trans(TransferMoney transferMoney) {
@@ -205,6 +233,26 @@ public class TransferMoneyController
         variablesMap.put("time",transferMoney.getAppointmentTime());
         variablesMap.put("variables",map);
         variablesMap.put("type",3);
+
+        return variablesMap;
+    }
+
+    public static Map<String, Object> transAdd(IndividualAccount individualAccount) {
+
+        Map<String, Object> variablesMap = new HashMap<String, Object>();
+        String jsonString = "{\"fields\":[{\"__config__\":{\"label\":\"手机号\",\"showLabel\":true,\"changeTag\":true,\"tag\":\"el-input\",\"tagIcon\":\"input\",\"required\":true,\"layout\":\"colFormItem\",\"span\":24,\"document\":\"https://element.eleme.cn/#/zh-CN/component/input\",\"regList\":[{\"required\":true,\"message\":\"请输入手机号\",\"trigger\":\"blur\"}],\"formId\":101,\"renderKey\":\"1011703077864419\",\"defaultValue\":\""+individualAccount.getPhoneNumber()+"\"},\"__slot__\":{\"prepend\":\"\",\"append\":\"\"},\"placeholder\":\"请输入手机号\",\"style\":{\"width\":\"100%\"},\"clearable\":true,\"prefix-icon\":\"\",\"suffix-icon\":\"\",\"show-word-limit\":false,\"readonly\":false,\"disabled\":false,\"__vModel__\":\"phone\"},{\"__config__\":{\"label\":\"身份证号\",\"showLabel\":true,\"changeTag\":true,\"tag\":\"el-input\",\"tagIcon\":\"input\",\"required\":true,\"layout\":\"colFormItem\",\"span\":24,\"document\":\"https://element.eleme.cn/#/zh-CN/component/input\",\"regList\":[{\"required\":true,\"message\":\"请输入身份证号\",\"trigger\":\"blur\"}],\"formId\":102,\"renderKey\":\"1021703077868355\",\"defaultValue\":\""+individualAccount.getIdHolder()+"\"},\"__slot__\":{\"prepend\":\"\",\"append\":\"\"},\"placeholder\":\"请输入身份证号\",\"style\":{\"width\":\"100%\"},\"clearable\":true,\"prefix-icon\":\"\",\"suffix-icon\":\"\",\"show-word-limit\":false,\"readonly\":false,\"disabled\":false,\"__vModel__\":\"idCard\"},{\"__config__\":{\"label\":\"邮箱\",\"showLabel\":true,\"changeTag\":true,\"tag\":\"el-input\",\"tagIcon\":\"input\",\"required\":true,\"layout\":\"colFormItem\",\"span\":24,\"document\":\"https://element.eleme.cn/#/zh-CN/component/input\",\"regList\":[{\"required\":true,\"message\":\"请输入邮箱\",\"trigger\":\"blur\"}],\"formId\":102,\"renderKey\":\"1021703078634263\",\"defaultValue\":\""+individualAccount.getEmail()+"\"},\"__slot__\":{\"prepend\":\"\",\"append\":\"\"},\"placeholder\":\"请输入邮箱\",\"style\":{\"width\":\"100%\"},\"clearable\":true,\"prefix-icon\":\"\",\"suffix-icon\":\"\",\"show-word-limit\":false,\"readonly\":false,\"disabled\":false,\"__vModel__\":\"email\"},{\"__config__\":{\"label\":\"银行卡号\",\"showLabel\":true,\"changeTag\":true,\"tag\":\"el-input\",\"tagIcon\":\"input\",\"required\":true,\"layout\":\"colFormItem\",\"span\":24,\"document\":\"https://element.eleme.cn/#/zh-CN/component/input\",\"regList\":[{\"required\":true,\"message\":\"请输入银行卡号\",\"trigger\":\"blur\"}],\"formId\":103,\"renderKey\":\"1031703077869787\",\"defaultValue\":\""+individualAccount.getAccountId()+"\"},\"__slot__\":{\"prepend\":\"\",\"append\":\"\"},\"placeholder\":\"请输入银行卡号\",\"style\":{\"width\":\"100%\"},\"clearable\":true,\"prefix-icon\":\"\",\"suffix-icon\":\"\",\"show-word-limit\":false,\"readonly\":false,\"disabled\":false,\"__vModel__\":\"card\"},{\"__config__\":{\"label\":\"地址\",\"showLabel\":true,\"changeTag\":true,\"tag\":\"el-input\",\"tagIcon\":\"input\",\"required\":true,\"layout\":\"colFormItem\",\"span\":24,\"document\":\"https://element.eleme.cn/#/zh-CN/component/input\",\"regList\":[{\"required\":true,\"message\":\"请输入单行文本地址\",\"trigger\":\"blur\"}],\"formId\":101,\"renderKey\":\"1011703078631364\",\"defaultValue\":\""+individualAccount.getAddress()+"\"},\"__slot__\":{\"prepend\":\"\",\"append\":\"\"},\"placeholder\":\"请输入单行文本地址\",\"style\":{\"width\":\"100%\"},\"clearable\":true,\"prefix-icon\":\"\",\"suffix-icon\":\"\",\"show-word-limit\":false,\"readonly\":false,\"disabled\":false,\"__vModel__\":\"address\"}],\"formRef\":\"elForm\",\"formModel\":\"formData\",\"size\":\"medium\",\"labelPosition\":\"left\",\"labelWidth\":100,\"formRules\":\"rules\",\"gutter\":15,\"disabled\":true,\"span\":24,\"formBtns\":false}";
+        // 将 JSON 字符串解析为 JSONObject
+        JSONObject jsonObject = new JSONObject(jsonString);
+
+        // 将 JSONObject 转换为 Map
+        Map<String, Object> map = jsonToMap(jsonObject);
+
+        variablesMap.put("phone",individualAccount.getPhoneNumber());
+        variablesMap.put("idCard",individualAccount.getIdHolder());
+        variablesMap.put("email",individualAccount.getEmail());
+        variablesMap.put("card",individualAccount.getAccountId());
+        variablesMap.put("address",individualAccount.getAddress());
+        variablesMap.put("variables",map);
 
         return variablesMap;
     }
@@ -243,5 +291,17 @@ public class TransferMoneyController
         return array.toList();
     }
 
+
+    @GetMapping("/total/bill")
+    public  MyResult<Map<String,Double>> getToTalBill(){
+        Map<String,Double> t=new HashMap<>();
+        String id = BaseContext.getCurrentId();
+        Double pay=transferMoneyService.getPay(id);
+        Double receive=transferMoneyService.getRecive(id);
+        t.put("pay",pay);
+        t.put("recive",receive);
+        return MyResult.success(t);
+
+    }
 
 }

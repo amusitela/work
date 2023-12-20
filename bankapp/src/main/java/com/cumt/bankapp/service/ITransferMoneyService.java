@@ -68,5 +68,6 @@ public interface ITransferMoneyService
      */
     public List<TransferMoney> selectAllFlow(String transferId);
 
-
+    public Double getPay(String id);
+    public Double getRecive(String id);
 }

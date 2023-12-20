@@ -1,9 +1,13 @@
 package com.cumt.bankapp.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.cumt.bankapp.domain.UserInformation;
 import com.cumt.bankapp.mapper.IndividualAccountMapper;
+import com.cumt.bankapp.mapper.UserInformationMapper;
 import com.cumt.common.Convert;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cumt.bankapp.mapper.TransferMoneyMapper;
@@ -22,6 +26,8 @@ public class TransferMoneyServiceImpl implements ITransferMoneyService
 {
     @Autowired
     private TransferMoneyMapper transferMoneyMapper;
+    @Autowired
+    private UserInformationMapper userInformationMapper;
 
     /**
      * 查询transfer_money
@@ -98,5 +104,40 @@ public class TransferMoneyServiceImpl implements ITransferMoneyService
     @Override
     public List<TransferMoney> selectAllFlow(String transferId) {
         return transferMoneyMapper.selectAllFlow(transferId);
+    }
+
+    @Override
+    public Double getPay(String id) {
+        UserInformation userInformation = userInformationMapper.selectUserInformationByIdCard(id);
+        String[] ids=userInformation.getCard().split(",");
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        // Calculate the start date for the last seven days
+        LocalDateTime startDate = currentDate.minusDays(7);
+        List<Double> ts=transferMoneyMapper.getPay(ids,startDate);
+
+        Double t=new Double(0);
+        for(var i:ts){
+           t=t+i;
+        }
+        System.out.println(t);
+        return t;
+    }
+
+    @Override
+    public Double getRecive(String id) {
+        UserInformation userInformation = userInformationMapper.selectUserInformationByIdCard(id);
+        String[] ids=userInformation.getCard().split(",");
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        // Calculate the start date for the last seven days
+        LocalDateTime startDate = currentDate.minusDays(7);
+        List<Double> ts=transferMoneyMapper.getRecive(ids,startDate);
+        Double t=new Double(0);
+        for(var i:ts){
+            t=t+i;
+        }
+        System.out.println(t);
+        return t;
     }
 }

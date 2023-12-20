@@ -55,8 +55,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
         </where>
     </select>
+
     <select id="selectImg" resultMap="UserInformationResult">
         select img from user_information where phone = #{phone}
+
+    </select>
+    <select id="selectUserInformationNameTotal" resultType="java.lang.Integer">
+        select count(phone) from user_information where id_card = #{id} or phone = #{id}
     </select>
 
     <insert id="insertUserInformation" parameterType="UserInformation">
