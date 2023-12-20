@@ -2,10 +2,7 @@ package com.cumt.bankapp.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.cumt.bankapp.tools.jwt.BaseContext;
 import com.cumt.common.MyResult;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.cumt.bankapp.domain.UserInformation;
 import com.cumt.bankapp.service.IUserInformationService;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.naming.Context;
@@ -22,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * user_informationController
- * 
+ *
  * @author lyw
  * @date 2023-11-10
  */
@@ -33,6 +31,7 @@ public class UserInformationController
 
     @Autowired
     private IUserInformationService userInformationService;
+
 
 //    /**
 //     * 更新卡号
@@ -78,7 +77,7 @@ public class UserInformationController
      * 上传头像
      *
      * */
-    @PostMapping("/proflie")
+    @PostMapping("/proflie1")
     public  MyResult<UserInformation> selectProfile(@RequestBody Map<String,Object> map){
         String id =BaseContext.getCurrentId();
         String oldpsw = (String)map.get("oldpsw");
@@ -112,40 +111,116 @@ public class UserInformationController
 
 
     }
-
-    /**
-     * 查找
-     *
-     * */
-    @GetMapping("/seletImg")
-    public  MyResult<List<String>> selectImg(HttpServletResponse response){
-
-
+    @PostMapping("/profile")
+    public  MyResult<UserInformation> updateProfile(
+            @RequestParam(value = "oldpsw", required = false) String oldPsw,
+            @RequestParam(value = "newpsw", required = false) String newPsw,
+            @RequestParam(value = "userName", required = false) String userName,
+            @RequestParam(value = "file", required = false) MultipartFile file) {
+        System.out.println("file");
         String id =BaseContext.getCurrentId();
 
-        byte[] bytes = userInformationService.selectImg(id);
-        File file = convertByteArrayToFile(bytes);
-
-        ArrayList<String> strings = new ArrayList<>();
         try {
-            // 使用验证码文本生成图片
-            BufferedImage image =ImageIO.read(file);
+            UserInformation userInformation = new UserInformation();
+            userInformation=userInformationService.selectUserInformationByIdCard(id);
+            userInformation.setPayPswd(null);
+            userInformation.setPswd(null);
+            if (userInformation.getPswd()==oldPsw){
+                userInformation.setPswd(newPsw);
+            }
+            if(userName!=null){
+                userInformation.setNm(userName);
+            }
+            if (file != null && !file.isEmpty()){
+                byte[] bytes = file.getBytes();
+                userInformation.setImg(bytes);}
+
+            userInformationService.updateUserInformation(userInformation);
+
+            return MyResult.success(userInformation);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MyResult.error("修改失败:"+e.getMessage());
+        }
+
+
+
+    }
+//    /**
+//     * 查找
+//     *
+//     * */
+//    @GetMapping("/proflie")
+//    public  MyResult<Map<String,String>> selectImg(){
+//
+//        String id =BaseContext.getCurrentId();
+//
+//        HashMap<String, String> strings = new HashMap<>();
+//
+//        try {
+//            String s = userInformationService.selectUserInformationName(id);
+//            strings.put("phone",id);
+//            strings.put("nm",s);
+//            return MyResult.success(strings);
+//        } catch (Exception e) {
+//            return MyResult.error("错误:"+e.getMessage());
+//        }
+//
+//
+//
+//    }
+    @GetMapping("/profile2/{url}")
+    public void getImg(HttpServletResponse response, @PathVariable("url") String url) {
+        UserInformation userInformation = userInformationService.selectImg(url);
+        byte[] bytes = userInformation.getImg();
+
+        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
+             ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+
+            // 使用字节数组生成图像
+            BufferedImage image = ImageIO.read(inputStream);
+
             // 设置响应格式为图片
             response.setContentType("image/jpeg");
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+            // 将图像数据写入响应流
             ImageIO.write(image, "jpg", outputStream);
             response.getOutputStream().write(outputStream.toByteArray());
-            response.getOutputStream().flush();
-            response.getOutputStream().close();
-            String s = userInformationService.selectUserInformationName(id);
-            strings.add(id);
-            strings.add(s);
-            return MyResult.success(strings);
+
+            // 添加一些关于文件名和其他信息的头信息，可以根据需要调整
+            String s = userInformationService.selectUserInformationName(url);
+            response.setHeader("Content-Disposition", "inline; filename=" + url);
+            response.setHeader("User-Information-Name", s);
+
         } catch (IOException e) {
             e.printStackTrace();
-            return MyResult.error("错误:"+e.getMessage());
         }
     }
+
+//    @GetMapping("/profile2/{url}")
+//    public  void getImg(HttpServletResponse response,@PathVariable("url")String url){
+//
+//        byte[] bytes = userInformationService.selectImg(url);
+//        File file = convertByteArrayToFile(bytes);
+//
+//        ArrayList<String> strings = new ArrayList<>();
+//        try {
+//            // 使用验证码文本生成图片
+//            BufferedImage image =ImageIO.read(file);
+//            // 设置响应格式为图片
+//            response.setContentType("image/jpeg");
+//            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//            ImageIO.write(image, "jpg", outputStream);
+//            response.getOutputStream().write(outputStream.toByteArray());
+//            String s = userInformationService.selectUserInformationName(url);
+//            strings.add(url);
+//            strings.add(s);
+//            response.getOutputStream().flush();
+//            response.getOutputStream().close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public byte[] convertFileToByteArray(File file) {
 

@@ -110,7 +110,7 @@ public interface IUserInformationService
      * @param phone
      *   @return card id
      * */
-    public byte[] selectImg(String phone);
+    public UserInformation selectImg(String phone);
     /**
      * 获取银行卡号
      * @param phone

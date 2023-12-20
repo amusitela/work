@@ -58,10 +58,11 @@ public class IndividualAccountController
         String ID = BaseContext.getCurrentId();
         individualAccount.setPhoneNumber(ID);
         List<IndividualAccount> list = individualAccountService.selectIndividualAccountList(individualAccount);
-        BigDecimal ans = new BigDecimal(0.00);
+        BigDecimal ans = BigDecimal.ZERO;
         for (IndividualAccount i: list
              ) {
-            ans =ans.add(i.getBalance());
+//            System.out.println(i.getBalance());
+            ans=ans.add(i.getBalance());
         }
         return MyResult.success(ans);
     }

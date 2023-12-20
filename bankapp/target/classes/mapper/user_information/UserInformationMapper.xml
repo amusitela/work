@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select paypswd from user_information where id_card = #{id} or phone = #{id}
     </select>
     <select id="getPay" parameterType="String" resultType="java.lang.String">
-        select payPswd from user_information  where phone_number = #{phone} or id_holder= #{phone}
+        select payPswd from user_information  where phone = #{phone} or id_card= #{phone}
     </select>
     <select id="selectUserInformation" resultType="com.cumt.bankapp.domain.UserInformation">
         <include refid="selectUserInformationVo"/>
@@ -55,7 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
         </where>
     </select>
-    <select id="selectImg" resultType="java.io.File">
+    <select id="selectImg" resultMap="UserInformationResult">
         select img from user_information where phone = #{phone}
     </select>
 

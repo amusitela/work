@@ -1,5 +1,6 @@
 package com.cumt.bankapp.service.impl;
 
+import com.cumt.bankapp.tools.jwt.BaseContext;
 import com.cumt.common.MyResult;
 import com.cumt.common.constant.ProcessConstants;
 import com.cumt.common.FlowComment;
@@ -42,22 +43,23 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
                 return MyResult.error("流程已被挂起,请先激活流程");
             }
 //            // 设置流程发起人Id到流程中
-//            SysUser sysUser = SecurityUtils.getLoginUser().getUser();
-//            identityService.setAuthenticatedUserId(sysUser.getUserId().toString());
-//            variables.put(ProcessConstants.PROCESS_INITIATOR, sysUser.getUserId());
-//            runtimeService.startProcessInstanceById(procDefId, variables);
-//             流程发起时 跳过发起人节点
-//            SysUser sysUser = SecurityUtils.getLoginUser().getUser();
-//            identityService.setAuthenticatedUserId(sysUser.getUserId().toString());
-            variables.put(ProcessConstants.PROCESS_INITIATOR, 1);
-            ProcessInstance processInstance = runtimeService.startProcessInstanceById(procDefId, variables);
-            // 给第一步申请人节点设置任务执行人和意见
-            Task task = taskService.createTaskQuery().processInstanceId(processInstance.getProcessInstanceId()).singleResult();
-            if (Objects.nonNull(task)) {
-                taskService.addComment(task.getId(), processInstance.getProcessInstanceId(), FlowComment.NORMAL.getType(), "个体用户:"+ "发起流程申请");
-//                taskService.setAssignee(task.getId(), sysUser.getUserId().toString());
-                taskService.complete(task.getId(), variables);
-            }
+            String currentId = BaseContext.getCurrentId();
+            identityService.setAuthenticatedUserId(currentId);
+            variables.put(ProcessConstants.PROCESS_INITIATOR, (long) 1);
+//            variables.put(ProcessConstants.PROCESS_CUSTOM_USER_TYPE, (long) 1);
+
+            runtimeService.startProcessInstanceById(procDefId, variables);
+//             流程发起时 跳过发起人节
+
+//            variables.put(ProcessConstants.PROCESS_INITIATOR, "1");
+//            ProcessInstance processInstance = runtimeService.startProcessInstanceById(procDefId, variables);
+//            // 给第一步申请人节点设置任务执行人和意见
+//            Task task = taskService.createTaskQuery().processInstanceId(processInstance.getProcessInstanceId()).singleResult();
+//            if (Objects.nonNull(task)) {
+//                taskService.addComment(task.getId(), processInstance.getProcessInstanceId(), FlowComment.NORMAL.getType(), "个体用户:"+ "发起流程申请");
+////                taskService.setAssignee(task.getId(), sysUser.getUserId().toString());
+//                taskService.complete(task.getId(), variables);
+//            }
             return MyResult.success("流程启动成功");
         } catch (Exception e) {
             e.printStackTrace();

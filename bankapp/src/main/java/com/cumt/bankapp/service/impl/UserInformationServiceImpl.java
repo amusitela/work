@@ -180,7 +180,7 @@ public class UserInformationServiceImpl implements IUserInformationService
     }
 
     @Override
-    public byte[] selectImg(String phone) {
+    public UserInformation selectImg(String phone) {
         return userInformationMapper.selectImg(phone);
     }
 

@@ -6,7 +6,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="TransferMoney" id="TransferMoneyResult">
         <result property="appointmentTime"    column="appointment_time"    />
-        <result property="transferId"    column="transfer_id"    />
         <result property="fromAccount"    column="from_account"    />
         <result property="toAccount"    column="to_account"    />
         <result property="amount"    column="amount"    />
@@ -15,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTransferMoneyVo">
-        select appointment_time, transfer_id, from_account, to_account, amount, transfer_date, description from transfer_money
+        select appointment_time,  from_account, to_account, amount, transfer_date, description from transfer_money
     </sql>
 
     <select id="selectTransferMoneyList" parameterType="TransferMoney" resultMap="TransferMoneyResult">
@@ -32,17 +31,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectTransferMoneyByTransferId" parameterType="String" resultMap="TransferMoneyResult">
         <include refid="selectTransferMoneyVo"/>
-        where transfer_id = #{transferId}
+        where id = #{transferId}
     </select>
     <select id="selectAllFlow" parameterType="string"  resultMap="TransferMoneyResult">
-        select appointment_time, transfer_id, from_account, from_account, amount, transfer_date, description from transfer_money where from_account = #{transferId} or to_account = #{transferId}
+        select appointment_time,  from_account, to_account, amount, transfer_date, description from transfer_money where from_account = #{transferId} or to_account = #{transferId}
     </select>
 
     <insert id="insertTransferMoney" parameterType="TransferMoney">
         insert into transfer_money
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="appointmentTime != null">appointment_time,</if>
-            <if test="transferId != null">transfer_id,</if>
             <if test="fromAccount != null">from_account,</if>
             <if test="toAccount != null">to_account,</if>
             <if test="amount != null">amount,</if>
@@ -51,7 +49,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="appointmentTime != null">#{appointmentTime},</if>
-            <if test="transferId != null">#{transferId},</if>
             <if test="fromAccount != null">#{fromAccount},</if>
             <if test="toAccount != null">#{toAccount},</if>
             <if test="amount != null">#{amount},</if>
@@ -70,17 +67,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="transferDate != null">transfer_date = #{transferDate},</if>
             <if test="description != null">description = #{description},</if>
         </trim>
-        where transfer_id = #{transferId}
+        where id = #{transferId}
     </update>
 
     <delete id="deleteTransferMoneyByTransferId" parameterType="String">
-        delete from transfer_money where transfer_id = #{transferId}
+        delete from transfer_money where id = #{transferId}
     </delete>
 
     <delete id="deleteTransferMoneyByTransferIds" parameterType="String">
-        delete from transfer_money where transfer_id in 
+        delete from transfer_money where id in
         <foreach item="transferId" collection="array" open="(" separator="," close=")">
-            #{transferId}
+            #{id}
         </foreach>
     </delete>
 
