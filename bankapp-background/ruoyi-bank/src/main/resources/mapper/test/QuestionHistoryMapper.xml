@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.bank.mapper.QuestionHistoryMapper">
+    
+    <resultMap type="QuestionHistory" id="QuestionHistoryResult">
+        <result property="id"    column="id"    />
+        <result property="receiver"    column="receiver"    />
+        <result property="sender"    column="sender"    />
+        <result property="content"    column="content"    />
+        <result property="time"    column="time"    />
+        <result property="ifread"    column="ifread"    />
+
+    </resultMap>
+
+    <sql id="selectQuestionHistoryVo">
+        select id, receiver, sender, content, `time` ,ifread from question_history
+    </sql>
+
+    <select id="selectQuestionHistoryList" parameterType="QuestionHistory" resultMap="QuestionHistoryResult">
+        <include refid="selectQuestionHistoryVo"/>
+        <where>  
+            <if test="receiver != null  and receiver != ''"> and receiver = #{receiver}</if>
+            <if test="sender != null  and sender != ''"> and sender = #{sender}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="time != null "> and `time` = #{time}</if>
+            <if test="read != null "> and ifread = #{ifread}</if>
+
+        </where>
+    </select>
+
+    <update id="markAllAsRead" parameterType="QuestionHistory">
+        UPDATE question_history
+        SET ifread = '已读'
+    </update>
+
+    <update id="markAsReadBatch" parameterType="java.util.List">
+        <!-- 使用foreach迭代传入的ID列表 -->
+        UPDATE question_history
+        SET ifread = '已读'
+        WHERE id IN
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="selectQuestionHistoryById" parameterType="Long" resultMap="QuestionHistoryResult">
+        <include refid="selectQuestionHistoryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertQuestionHistory" parameterType="QuestionHistory" useGeneratedKeys="true" keyProperty="id">
+        insert into question_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="receiver != null">receiver,</if>
+            <if test="sender != null">sender,</if>
+            <if test="content != null">content,</if>
+            <if test="time != null">`time`,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="receiver != null">#{receiver},</if>
+            <if test="sender != null">#{sender},</if>
+            <if test="content != null">#{content},</if>
+            <if test="time != null">#{time},</if>
+         </trim>
+    </insert>
+
+    <update id="updateQuestionHistory" parameterType="QuestionHistory">
+        update question_history
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="receiver != null">receiver = #{receiver},</if>
+            <if test="sender != null">sender = #{sender},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="time != null">`time` = #{time},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteQuestionHistoryById" parameterType="Long">
+        delete from question_history where id = #{id}
+    </delete>
+
+    <delete id="deleteQuestionHistoryByIds" parameterType="String">
+        delete from question_history where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

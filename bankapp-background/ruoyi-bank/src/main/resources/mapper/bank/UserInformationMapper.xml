@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.bank.mapper.UserInformationMapper">
+    
+    <resultMap type="UserInformation" id="UserInformationResult">
+        <result property="nm"    column="nm"    />
+        <result property="pswd"    column="pswd"    />
+        <result property="idCard"    column="id_card"    />
+        <result property="phone"    column="phone"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="card"    column="card"    />
+        <result property="paypswd"    column="paypswd"    />
+        <result property="useId"    column="useId"    />
+    </resultMap>
+
+    <sql id="selectUserInformationVo">
+        select nm, pswd, id_card, phone, created_at, card, paypswd, useId from user_information
+    </sql>
+
+    <select id="selectUserInformationList" parameterType="UserInformation" resultMap="UserInformationResult">
+        <include refid="selectUserInformationVo"/>
+        <where>  
+            <if test="nm != null  and nm != ''"> and nm = #{nm}</if>
+            <if test="pswd != null  and pswd != ''"> and pswd = #{pswd}</if>
+            <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+            <if test="card != null  and card != ''"> and card = #{card}</if>
+            <if test="paypswd != null  and paypswd != ''"> and paypswd = #{paypswd}</if>
+        </where>
+    </select>
+    
+    <select id="selectUserInformationByUseId" parameterType="String" resultMap="UserInformationResult">
+        <include refid="selectUserInformationVo"/>
+        where useId = #{useId}
+    </select>
+        
+    <insert id="insertUserInformation" parameterType="UserInformation" useGeneratedKeys="true" keyProperty="useId">
+        insert into user_information
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="nm != null">nm,</if>
+            <if test="pswd != null">pswd,</if>
+            <if test="idCard != null">id_card,</if>
+            <if test="phone != null">phone,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="card != null">card,</if>
+            <if test="paypswd != null">paypswd,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="nm != null">#{nm},</if>
+            <if test="pswd != null">#{pswd},</if>
+            <if test="idCard != null">#{idCard},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="card != null">#{card},</if>
+            <if test="paypswd != null">#{paypswd},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUserInformation" parameterType="UserInformation">
+        update user_information
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nm != null">nm = #{nm},</if>
+            <if test="pswd != null">pswd = #{pswd},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="card != null">card = #{card},</if>
+            <if test="paypswd != null">paypswd = #{paypswd},</if>
+        </trim>
+        where useId = #{useId}
+    </update>
+
+    <update id="updateUserInformationByIDCard" parameterType="UserInformation">
+        update user_information
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nm != null">nm = #{nm},</if>
+            <if test="pswd != null">pswd = #{pswd},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="card != null">card = #{card},</if>
+            <if test="paypswd != null">paypswd = #{paypswd},</if>
+        </trim>
+        where id_card = #{idCard}
+    </update>
+
+    <delete id="deleteUserInformationByUseId" parameterType="String">
+        delete from user_information where useId = #{useId}
+    </delete>
+
+    <select id="selectUserInformationByIdCard" parameterType="String" resultMap="UserInformationResult">
+        <include refid="selectUserInformationVo"/>
+        where id_card = #{idCard}
+    </select>
+
+    <delete id="deleteUserInformationByUseIds" parameterType="String">
+        delete from user_information where useId in 
+        <foreach item="useId" collection="array" open="(" separator="," close=")">
+            #{useId}
+        </foreach>
+    </delete>
+</mapper>
