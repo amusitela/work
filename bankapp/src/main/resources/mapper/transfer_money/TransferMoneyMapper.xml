@@ -11,10 +11,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="amount"    column="amount"    />
         <result property="transferDate"    column="transfer_date"    />
         <result property="description"    column="description"    />
+        <result property="read"    column="read"    />
     </resultMap>
 
     <sql id="selectTransferMoneyVo">
-        select appointment_time,  from_account, to_account, amount, transfer_date, description from transfer_money
+        select appointment_time,  from_account, to_account, amount, transfer_date, description ,`read` from transfer_money
     </sql>
 
     <select id="selectTransferMoneyList" parameterType="TransferMoney" resultMap="TransferMoneyResult">
@@ -33,9 +34,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTransferMoneyVo"/>
         where id = #{transferId}
     </select>
+
     <select id="selectAllFlow" parameterType="string"  resultMap="TransferMoneyResult">
         select appointment_time,  from_account, to_account, amount, transfer_date, description from transfer_money where from_account = #{transferId} or to_account = #{transferId}
     </select>
+
     <select id="getPay" resultType="java.lang.Double" parameterType="java.util.Map">
         SELECT amount FROM transfer_money
         WHERE from_account IN
@@ -58,6 +61,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ORDER BY transfer_date DESC
     </select>
 
+    <select id="getRead" resultMap="TransferMoneyResult">
+        <include refid="selectTransferMoneyVo"/>
+          where to_account = #{toAccount} and `read` = 0
+    </select>
+
 
     <insert id="insertTransferMoney" parameterType="TransferMoney">
         insert into transfer_money
@@ -68,6 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="amount != null">amount,</if>
             <if test="transferDate != null">transfer_date,</if>
             <if test="description != null">description,</if>
+            <if test="read != null">`read`,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="appointmentTime != null">#{appointmentTime},</if>
@@ -76,6 +85,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="amount != null">#{amount},</if>
             <if test="transferDate != null">#{transferDate},</if>
             <if test="description != null">#{description},</if>
+            <if test="read != null">#{read},</if>
          </trim>
     </insert>
 
@@ -88,6 +98,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="amount != null">amount = #{amount},</if>
             <if test="transferDate != null">transfer_date = #{transferDate},</if>
             <if test="description != null">description = #{description},</if>
+            <if test="read != null">`read` = #{read},</if>
         </trim>
         where id = #{transferId}
     </update>

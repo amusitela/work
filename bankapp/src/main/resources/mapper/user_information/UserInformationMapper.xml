@@ -13,10 +13,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="card"    column="card"    />
         <result property="payPswd" column="paypswd"/>
         <result property="img" column="img"/>
+        <result property="id" column="useId"/>
     </resultMap>
 
     <sql id="selectUserInformationVo">
-        select nm, pswd, id_card, phone, card ,paypswd , img from user_information
+        select nm, pswd, id_card, phone, card ,paypswd , img , useId from user_information
     </sql>
 
     <select id="selectUserInformationList" parameterType="UserInformation" resultMap="UserInformationResult">
@@ -39,15 +40,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectUserInformationVo"/>
         where id_card = #{idCard} or phone =#{idCard}
     </select>
+
     <select id="selectUserInformationPSWDById" parameterType="String" resultType="java.lang.String">
         select pswd from user_information where id_card = #{id} or phone = #{id}
     </select>
+
     <select id="selectUserInformationPayPswdById" parameterType="String" resultType="java.lang.String">
         select paypswd from user_information where id_card = #{id} or phone = #{id}
     </select>
+
     <select id="getPay" parameterType="String" resultType="java.lang.String">
         select payPswd from user_information  where phone = #{phone} or id_card= #{phone}
     </select>
+
     <select id="selectUserInformation" resultType="com.cumt.bankapp.domain.UserInformation">
         <include refid="selectUserInformationVo"/>
         <where>
@@ -60,6 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select img from user_information where phone = #{phone}
 
     </select>
+
     <select id="selectUserInformationNameTotal" resultType="java.lang.Integer">
         select count(phone) from user_information where id_card = #{id} or phone = #{id}
     </select>

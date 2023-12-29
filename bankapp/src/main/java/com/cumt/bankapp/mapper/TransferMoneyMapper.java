@@ -69,6 +69,10 @@ public interface TransferMoneyMapper
      * @return 结果
      */
     public List<TransferMoney> selectAllFlow(String transferId);
+
     public List<Double> getPay(String[] ids,LocalDateTime startDate);
+
     public List<Double> getRecive(String[] ids, LocalDateTime startDate);
+
+    public List<TransferMoney> getRead(String toAccount);
 }

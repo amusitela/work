@@ -46,6 +46,8 @@ public class UserInformation implements Serializable
 
     private byte[] img;
 
+    private String id;
+
     public void setNm(String nm) 
     {
         this.nm = nm;

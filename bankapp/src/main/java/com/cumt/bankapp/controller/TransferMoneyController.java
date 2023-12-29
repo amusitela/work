@@ -11,6 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
+import com.cumt.bankapp.domain.UserInformation;
+import com.cumt.bankapp.websocket.WebSocketChatHandler;
+import liquibase.pro.packaged.I;
+import org.flowable.dmn.engine.impl.hitpolicy.EvaluateRuleValidityBehavior;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import com.cumt.bankapp.domain.IndividualAccount;
@@ -57,7 +61,8 @@ public class TransferMoneyController
     private IFlowDefinitionService flowDefinitionService;
 
     @Autowired
-    IUserInformationService uis;
+    private IUserInformationService uis;
+
 
     @PostMapping("/transfer")
     @ResponseBody
@@ -66,66 +71,71 @@ public class TransferMoneyController
 
         String result = null;
 
-        String privateKeyString = "-----BEGIN PRIVATE KEY-----\n" +
-                "MIIBVwIBADANBgkqhkiG9w0BAQEFAASCAUEwggE9AgEAAkEAvxPv5b7W/b7oa4HZ\n" +
-                "x9RVm9q2fM4ICpLYN9PXPgDFRYwJ5da8MljjQjlt75r6p2x44FE2mZYsHx1g5BJI\n" +
-                "gu9JbQIDAQABAkEAtjnoTr3KwSHg/C5RKJ8aqdFSugGvb44NwGg6XPpVKHW4MeOB\n" +
-                "yrcc/fLlMbzU3yiAbQV0Z+eFbmFyXhuwZo77DQIhAONxfTgZ2Z1tJwGYmVFGlFNI\n" +
-                "JlcDoB7x+DY9qU7uwPjjAiEA1xGV64iUJZjYhs4h7lZl7eh020NayRcMUU4hUYzg\n" +
-                "VW8CIQDFcBBOcgo5obZZqVl2d3ls7lXx9UC7fDuHAnIGBjZYFwIhALY7jWfNC5Kr\n" +
-                "51SaVz/nb2jeHh4n/UYExIgkBrFeCDv7AiEAg9tnXc7pXZiytoZuP86FoXjuGO04\n" +
-                "6TMZefLw9tnNNNc=\n" +
-                "-----END PRIVATE KEY";
-
-        // 替换为您的加密数据（Base64编码）
-        String encryptedData =transferMoney.getPay();
-//        System.out.println(encryptedData);
-        String decryptedString = null;
-
-        try {
-
-            privateKeyString = privateKeyString.replace("-----BEGIN PRIVATE KEY-----", "")
-                    .replace("-----END PRIVATE KEY", "")
-                    .replaceAll("\\s", "");
-
-            // 将Base64编码的字符串转换为PrivateKey对象
-            byte[] privateKeyBytes = Base64.getDecoder().decode(privateKeyString);
-            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(privateKeyBytes);
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
-
-            // 创建Cipher对象并初始化为解密模式
-            Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.DECRYPT_MODE, privateKey);
-
-            // 对数据进行解密
-            byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedData));
-            decryptedString = new String(decryptedBytes);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException | InvalidKeyException e) {
-            e.printStackTrace();
-        }
-
-
-        if (!uis.getPay(currentId).equals(decryptedString)){
+//        //私钥解密，可以写入配置文件中
+//        String privateKeyString = "-----BEGIN PRIVATE KEY-----\n" +
+//                "MIIBVwIBADANBgkqhkiG9w0BAQEFAASCAUEwggE9AgEAAkEAvxPv5b7W/b7oa4HZ\n" +
+//                "x9RVm9q2fM4ICpLYN9PXPgDFRYwJ5da8MljjQjlt75r6p2x44FE2mZYsHx1g5BJI\n" +
+//                "gu9JbQIDAQABAkEAtjnoTr3KwSHg/C5RKJ8aqdFSugGvb44NwGg6XPpVKHW4MeOB\n" +
+//                "yrcc/fLlMbzU3yiAbQV0Z+eFbmFyXhuwZo77DQIhAONxfTgZ2Z1tJwGYmVFGlFNI\n" +
+//                "JlcDoB7x+DY9qU7uwPjjAiEA1xGV64iUJZjYhs4h7lZl7eh020NayRcMUU4hUYzg\n" +
+//                "VW8CIQDFcBBOcgo5obZZqVl2d3ls7lXx9UC7fDuHAnIGBjZYFwIhALY7jWfNC5Kr\n" +
+//                "51SaVz/nb2jeHh4n/UYExIgkBrFeCDv7AiEAg9tnXc7pXZiytoZuP86FoXjuGO04\n" +
+//                "6TMZefLw9tnNNNc=\n" +
+//                "-----END PRIVATE KEY";
+//
+//        // 替换为Base64编码
+//        String encryptedData =transferMoney.getPay();
+//        //System.out.println(encryptedData);
+//        String decryptedString = null;
+//
+//        try {
+//
+//            privateKeyString = privateKeyString.replace("-----BEGIN PRIVATE KEY-----", "")
+//                    .replace("-----END PRIVATE KEY", "")
+//                    .replaceAll("\\s", "");
+//
+//            // 将Base64编码的字符串转换为PrivateKey对象
+//            byte[] privateKeyBytes = Base64.getDecoder().decode(privateKeyString);
+//            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(privateKeyBytes);
+//            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+//            PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
+//
+//            // 创建Cipher对象并初始化为解密模式
+//            Cipher cipher = Cipher.getInstance("RSA");
+//            cipher.init(Cipher.DECRYPT_MODE, privateKey);
+//
+//            // 对数据进行解密
+//            byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedData));
+//            decryptedString = new String(decryptedBytes);
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        } catch (InvalidKeySpecException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchPaddingException e) {
+//            e.printStackTrace();
+//        } catch (IllegalBlockSizeException e) {
+//            e.printStackTrace();
+//        } catch (BadPaddingException | InvalidKeyException e) {
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println(decryptedString);
+        //判断支付密码是否正确
+        if (!uis.getPay(currentId).equals(transferMoney.getPay())){
             return MyResult.error("支付密码错误");
         }
 
+        //有数据库操作，注意异常
         try {
 
+            //获取转账信息
             TransferMoney money = new TransferMoney();
 
-            money.setAmount(transferMoney.getAmount());
-            money.setDescription(transferMoney.getDescription());
-            money.setFromAccount(transferMoney.getFromAccount());
-            money.setToAccount(transferMoney.getToAccount());
+                money.setAmount(transferMoney.getAmount());
+                money.setDescription(transferMoney.getDescription());
+                money.setFromAccount(transferMoney.getFromAccount());
+                money.setToAccount(transferMoney.getToAccount());
+
             if (transferMoney.getIs()){
                 // 获取当前时间戳
                 long currentTimestampMillis = System.currentTimeMillis();
@@ -138,10 +148,11 @@ public class TransferMoneyController
                 Date newDate = new Date(newTimestampMillis);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-
+                //设置时间格式
                 String formattedDate = dateFormat.format(newDate);
                 Date parsedDate = dateFormat.parse(formattedDate);
 
+                //发起流程
                 money.setAppointmentTime(parsedDate);
                 Map<String, Object> trans = trans(money);
                 flowDefinitionService.startProcessInstanceById("transferApprovalProcess:26:110016",trans);
@@ -152,9 +163,21 @@ public class TransferMoneyController
                 }
             }
 
+            //操作数据库，更新数据
             result = iIndividualAccountService.transfer(transferMoney.getFromAccount(),transferMoney.getToAccount(),transferMoney.getAmount().doubleValue());
+//            transferMoneyService.insertTransferMoney(money);
 
-            transferMoneyService.insertTransferMoney(money);
+
+            //发送转账成功信息,设置信息
+//            IndividualAccount individualAccount = iIndividualAccountService.selectIndividualAccountByAccountId(transferMoney.getToAccount());
+
+//                UserInformation userInformation = new UserInformation();
+//                userInformation.setIdCard(individualAccount.getIdHolder());
+//                userInformation.setPhone(individualAccount.getPhoneNumber());
+//                UserInformation userInformation1 = uis.selectUserInformation(userInformation);
+//                String receiverId = userInformation1.getId();
+            //发送信息
+//            WebSocketChatHandler.onTransferSuccess(receiverId, String.valueOf(money.getAmount()));
 
             return MyResult.successMsg(result);
         } catch (Exception e) {
@@ -302,6 +325,33 @@ public class TransferMoneyController
         t.put("recive",receive);
         return MyResult.success(t);
 
+    }
+
+    @PostMapping("/getRead")
+    public MyResult<List<TransferMoney>> getRead(){
+        String currentId = BaseContext.getCurrentId();
+        try {
+            List<IndividualAccount> individualAccounts = uis.displayCard(currentId);
+            ArrayList<String> strings = new ArrayList<>();
+            for (int i = 0; i < individualAccounts.size(); i++) {
+                strings.add(individualAccounts.get(i).getAccountId());
+            }
+            ArrayList<TransferMoney> transferMonies = new ArrayList<>();
+            for (String i: strings
+                 ) {
+                List<TransferMoney> read = transferMoneyService.getRead(i);
+                transferMonies.addAll(read);
+            }
+            for (TransferMoney i:transferMonies
+                 ) {
+                i.setRead(1);
+                transferMoneyService.updateTransferMoney(i);
+            }
+            return MyResult.success(transferMonies,"查询成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MyResult.error("查询失败");
+        }
     }
 
 }

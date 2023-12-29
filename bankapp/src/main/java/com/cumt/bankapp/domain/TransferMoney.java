@@ -50,6 +50,8 @@ public class TransferMoney implements Serializable
 
     private Boolean is;
 
+    private int read;
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -116,19 +118,6 @@ public class TransferMoney implements Serializable
         return description;
     }
 
-    @Override
-    public String toString() {
-        return "TransferMoney{" +
-                "appointmentTime=" + appointmentTime +
-                ", transferId='" + transferId + '\'' +
-                ", fromAccount='" + fromAccount + '\'' +
-                ", toAccount='" + toAccount + '\'' +
-                ", amount=" + amount +
-                ", transferDate=" + transferDate +
-                ", description='" + description + '\'' +
-                '}';
-    }
-
     public String getPay() {
         return pay;
     }
@@ -151,5 +140,30 @@ public class TransferMoney implements Serializable
 
     public void setIs(Boolean is) {
         this.is = is;
+    }
+
+    public int getRead() {
+        return read;
+    }
+
+    public void setRead(int read) {
+        this.read = read;
+    }
+
+    @Override
+    public String toString() {
+        return "TransferMoney{" +
+                "appointmentTime=" + appointmentTime +
+                ", transferId='" + transferId + '\'' +
+                ", fromAccount='" + fromAccount + '\'' +
+                ", toAccount='" + toAccount + '\'' +
+                ", amount=" + amount +
+                ", transferDate='" + transferDate + '\'' +
+                ", description='" + description + '\'' +
+                ", pay='" + pay + '\'' +
+                ", status='" + status + '\'' +
+                ", is=" + is +
+                ", read=" + read +
+                '}';
     }
 }

@@ -120,12 +120,12 @@ public class UserInformationController
             @RequestParam(value = "newPaypsw", required = false) String newPayPsw,
             @RequestParam(value = "userName") String userName,
             @RequestParam(value = "file", required = false) MultipartFile file) {
-        System.out.println("=============================");
-        System.out.println(userName);
-        System.out.println(oldPsw);
-        System.out.println(newPsw);
-        System.out.println(oldPayPsw);
-        System.out.println(newPayPsw);
+//        System.out.println("=============================");
+//        System.out.println(userName);
+//        System.out.println(oldPsw);
+//        System.out.println(newPsw);
+//        System.out.println(oldPayPsw);
+//        System.out.println(newPayPsw);
         String id =BaseContext.getCurrentId();
         String ans = "";
         boolean flag =true;
@@ -178,12 +178,12 @@ public class UserInformationController
         String userName = update.getUserName();
         String newPayPsw = update.getNewPaypsw();
         String oldPayPsw = update.getOldPaypsw();
-        System.out.println("=============================");
-        System.out.println(userName);
-        System.out.println(oldPsw);
-        System.out.println(newPsw);
-        System.out.println(oldPayPsw);
-        System.out.println(newPayPsw);
+//        System.out.println("=============================");
+//        System.out.println(userName);
+//        System.out.println(oldPsw);
+//        System.out.println(newPsw);
+//        System.out.println(oldPayPsw);
+//        System.out.println(newPayPsw);
         String id = BaseContext.getCurrentId();
         String ans = "";
         boolean flag = true;

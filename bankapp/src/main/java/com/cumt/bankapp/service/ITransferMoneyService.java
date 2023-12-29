@@ -70,4 +70,6 @@ public interface ITransferMoneyService
 
     public Double getPay(String id);
     public Double getRecive(String id);
+
+    public List<TransferMoney> getRead(String toAccount);
 }

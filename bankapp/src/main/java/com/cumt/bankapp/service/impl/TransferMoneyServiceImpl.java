@@ -140,4 +140,9 @@ public class TransferMoneyServiceImpl implements ITransferMoneyService
         System.out.println(t);
         return t;
     }
+
+    @Override
+    public List<TransferMoney> getRead(String toAccount) {
+        return transferMoneyMapper.getRead(toAccount);
+    }
 }
