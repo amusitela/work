@@ -194,5 +194,10 @@ public class UserInformationServiceImpl implements IUserInformationService
         return userInformationMapper.updateImg(phone,flie);
     }
 
+    @Override
+    public String selectUseId(String id) {
+        return userInformationMapper.selectUseId(id);
+    }
+
 
 }

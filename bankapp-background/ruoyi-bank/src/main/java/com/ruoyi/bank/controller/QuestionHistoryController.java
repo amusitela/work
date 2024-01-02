@@ -40,6 +40,7 @@ public class QuestionHistoryController extends BaseController
     /**
      * 查询历史记录列表
      */
+//    @PreAuthorize("@ss.hasPermi('test:history:list')")
     @GetMapping("/list")
     public TableDataInfo list(QuestionHistory questionHistory)
     {
@@ -69,7 +70,7 @@ public class QuestionHistoryController extends BaseController
     /**
      * 导出历史记录列表
      */
-    @PreAuthorize("@ss.hasPermi('test:history:export')")
+//    @PreAuthorize("@ss.hasPermi('test:history:export')")
     @Log(title = "历史记录", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, QuestionHistory questionHistory)
@@ -82,7 +83,7 @@ public class QuestionHistoryController extends BaseController
     /**
      * 获取历史记录详细信息
      */
-    @PreAuthorize("@ss.hasPermi('test:history:query')")
+//    @PreAuthorize("@ss.hasPermi('test:history:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -92,7 +93,7 @@ public class QuestionHistoryController extends BaseController
     /**
      * 新增历史记录
      */
-    @PreAuthorize("@ss.hasPermi('test:history:add')")
+//    @PreAuthorize("@ss.hasPermi('test:history:add')")
     @Log(title = "历史记录", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody QuestionHistory questionHistory)

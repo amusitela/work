@@ -45,6 +45,14 @@ public interface ITransferMoneyService
     public int updateTransferMoney(TransferMoney transferMoney);
 
     /**
+     * 修改transfer_money
+     *
+     * @param transferMoney transfer_money
+     * @return 结果
+     */
+    public int updateTransferRead(TransferMoney transferMoney);
+
+    /**
      * 批量删除transfer_money
      * 
      * @param transferIds 需要删除的transfer_money主键集合

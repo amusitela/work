@@ -20,6 +20,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * 执行监听器
  *
@@ -60,9 +63,14 @@ public class FlowExecutionListener implements ExecutionListener {
             // 假设所有变量都是必需的，如果任何一个变量缺失，将抛出异常
             String fromAccount = (String) execution.getVariable("fromAccount");
             String toAccount = (String) execution.getVariable("toAccount");
-            Double amount = Double.valueOf((String) execution.getVariable("amount"));
+            Double amount = Double.valueOf(execution.getVariable("amount").toString());
             int type = (int) execution.getVariable("type");
-            String time = (String) execution.getVariable("time");
+            String time = execution.getVariable("time").toString();
+            Date newDate = new Date(time);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+
+            time = dateFormat.format(newDate);
             String description = (String) execution.getVariable("description");
 
             TransferMoney transferMoney = new TransferMoney();

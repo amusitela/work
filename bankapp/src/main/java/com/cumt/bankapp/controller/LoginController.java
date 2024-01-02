@@ -53,7 +53,7 @@ public class LoginController {
             return MyResult.error("用户名不存在");
         }
 
-//        System.out.println(userInformation.getCode());
+        System.out.println(userInformation.getCode());
         if(!validateCaptcha(phone,userInformation.getCode())){
             return MyResult.error("验证码错误");
         }

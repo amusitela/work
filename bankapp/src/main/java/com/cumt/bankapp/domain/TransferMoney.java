@@ -1,6 +1,7 @@
 package com.cumt.bankapp.domain;
 
 import java.io.Serializable;
+//import java.math.BigDecimal;
 import java.math.BigDecimal;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -8,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * transfer_money对象 transfer_money
- * 
+ *
  * @author lyw
  * @date 2023-11-10
  */
@@ -19,7 +20,7 @@ public class TransferMoney implements Serializable
     /**  */
     @JsonFormat(pattern = "yyyy-MM-dd")
 
-    private Date appointmentTime;
+        private Date appointmentTime;
 
     /**  */
     private String transferId;
@@ -34,7 +35,7 @@ public class TransferMoney implements Serializable
 
     /**  */
 
-    private BigDecimal amount;
+    private double amount;
 
     /**  */
 
@@ -80,22 +81,22 @@ public class TransferMoney implements Serializable
         this.toAccount = toAccount;
     }
 
-    public void setAppointmentTime(Date appointmentTime) 
+    public void setAppointmentTime(Date appointmentTime)
     {
         this.appointmentTime = appointmentTime;
     }
 
-    public Date getAppointmentTime() 
+    public Date getAppointmentTime()
     {
         return appointmentTime;
     }
 
-    public void setAmount(BigDecimal amount) 
+    public void setAmount(double amount)
     {
         this.amount = amount;
     }
 
-    public BigDecimal getAmount() 
+    public double getAmount()
     {
         return amount;
     }
@@ -108,12 +109,12 @@ public class TransferMoney implements Serializable
     {
         return transferDate;
     }
-    public void setDescription(String description) 
+    public void setDescription(String description)
     {
         this.description = description;
     }
 
-    public String getDescription() 
+    public String getDescription()
     {
         return description;
     }

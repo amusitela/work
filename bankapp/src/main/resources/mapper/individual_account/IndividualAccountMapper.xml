@@ -26,7 +26,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="idHolder != null  and idHolder != ''"> and id_holder = #{idHolder}</if>
             <if test="accountType != null  and accountType != ''"> and account_type = #{accountType}</if>
-            <if test="balance != null "> and balance = #{balance}</if>
             <if test="openDate != null "> and open_date = #{openDate}</if>
             <if test="address != null  and address != ''"> and address = #{address}</if>
             <if test="phoneNumber != null  and phoneNumber != ''"> and phone_number = #{phoneNumber}</if>
@@ -40,7 +39,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectIndividualAccountVo"/>
         where account_id = #{accountId}
     </select>
-
 
 
     <select id="selectIndividualAccount" parameterType="IndividualAccount" resultMap="IndividualAccountResult">
@@ -59,8 +57,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectInActCard" resultType="java.lang.String">
-         select account_id from individual_account
+        select account_id from individual_account
         where id_holder = '410482200211111111' and is_active = '0';
+    </select>
+    <select id="selectIndividualAccountByAccountIdTotal" resultType="java.lang.Integer">
+        select count(account_id) from  individual_account where account_id = #{id}
     </select>
 
     <insert id="insertIndividualAccount" parameterType="IndividualAccount">

@@ -1,4 +1,4 @@
-
+<!-- 
 <h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">RuoYi-Flowable</h1>
 <h4 align="center">基于RuoYi+Flowable 6.x的工作流管理平台</h4>
 <p align="center">
@@ -62,7 +62,6 @@ star项目后复制群号申请入群。
     </tr> 
     <tr>
         <td><img src="https://foruda.gitee.com/images/1672213722156548767/41fdbc64_2042292.png"/></td>
-        <td><img src="https://foruda.gitee.com/images/1672213813377147650/5b549a6b_2042292.png"/></td>
     </tr>
     <tr>
         <td><img src="https://foruda.gitee.com/images/1672213865795092087/3324aeaf_2042292.png"/></td>
@@ -86,4 +85,4 @@ star项目后复制群号申请入群。
 大家在使用本项目时，推荐结合贺波老师的书[《深入Activiti流程引擎：核心原理与高阶实战》](https://item.m.jd.com/product/13928958.html?gx=RnAomTM2bmCImZxDqYAkVCoIHuIYVqc)，这本书对系统学习和深入掌握Activiti/Flowable的用法非常有帮助。
 
 ![输入图片说明](https://foruda.gitee.com/images/1699658576150803044/9bdfb7f1_2042292.png "")
-
+ -->

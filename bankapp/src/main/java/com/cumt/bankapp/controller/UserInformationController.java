@@ -33,7 +33,6 @@ public class UserInformationController
     private IUserInformationService userInformationService;
 
 
-
 //    /**
 //     * 更新卡号
 //     *
@@ -120,26 +119,26 @@ public class UserInformationController
             @RequestParam(value = "newPaypsw", required = false) String newPayPsw,
             @RequestParam(value = "userName") String userName,
             @RequestParam(value = "file", required = false) MultipartFile file) {
-//        System.out.println("=============================");
-//        System.out.println(userName);
-//        System.out.println(oldPsw);
-//        System.out.println(newPsw);
-//        System.out.println(oldPayPsw);
-//        System.out.println(newPayPsw);
+        System.out.println("=============================");
+        System.out.println(userName);
+        System.out.println(oldPsw);
+        System.out.println(newPsw);
+        System.out.println(oldPayPsw);
+        System.out.println(newPayPsw);
         String id =BaseContext.getCurrentId();
         String ans = "";
         boolean flag =true;
             try {
                 UserInformation userInformation = new UserInformation();
                 userInformation=userInformationService.selectUserInformationByIdCard(id);
-                if (userInformation.getPswd().equals(oldPsw)&&!oldPsw.equals("0cc175b9c0f1b6a831c399e269772661")){
+                if (userInformation.getPayPswd()==null||userInformation.getPswd().equals(oldPsw)&&!oldPsw.equals("0cc175b9c0f1b6a831c399e269772661")){
                     userInformation.setPswd(newPsw);
                 }else if (!oldPsw.equals("0cc175b9c0f1b6a831c399e269772661")){
                     ans+="旧登录密码错误,";
                     flag = false;
                 }
 
-                if (userInformation.getPayPswd().equals(oldPayPsw)&&!oldPayPsw.equals("a")){
+                if (userInformation.getPayPswd()==null||userInformation.getPayPswd().equals(oldPayPsw)&&!oldPayPsw.equals("a")){
                     userInformation.setPayPswd(newPayPsw);
                     System.out.println(userInformation.getPayPswd());
                 }else if(!oldPayPsw.equals("a")){
@@ -178,12 +177,12 @@ public class UserInformationController
         String userName = update.getUserName();
         String newPayPsw = update.getNewPaypsw();
         String oldPayPsw = update.getOldPaypsw();
-//        System.out.println("=============================");
-//        System.out.println(userName);
-//        System.out.println(oldPsw);
-//        System.out.println(newPsw);
-//        System.out.println(oldPayPsw);
-//        System.out.println(newPayPsw);
+        System.out.println("=============================");
+        System.out.println(userName);
+        System.out.println(oldPsw);
+        System.out.println(newPsw);
+        System.out.println(oldPayPsw);
+        System.out.println(newPayPsw);
         String id = BaseContext.getCurrentId();
         String ans = "";
         boolean flag = true;
@@ -197,7 +196,7 @@ public class UserInformationController
                 flag = false;
             }
 
-            if (userInformation.getPayPswd().equals(oldPayPsw) && !oldPayPsw.equals("a")) {
+            if (userInformation.getPayPswd()==null||userInformation.getPayPswd().equals(oldPayPsw) && !oldPayPsw.equals("a")) {
                 userInformation.setPayPswd(newPayPsw);
                 System.out.println(userInformation.getPayPswd());
             } else if (!oldPayPsw.equals("a")) {
@@ -233,9 +232,11 @@ public class UserInformationController
         HashMap<String, String> strings = new HashMap<>();
 
         try {
-            String s = userInformationService.selectUserInformationName(id);
+//            String s = userInformationService.selectUserInformationName(id);
+            UserInformation userInformation = userInformationService.selectUserInformationByIdCard(id);
+            strings.put("useId",userInformation.getUseId());
             strings.put("phone",id);
-            strings.put("nm",s);
+            strings.put("nm", userInformation.getNm());
             return MyResult.success(strings);
         } catch (Exception e) {
             return MyResult.error("错误:"+e.getMessage());
@@ -252,7 +253,6 @@ public class UserInformationController
         System.out.println(url);
         UserInformation userInformation = userInformationService.selectImg(url);
         byte[] bytes = userInformation.getImg();
-        ;
 
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
              ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {

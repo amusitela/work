@@ -36,6 +36,11 @@ public class IndividualAccountServiceImpl implements IIndividualAccountService
         return individualAccountMapper.selectIndividualAccountByAccountId(accountId);
     }
 
+    @Override
+    public int selectIndividualAccountByAccountIdTotal(String id) {
+        return individualAccountMapper.selectIndividualAccountByAccountIdTotal(id);
+    }
+
     /**
      * 查询individual_account列表
      * 
@@ -124,7 +129,7 @@ public class IndividualAccountServiceImpl implements IIndividualAccountService
             e.printStackTrace();
             return "转账用户不存在";
         }
-        if(IAUser.getBalance().doubleValue()<amount){
+        if(IAUser.getBalance()<amount){
             return "余额不足";
         }
         try {

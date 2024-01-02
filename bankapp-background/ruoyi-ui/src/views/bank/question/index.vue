@@ -133,6 +133,7 @@ export default {
             this.loading = true;
             listUser(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
                 this.userList = response.rows;
+				console.log(this.userList)
                 if (this.$store.state.user.id != 1) {
                     this.userList.length = 1
                     // console.log();

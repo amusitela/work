@@ -11,6 +11,7 @@ import com.ruoyi.system.domain.SysExpression;
 import com.ruoyi.system.service.ISysExpressionService;
 import com.ruoyi.system.service.ISysRoleService;
 import com.ruoyi.system.service.ISysUserService;
+import io.lettuce.core.ScriptOutputType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -159,6 +160,7 @@ public class FlowDefinitionController extends BaseController {
     @PostMapping("/start/{procDefId}")
     public AjaxResult start(@ApiParam(value = "流程定义id") @PathVariable(value = "procDefId") String procDefId,
                             @ApiParam(value = "变量集合,json对象") @RequestBody Map<String, Object> variables) {
+        System.out.println(procDefId);
         return flowDefinitionService.startProcessInstanceById(procDefId, variables);
 
     }

@@ -13,10 +13,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="card"    column="card"    />
         <result property="payPswd" column="paypswd"/>
         <result property="img" column="img"/>
+        <result property="useId" column="useId"/>
     </resultMap>
 
     <sql id="selectUserInformationVo">
-        select nm, pswd, id_card, phone, card ,paypswd , img from user_information
+        select nm, pswd, id_card, phone, card ,paypswd , img ,useId from user_information
     </sql>
 
     <select id="selectUserInformationList" parameterType="UserInformation" resultMap="UserInformationResult">
@@ -109,5 +110,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{idCard}
         </foreach>
     </delete>
+
+    <select id="selectUseId" resultType="java.lang.String">
+        SELECT ui.useId
+        FROM user_information ui
+                 JOIN individual_account ia ON ui.id_card = ia.id_holder
+        WHERE ia.account_id = #{id};
+    </select>
 
 </mapper>

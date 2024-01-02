@@ -1,6 +1,7 @@
 package com.cumt.bankapp.mapper;
 
 import com.cumt.bankapp.domain.Chart;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,5 +17,5 @@ public interface ChartMapper {
      * @param id
      * @return  Chart
      * */
-    public Chart selectNewsById(String id);
+    public Chart selectNewsById(@Param("id") String id);
 }

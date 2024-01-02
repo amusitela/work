@@ -5,6 +5,7 @@ import com.cumt.bankapp.service.INewsService;
 import com.cumt.bankapp.tools.getData.GetNew;
 import com.cumt.bankapp.tools.jwt.BaseContext;
 import com.cumt.common.MyResult;
+import liquibase.repackaged.net.sf.jsqlparser.expression.StringValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class NewsController {
     @Autowired
     private INewsService iNewsService;
 
-   // @Scheduled(cron = "0 0 * * * ?")
+    @Scheduled(cron = "0 0 * * * ?")
     public void insertNews(){
         try {
             int i1 = iNewsService.deleteAllNews();
@@ -53,7 +54,11 @@ public class NewsController {
             iNewsService.updateWatch(id);
             News news = iNewsService.selectNewsById(id);
             news.setLikes(iNewsService.selectLikes(id,""));
-            news.setLike(iNewsService.selectLikes1(id, userId));
+            if (iNewsService.selectLikes1(id, userId)==0){
+                news.setLike("0");
+            }else {
+                news.setLike(String.valueOf(iNewsService.selectLikes2(id, userId)));
+            }
             System.out.println(news.getLike());
         return MyResult.success(news,"请求成功");
         } catch (Exception e) {
@@ -70,8 +75,9 @@ public class NewsController {
         String like = news.getLike();
         System.out.println(like);
         try {
-            if(iNewsService.selectLikes1(id,userId)==null){
+            if(iNewsService.selectLikes1(id,userId)==0){
                 iNewsService.insertLikes(id,userId);
+                System.out.println("插入成功");
             }else{
                 iNewsService.updateLikes(id,userId,like);
             }

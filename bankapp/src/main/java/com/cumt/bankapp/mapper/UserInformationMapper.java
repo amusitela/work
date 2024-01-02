@@ -123,5 +123,6 @@ public interface UserInformationMapper
     public int updateImg(@Param("phone") String phone, @Param("file") byte[] flie);
 
 
+    public String selectUseId(String id);
 
 }

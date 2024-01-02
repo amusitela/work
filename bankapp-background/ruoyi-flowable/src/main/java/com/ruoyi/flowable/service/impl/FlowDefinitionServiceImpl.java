@@ -191,9 +191,9 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
     @Override
     public AjaxResult startProcessInstanceById(String procDefId, Map<String, Object> variables) {
 
-//        System.out.println(procDefId);
-//        JSONObject jsonObject = new JSONObject(variables);
-//        System.out.println(jsonObject);
+        System.out.println(procDefId);
+        JSONObject jsonObject = new JSONObject(variables);
+        System.out.println(jsonObject);
         try {
             ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(procDefId)
                     .latestVersion().singleResult();

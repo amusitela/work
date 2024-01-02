@@ -17,11 +17,26 @@
 
     <dependencies>
 
-        <!-- SpringBoot Web容器 -->
-         <dependency>
+        <!-- 移除springboot中web模块的tomcat依赖 -->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.springframework.boot</groupId>-->
+<!--                    <artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
+
+<!--        &lt;!&ndash; 这个依赖让你能够在程序入口类：xxxAppAplication中直接执行main方法启动tomcat &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-tomcat</artifactId>-->
+<!--            &lt;!&ndash; 但是这里一定要设置为provided &ndash;&gt;-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+
 
         <!-- SpringBoot 拦截器 -->
         <dependency>

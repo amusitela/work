@@ -1,9 +1,7 @@
 package com.cumt.bankapp.tools.getData;
 
-import com.alibaba.fastjson.JSON;
+
 import com.cumt.bankapp.domain.Fund;
-import com.sun.javaws.IconUtil;
-import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;

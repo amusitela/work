@@ -30,7 +30,7 @@ public class IndividualAccount implements Serializable
 
     /**  */
 
-    private BigDecimal balance;
+    private double balance;
 
     /**  */
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -85,12 +85,12 @@ public class IndividualAccount implements Serializable
     {
         return accountType;
     }
-    public void setBalance(BigDecimal balance) 
+    public void setBalance(double balance)
     {
         this.balance = balance;
     }
 
-    public BigDecimal getBalance() 
+    public double getBalance()
     {
         return balance;
     }

@@ -11,10 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
-import com.cumt.bankapp.domain.UserInformation;
-import com.cumt.bankapp.websocket.WebSocketChatHandler;
-import liquibase.pro.packaged.I;
-import org.flowable.dmn.engine.impl.hitpolicy.EvaluateRuleValidityBehavior;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import com.cumt.bankapp.domain.IndividualAccount;
@@ -61,17 +57,20 @@ public class TransferMoneyController
     private IFlowDefinitionService flowDefinitionService;
 
     @Autowired
-    private IUserInformationService uis;
-
+    IUserInformationService uis;
 
     @PostMapping("/transfer")
     @ResponseBody
     public MyResult<String> transfer(@RequestBody TransferMoney transferMoney)  {
         String currentId = BaseContext.getCurrentId();
+        System.out.println(transferMoney.getToAccount());
+        int i = iIndividualAccountService.selectIndividualAccountByAccountIdTotal(transferMoney.getToAccount());
+
+        if (i==0){
+            return MyResult.error("转账对象不存在");
+        }
 
         String result = null;
-
-//        //私钥解密，可以写入配置文件中
 //        String privateKeyString = "-----BEGIN PRIVATE KEY-----\n" +
 //                "MIIBVwIBADANBgkqhkiG9w0BAQEFAASCAUEwggE9AgEAAkEAvxPv5b7W/b7oa4HZ\n" +
 //                "x9RVm9q2fM4ICpLYN9PXPgDFRYwJ5da8MljjQjlt75r6p2x44FE2mZYsHx1g5BJI\n" +
@@ -83,9 +82,9 @@ public class TransferMoneyController
 //                "6TMZefLw9tnNNNc=\n" +
 //                "-----END PRIVATE KEY";
 //
-//        // 替换为Base64编码
+//        // 替换为您的加密数据（Base64编码）
 //        String encryptedData =transferMoney.getPay();
-//        //System.out.println(encryptedData);
+////        System.out.println(encryptedData);
 //        String decryptedString = null;
 //
 //        try {
@@ -118,24 +117,20 @@ public class TransferMoneyController
 //        } catch (BadPaddingException | InvalidKeyException e) {
 //            e.printStackTrace();
 //        }
-//
-//        System.out.println(decryptedString);
-        //判断支付密码是否正确
+
+
         if (!uis.getPay(currentId).equals(transferMoney.getPay())){
             return MyResult.error("支付密码错误");
         }
 
-        //有数据库操作，注意异常
         try {
 
-            //获取转账信息
             TransferMoney money = new TransferMoney();
 
-                money.setAmount(transferMoney.getAmount());
-                money.setDescription(transferMoney.getDescription());
-                money.setFromAccount(transferMoney.getFromAccount());
-                money.setToAccount(transferMoney.getToAccount());
-
+            money.setAmount(transferMoney.getAmount());
+            money.setDescription(transferMoney.getDescription());
+            money.setFromAccount(transferMoney.getFromAccount());
+            money.setToAccount(transferMoney.getToAccount());
             if (transferMoney.getIs()){
                 // 获取当前时间戳
                 long currentTimestampMillis = System.currentTimeMillis();
@@ -148,36 +143,24 @@ public class TransferMoneyController
                 Date newDate = new Date(newTimestampMillis);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-                //设置时间格式
+
                 String formattedDate = dateFormat.format(newDate);
                 Date parsedDate = dateFormat.parse(formattedDate);
-
-                //发起流程
+                System.out.println(money);
                 money.setAppointmentTime(parsedDate);
                 Map<String, Object> trans = trans(money);
-                flowDefinitionService.startProcessInstanceById("transferApprovalProcess:26:110016",trans);
+                flowDefinitionService.startProcessInstanceById("transferApprovalProcess:28:192508",trans);
 
             }else{
-                if(transferMoney.getAmount().doubleValue()> 20000.00){
+                if(transferMoney.getAmount()> 20000.00){
                     return MyResult.error("数额大于两万，请预约转账");
                 }
             }
 
-            //操作数据库，更新数据
-            result = iIndividualAccountService.transfer(transferMoney.getFromAccount(),transferMoney.getToAccount(),transferMoney.getAmount().doubleValue());
-//            transferMoneyService.insertTransferMoney(money);
-
-
-            //发送转账成功信息,设置信息
-//            IndividualAccount individualAccount = iIndividualAccountService.selectIndividualAccountByAccountId(transferMoney.getToAccount());
-
-//                UserInformation userInformation = new UserInformation();
-//                userInformation.setIdCard(individualAccount.getIdHolder());
-//                userInformation.setPhone(individualAccount.getPhoneNumber());
-//                UserInformation userInformation1 = uis.selectUserInformation(userInformation);
-//                String receiverId = userInformation1.getId();
-            //发送信息
-//            WebSocketChatHandler.onTransferSuccess(receiverId, String.valueOf(money.getAmount()));
+            result = iIndividualAccountService.transfer(transferMoney.getFromAccount(),transferMoney.getToAccount(),transferMoney.getAmount());
+            if(result.contains("转账失败")||result.contains("转账用户不存在")||result.contains("余额不足")){
+                return MyResult.error(result);
+            }
 
             return MyResult.successMsg(result);
         } catch (Exception e) {
@@ -215,30 +198,6 @@ public class TransferMoneyController
         return  MyResult.success(answer);
     }
 
-    @PostMapping("addCard")
-    public MyResult<String> addCard(@RequestBody IndividualAccount individualAccount){
-
-        try {
-            Map<String, Object> trans = transAdd(individualAccount);
-            flowDefinitionService.startProcessInstanceById("insertCard:1:180044",trans);
-            return MyResult.successMsg("申请成功，静候佳音");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return MyResult.error("申请失败");
-        }
-    }
-
-    @PostMapping("/getInActCard")
-    public MyResult<List<String>> getInActCard(){
-        try {
-            List<String> strings = iIndividualAccountService.selectInActCard();
-            return MyResult.success(strings,"成功");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return MyResult.error("查找失败");
-        }
-    }
-
     public static Map<String, Object> trans(TransferMoney transferMoney) {
 
         Map<String, Object> variablesMap = new HashMap<String, Object>();
@@ -258,6 +217,30 @@ public class TransferMoneyController
         variablesMap.put("type",3);
 
         return variablesMap;
+    }
+
+    @PostMapping("/addCard")
+    public MyResult<String> addCard(@RequestBody IndividualAccount individualAccount){
+
+        try {
+            Map<String, Object> trans = transAdd(individualAccount);
+            flowDefinitionService.startProcessInstanceById("insertCard:2:197504",trans);
+            return MyResult.successMsg("申请成功，静候佳音");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MyResult.error("申请失败");
+        }
+    }
+
+    @PostMapping("/getInActCard")
+    public MyResult<List<String>> getInActCard(){
+        try {
+            List<String> strings = iIndividualAccountService.selectInActCard();
+            return MyResult.success(strings,"成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MyResult.error("查找失败");
+        }
     }
 
     public static Map<String, Object> transAdd(IndividualAccount individualAccount) {
@@ -338,14 +321,15 @@ public class TransferMoneyController
             }
             ArrayList<TransferMoney> transferMonies = new ArrayList<>();
             for (String i: strings
-                 ) {
+            ) {
                 List<TransferMoney> read = transferMoneyService.getRead(i);
                 transferMonies.addAll(read);
             }
             for (TransferMoney i:transferMonies
-                 ) {
+            ) {
                 i.setRead(1);
-                transferMoneyService.updateTransferMoney(i);
+                System.out.println(i);
+                transferMoneyService.updateTransferRead(i);
             }
             return MyResult.success(transferMonies,"查询成功");
         } catch (Exception e) {

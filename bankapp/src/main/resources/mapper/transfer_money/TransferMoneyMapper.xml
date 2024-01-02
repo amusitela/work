@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cumt.bankapp.mapper.TransferMoneyMapper">
-    
+
     <resultMap type="TransferMoney" id="TransferMoneyResult">
         <result property="appointmentTime"    column="appointment_time"    />
         <result property="fromAccount"    column="from_account"    />
@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="transferDate"    column="transfer_date"    />
         <result property="description"    column="description"    />
         <result property="read"    column="read"    />
+        <result property="transferId"    column="id"    />
     </resultMap>
 
     <sql id="selectTransferMoneyVo">
@@ -20,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectTransferMoneyList" parameterType="TransferMoney" resultMap="TransferMoneyResult">
         <include refid="selectTransferMoneyVo"/>
-        <where>  
+        <where>
             <if test="appointmentTime != null "> and appointment_time = #{appointmentTime}</if>
             <if test="fromAccount != null "> and from_account = #{fromAccount}</if>
             <if test="toAccount != null "> and to_account = #{toAccount}</if>
@@ -29,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="description != null  and description != ''"> and description = #{description}</if>
         </where>
     </select>
-    
+
     <select id="selectTransferMoneyByTransferId" parameterType="String" resultMap="TransferMoneyResult">
         <include refid="selectTransferMoneyVo"/>
         where id = #{transferId}
@@ -63,7 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="getRead" resultMap="TransferMoneyResult">
         <include refid="selectTransferMoneyVo"/>
-          where to_account = #{toAccount} and `read` = 0
+        where to_account = #{toAccount} and `read` = 0
     </select>
 
 
@@ -77,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="transferDate != null">transfer_date,</if>
             <if test="description != null">description,</if>
             <if test="read != null">`read`,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="appointmentTime != null">#{appointmentTime},</if>
             <if test="fromAccount != null">#{fromAccount},</if>
@@ -86,7 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="transferDate != null">#{transferDate},</if>
             <if test="description != null">#{description},</if>
             <if test="read != null">#{read},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateTransferMoney" parameterType="TransferMoney">
@@ -101,6 +102,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="read != null">`read` = #{read},</if>
         </trim>
         where id = #{transferId}
+    </update>
+
+
+    <update id="updateTransferRead" parameterType="TransferMoney">
+        update transfer_money
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appointmentTime != null">appointment_time = #{appointmentTime},</if>
+            <if test="fromAccount != null">from_account = #{fromAccount},</if>
+            <if test="toAccount != null">to_account = #{toAccount},</if>
+            <if test="amount != null">amount = #{amount},</if>
+            <if test="transferDate != null">transfer_date = #{transferDate},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="read != null">`read` = #{read},</if>
+        </trim>
+        where from_account = #{fromAccount} and to_account = #{toAccount} and amount = #{amount} and transfer_date = #{transferDate} and `read` = 0 and description = #{description}
     </update>
 
     <delete id="deleteTransferMoneyByTransferId" parameterType="String">

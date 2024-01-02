@@ -50,8 +50,8 @@ public class FundController {
         }
     }
 
-    @PostMapping("/chart")
-    public MyResult<Chart> getChart(@RequestBody String id){
+    @GetMapping("/chart")
+    public MyResult<Chart> getChart(String id){
         try {
             return MyResult.success(iChartService.selectNewsById(id),"请求成功");
         } catch (Exception e) {

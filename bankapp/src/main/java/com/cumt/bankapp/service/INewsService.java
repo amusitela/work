@@ -83,5 +83,7 @@ public interface INewsService  {
      * @param useId newId
      * @return int
      * */
-    public String selectLikes1(String newsId,String userId);
+    public int selectLikes1(String newsId,String userId);
+
+    public String selectLikes2(String newsId,String userId);
 }

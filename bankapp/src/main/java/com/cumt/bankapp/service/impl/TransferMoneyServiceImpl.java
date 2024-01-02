@@ -77,6 +77,11 @@ public class TransferMoneyServiceImpl implements ITransferMoneyService
         return transferMoneyMapper.updateTransferMoney(transferMoney);
     }
 
+    @Override
+    public int updateTransferRead(TransferMoney transferMoney) {
+        return transferMoneyMapper.updateTransferRead(transferMoney);
+    }
+
     /**
      * 批量删除transfer_money
      * 

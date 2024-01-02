@@ -68,7 +68,12 @@ public class NewsServiceIpml implements INewsService {
     }
 
     @Override
-    public String selectLikes1(String newsId, String userId) {
+    public int selectLikes1(String newsId, String userId) {
         return newsMapper.selectLikes1(newsId,userId);
+    }
+
+    @Override
+    public String selectLikes2(String newsId, String userId) {
+        return newsMapper.selectLikes2(newsId ,userId);
     }
 }

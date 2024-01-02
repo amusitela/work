@@ -4,16 +4,12 @@ import com.cumt.bankapp.domain.UserInformation;
 import com.cumt.bankapp.service.IUserInformationService;
 import com.cumt.bankapp.tools.jwt.BaseContext;
 import com.cumt.common.MyResult;
-import lombok.extern.java.Log;
-import net.dreamlu.mica.core.result.R;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import com.cumt.bankapp.domain.IndividualAccount;
 import com.cumt.bankapp.service.IIndividualAccountService;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -52,17 +48,18 @@ public class IndividualAccountController
      */
 
     @PostMapping("/money")
-    public MyResult<BigDecimal> getMoneyTotal()
+    public MyResult<Double> getMoneyTotal()
     {
         IndividualAccount individualAccount = new IndividualAccount();
         String ID = BaseContext.getCurrentId();
         individualAccount.setPhoneNumber(ID);
         List<IndividualAccount> list = individualAccountService.selectIndividualAccountList(individualAccount);
-        BigDecimal ans = BigDecimal.ZERO;
+        double ans = 0.0;
         for (IndividualAccount i: list
              ) {
-//            System.out.println(i.getBalance());
-            ans=ans.add(i.getBalance());
+            System.out.println("card号"+i.getAccountId());
+        System.out.println(i.getBalance());
+            ans+=i.getBalance();
         }
         return MyResult.success(ans);
     }

@@ -44,7 +44,7 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
             }
 //            // 设置流程发起人Id到流程中
             String currentId = BaseContext.getCurrentId();
-            identityService.setAuthenticatedUserId(currentId);
+            identityService.setAuthenticatedUserId("1");
             variables.put(ProcessConstants.PROCESS_INITIATOR, (long) 1);
 //            variables.put(ProcessConstants.PROCESS_CUSTOM_USER_TYPE, (long) 1);
 

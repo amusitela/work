@@ -46,6 +46,15 @@ public interface TransferMoneyMapper
      */
     public int updateTransferMoney(TransferMoney transferMoney);
 
+
+    /**
+     * 修改transfer_money
+     *
+     * @param transferMoney transfer_money
+     * @return 结果
+     */
+    public int updateTransferRead(TransferMoney transferMoney);
+
     /**
      * 删除transfer_money
      * 
@@ -69,9 +78,7 @@ public interface TransferMoneyMapper
      * @return 结果
      */
     public List<TransferMoney> selectAllFlow(String transferId);
-
     public List<Double> getPay(String[] ids,LocalDateTime startDate);
-
     public List<Double> getRecive(String[] ids, LocalDateTime startDate);
 
     public List<TransferMoney> getRead(String toAccount);

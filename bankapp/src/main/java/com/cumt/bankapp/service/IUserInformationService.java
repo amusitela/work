@@ -125,4 +125,6 @@ public interface IUserInformationService
      *   @return card id
      * */
     public int updateImg(String phone, byte[] flie);
+
+    public String selectUseId(String id);
 }

@@ -63,7 +63,11 @@
     <select id="selectLikes" resultType="java.lang.String">
         select `like` from `likes` where newsId = #{newsId} and userId is null
     </select>
-    <select id="selectLikes1" resultType="java.lang.String">
+    <select id="selectLikes1" resultType="int">
+        select count(newsId) from `likes` where newsId = #{newsId} and userId = #{userId}
+    </select>
+
+    <select id="selectLikes2" resultType="java.lang.String">
         select `like` from `likes` where newsId = #{newsId} and userId = #{userId}
     </select>
 

@@ -1,15 +1,15 @@
 package com.cumt.bankapp.websocket;
 
-import com.cumt.bankapp.domain.BeanUtil;
-import com.cumt.bankapp.domain.Message;
-import com.cumt.bankapp.domain.TransferMoney;
+import com.cumt.bankapp.domain.*;
 import com.cumt.bankapp.mapper.MessageMapper;
 import com.cumt.bankapp.service.ITransferMoneyService;
+import com.cumt.bankapp.service.IUserInformationService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -21,147 +21,179 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-@ServerEndpoint("/chat/{userId}")
+@ServerEndpoint("/chat/{id}")
 @Component
 public class WebSocketChatHandler {
 
+    private static ITransferMoneyService tms ;
+    private static IUserInformationService uis ;
 
-    @Resource
-    private ITransferMoneyService tms;
+
+    @Autowired
+    public void setIUserInformationService(IUserInformationService uis) {
+        WebSocketChatHandler.uis = uis;
+    }
+
+    @Autowired
+    public void setITransferMoneyService(ITransferMoneyService tms) {
+        WebSocketChatHandler.tms = tms;
+    }
 
     //存放会话对象
     private static Map<String, Session> sessionMap = new HashMap();
 
     // 静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
-    private static int onlineCount = 0;
+//    private static int onlineCount = 0;
+
+//    private Session session ;
     // concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
     private static CopyOnWriteArrayList<WebSocketChatHandler> clients = new CopyOnWriteArrayList<>();
-    private Session session;
+
     private String userId;
     private static Set<String> onlineUsers = new HashSet<String>();
 
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("userId") String userId) {
+    public void onOpen(Session session, @PathParam("id") String userId) {
 
-        System.out.println(session);
-        this.onlineUsers.add(userId);
-        this.session = session;
-        this.userId = userId;
-        System.out.println(userId);
-        clients.add(this);
-        // 广播在线用户列表给所有连接的用户
-//        broadcastOnlineUsers();
+        System.out.println("客户端：" + userId + "建立连接");
+        sessionMap.put(userId, session);
 
     }
 
-    private void broadcastOnlineUsers() {
-        try {
-            // 构建在线用户列表的 JSON 字符串
-            String onlineUsersJson = buildOnlineUsersJson();
+//    private void broadcastOnlineUsers() {
+//        try {
+//            // 构建在线用户列表的 JSON 字符串
+//            String onlineUsersJson = buildOnlineUsersJson();
+//
+//            // 遍历所有连接的客户端并发送消息
+//            for (Session client : sessionMap.values()) {
+//                client.getBasicRemote().sendText(onlineUsersJson);
+//            }
+//        } catch (IOException e) {
+//            // 处理异常
+//        }
+//    }
 
-            // 遍历所有连接的客户端并发送消息
-            for (WebSocketChatHandler client : clients) {
-                client.session.getBasicRemote().sendText(onlineUsersJson);
-            }
-        } catch (IOException e) {
-            // 处理异常
-        }
-    }
-
-    private String buildOnlineUsersJson() {
-        // 构建在线用户列表的 JSON 字符串
-        // 例如：{"onlineUsers": ["User1", "User2", "User3"]}
-        // 可以使用 JSON 库如 Jackson 或 Gson 来构建 JSON 数据
-        // 这里简单示范，具体构建方式根据您的需求来定义
-        StringBuilder jsonBuilder = new StringBuilder();
-        jsonBuilder.append("{");
-        jsonBuilder.append("\"onlineUsers\": [");
-        for (String user : onlineUsers) {
-            jsonBuilder.append("\"").append(user).append("\",");
-        }
-        // 移除末尾多余的逗号
-        if (onlineUsers.size() > 0) {
-            jsonBuilder.deleteCharAt(jsonBuilder.length() - 1);
-        }
-        jsonBuilder.append("]");
-        jsonBuilder.append("}");
-        return jsonBuilder.toString();
-    }
+//    private String buildOnlineUsersJson() {
+//        // 构建在线用户列表的 JSON 字符串
+//        // 例如：{"onlineUsers": ["User1", "User2", "User3"]}
+//        // 可以使用 JSON 库如 Jackson 或 Gson 来构建 JSON 数据
+//        // 这里简单示范，具体构建方式根据您的需求来定义
+//        StringBuilder jsonBuilder = new StringBuilder();
+//        jsonBuilder.append("{");
+//        jsonBuilder.append("\"onlineUsers\": [");
+//        for (String user : onlineUsers) {
+//            jsonBuilder.append("\"").append(user).append("\",");
+//        }
+//        // 移除末尾多余的逗号
+//        if (onlineUsers.size() > 0) {
+//            jsonBuilder.deleteCharAt(jsonBuilder.length() - 1);
+//        }
+//        jsonBuilder.append("]");
+//        jsonBuilder.append("}");
+//        return jsonBuilder.toString();
+//    }
 
 
     @OnMessage
     public void onMessage(String message) {
-//        JSONObject jsonObject = new JSONObject(message);
-//        String temp = jsonObject.getString("temp");
-//        if (temp.equals("temp1")){
-            // 处理收到的消息
-            System.out.println(message);
-            ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                JsonNode jsonNode = objectMapper.readTree(message);
-                String targetUserId = jsonNode.get("targetUserId").asText();
-                String senderId = jsonNode.get("senderId").asText();
-                String content = jsonNode.get("content").asText();
+//        System.out.println(message);
+        JSONObject jsonObject = new JSONObject(message);
 
-                // 创建消息实体
-                Message chatMessage = new Message();
-                chatMessage.setSenderId(senderId);
-                chatMessage.setReceiverId(targetUserId);
-                chatMessage.setContent(content);
-                chatMessage.setTimestamp(new Date());// 设置当前时间为消息时间
-                chatMessage.setIfread("未读");
-                MessageMapper messageMapper = BeanUtil.getMessageMapper();
+        if (jsonObject.has("temp")&&jsonObject.getInt("temp")==1) {
+            String text = message;
+            System.out.println(jsonObject);
+            String toAccount = jsonObject.getString("toAccount");
+            System.out.println(toAccount);
+            String id = uis.selectUseId(toAccount);
+            String fromAccount = jsonObject.getString("fromAccount");
+            Double amount = jsonObject.getDouble("amount");
 
-                // 保存消息到数据库
-                messageMapper.insertMessage(chatMessage);
+            String description = jsonObject.getString("description");
+
+            // 获取当前时间戳
+            long currentTimestampMillis = System.currentTimeMillis();
+            // 创建 Date 对象
+            Date currentDate = new Date(currentTimestampMillis);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String formattedDate = dateFormat.format(currentDate);
+            jsonObject.put("transferDate", formattedDate);
+
+            System.out.println("收到来自客户端：" + id + "的信息:" + text);
 
 
-                // 遍历所有连接的WebSocket会话，找到目标用户并发送消息
-                for (WebSocketChatHandler client : clients) {
-                    if (client.userId.equals(targetUserId)) {
-                        try {
-                            synchronized (client) {
-                                client.session.getBasicRemote().sendText(message);
-                            }
-                        } catch (IOException e) {
-                            // 处理异常
-                        }
-                    }
-                }
-            } catch (IOException e) {
-                // 处理消息解析异常
+            Session session = sessionMap.get(id);
+            TransferMoney transferMoney = new TransferMoney();
+            transferMoney.setAmount(amount);
+            transferMoney.setDescription(description);
+            transferMoney.setFromAccount(fromAccount);
+            transferMoney.setToAccount(toAccount);
+            transferMoney.setRead(1);
+
+            System.out.println(session);
+            if (session == null) {
+                transferMoney.setRead(0);
+                tms.insertTransferMoney(transferMoney);
+                System.out.println("当前用户已离线");
+                return;
             }
+
+            tms.insertTransferMoney(transferMoney);
+            System.out.println("重复结果");
+            sendToAllClient(jsonObject.toString(), session);
+            return;
+
+
+        }
 //        }else{
-//            String id = message.split("@")[0];
-//            String text = message.split("@")[1];
-//            String toAccount = jsonObject.getString("toAccount");
-//            String fromAccount = jsonObject.getString("fromAccount");
-//            BigDecimal amount = jsonObject.getBigDecimal("amount");
-//
-//            String description = jsonObject.getString("description");
-//            System.out.println("收到来自客户端：" + userId + "的信息:" + text);
-//
-//            Session session = sessionMap.get(id);
-//            TransferMoney transferMoney = new TransferMoney();
-//            transferMoney.setAmount(amount);
-//            transferMoney.setDescription(description);
-//            transferMoney.setFromAccount(fromAccount);
-//            transferMoney.setToAccount(toAccount);
-//
-//
-//            if(session==null){
-//                transferMoney.setRead(0);
-//                tms.insertTransferMoney(transferMoney);
-//                System.out.println("当前用户已离线");
-//                return;
+//            // 处理收到的消息
+//            System.out.println(message);
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            try {
+//                JsonNode jsonNode = objectMapper.readTree(message);
+//                String targetUserId = jsonNode.get("targetUserId").asText();
+//                String senderId = jsonNode.get("senderId").asText();
+//                String content = jsonNode.get("content").asText();
+//                System.out.println(message);
+//                // 创建消息实体
+//                Message chatMessage = new Message();
+//                Session session=sessionMap.get(targetUserId);
+//                chatMessage.setSenderId(senderId);
+//                chatMessage.setReceiverId(targetUserId);
+//                chatMessage.setContent(content);
+//                chatMessage.setTimestamp(new Date());// 设置当前时间为消息时间
+//                chatMessage.setIfread("未读");
+//                MessageMapper messageMapper = BeanUtil.getMessageMapper();
+//                // 保存消息到数据库
+//                messageMapper.insertMessage(chatMessage);
+//                if(session==null){
+//                    System.out.println("当前用户已离线");
+//                    Session session1=sessionMap.get(senderId);
+//                    sendToAllClient("当前无客服",session1);
+//                    return;
+//                }
+//                sendToAllClient(message,session);
+//                // 遍历所有连接的WebSocket会话，找到目标用户并发送消息
+////                for (WebSocketChatHandler client : clients) {
+////                    if (client.userId.equals(targetUserId)) {
+////                        try {
+////                            synchronized (client) {
+////                                client.session.getBasicRemote().sendText(message);
+////                            }
+////                        } catch (IOException e) {
+////                            // 处理异常
+////                        }
+//////                    }
+////                }
+//            } catch (IOException e) {
+//                // 处理消息解析异常
 //            }
 //
-//            tms.insertTransferMoney(transferMoney);
-//            sendToAllClient(text,session);
 //
 //        }
 
@@ -209,17 +241,17 @@ public class WebSocketChatHandler {
         clients.remove(this);
     }
 
-    private void broadcast(String message) {
-        for (WebSocketChatHandler client : clients) {
-            try {
-                synchronized (client) {
-                    client.session.getBasicRemote().sendText(message);
-                }
-            } catch (IOException e) {
-                // 处理异常
-            }
-        }
-    }
+//    private void broadcast(String message) {
+//        for (WebSocketChatHandler client : clients) {
+//            try {
+//                synchronized (client) {
+//                    client.session.getBasicRemote().sendText(message);
+//                }
+//            } catch (IOException e) {
+//                // 处理异常
+//            }
+//        }
+//    }
 
 //    public static void onTransferSuccess(String receiverId, String amount) {
 //        // 构建转账成功的消息内容
