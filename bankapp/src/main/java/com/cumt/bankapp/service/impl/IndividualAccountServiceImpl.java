@@ -24,6 +24,8 @@ public class IndividualAccountServiceImpl implements IIndividualAccountService
     @Autowired
     private IndividualAccountMapper individualAccountMapper;
 
+    private final Map<String, Object> accountLocks = new ConcurrentHashMap<>();
+
     /**
      * 查询individual_account
      * 
@@ -121,24 +123,51 @@ public class IndividualAccountServiceImpl implements IIndividualAccountService
     @Override
     @Transactional
     public String transfer(String fromAccountId, String toAccountId, Double amount) {
+        // 确保锁的顺序一致，避免死锁问题
+        String firstLock = fromAccountId.compareTo(toAccountId) < 0 ? fromAccountId : toAccountId;
+        String secondLock = fromAccountId.compareTo(toAccountId) < 0 ? toAccountId : fromAccountId;
 
-        IndividualAccount IAUser = individualAccountMapper.selectIndividualAccountByAccountId(fromAccountId);
-        try {
-            IndividualAccount IAToUser = individualAccountMapper.selectIndividualAccountByAccountId(toAccountId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "转账用户不存在";
-        }
-        if(IAUser.getBalance()<amount){
-            return "余额不足";
-        }
-        try {
-            individualAccountMapper.withdraw(fromAccountId,amount);
-            individualAccountMapper.deposit(toAccountId,amount);
-            return "转账成功";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "转账失败:"+e.getMessage();
+        // 获取或创建锁对象
+        Object firstAccountLock = accountLocks.computeIfAbsent(firstLock, key -> new Object());
+        Object secondAccountLock = accountLocks.computeIfAbsent(secondLock, key -> new Object());
+
+        // 锁定第一个账户
+        synchronized (firstAccountLock) {
+            // 锁定第二个账户
+            synchronized (secondAccountLock) {
+                // 执行转账操作
+                try {
+                // 查询转出账户信息
+                System.out.println(fromAccountId);
+                IndividualAccount fromAccount = individualAccountMapper.selectIndividualAccountByAccountId(fromAccountId);
+                if (fromAccount == null) {
+                    return "转出账户不存在";
+                }
+
+                // 查询转入账户信息
+                IndividualAccount toAccount = individualAccountMapper.selectIndividualAccountByAccountId(toAccountId);
+                if (toAccount == null) {
+                    return "转入账户不存在";
+                }
+
+                // 检查余额是否足够
+                if (fromAccount.getBalance()<=0 || fromAccount.getBalance() < amount) {
+                    return "余额不足";
+                }
+
+
+                    individualAccountMapper.withdraw(fromAccountId, amount); // 扣减转出账户余额
+                    individualAccountMapper.deposit(toAccountId, amount);    // 增加转入账户余额
+                    return "转账成功";
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "转账失败: " + e.getMessage();
+                } finally {
+                    // 移除锁对象，避免内存占用，如果并发访问频繁，可以不移除锁对象
+                    accountLocks.remove(firstLock);
+                    accountLocks.remove(secondLock);
+                }
+            }
         }
     }
 
